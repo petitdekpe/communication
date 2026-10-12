@@ -1,0 +1,37 @@
+{#
+    Barre de filtres : un formulaire GET, donc des filtres dans l'URL (partageables, conservés par la pagination et le tri).
+    fields : liste de {name, label, type: text|select|date, options?: {valeur: libellé}}.
+    values : valeurs courantes (nom => valeur). hidden : champs à conserver (tri, par exemple).
+
+    <twig:Admin:FilterBar :fields="[…]" :values="app.request.query.all" :action="path('…')" />
+#}
+{% props fields, values = {}, action, hidden = {} %}
+{% set active = false %}
+{% for field in fields %}{% if values[field.name]|default('') is not same as('') %}{% set active = true %}{% endif %}{% endfor %}
+<form action="{{ action }}" method="get" role="search" aria-label="{{ 'admin.filter.label'|trans }}"{{ attributes.defaults({class: 'flex flex-wrap items-end gap-3 rounded-card bg-mist p-4'}) }}>
+    {% for name, value in hidden %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+    {% for field in fields %}
+        {% set id = 'filtre-' ~ field.name %}
+        <div class="min-w-40 flex-1">
+            <label for="{{ id }}" class="block text-small font-semibold text-ink">{{ field.label|trans }}</label>
+            {% if field.type == 'select' %}
+                <select id="{{ id }}" name="{{ field.name }}" class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+                    <option value="">{{ 'admin.filter.all'|trans }}</option>
+                    {% for value, label in field.options %}
+                        <option value="{{ value }}"{{ (values[field.name]|default('')) == value ? ' selected' }}>{{ label|trans }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <input id="{{ id }}" name="{{ field.name }}" type="{{ field.type|default('text') == 'date' ? 'date' : 'search' }}" value="{{ values[field.name]|default('') }}" autocomplete="off"
+                       class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="flex items-center gap-2">
+        <button type="submit" class="btn btn-primary">
+            {{ ux_icon('ri:filter-3-line', {class: 'size-4'}) }}
+            {{ 'admin.filter.submit'|trans }}
+        </button>
+        {% if active %}<a href="{{ action }}" class="btn btn-ghost">{{ 'admin.filter.reset'|trans }}</a>{% endif %}
+    </div>
+</form>

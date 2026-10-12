@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'tracking.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'tracking.title'|trans}]" />
+
+        <div class="mt-8 max-w-3xl">
+            <h1 class="type-h1 text-primary">{{ 'tracking.title'|trans }}</h1>
+            <p class="mt-3 text-ink-muted">{{ 'tracking.intro'|trans }}</p>
+
+            {% if found %}
+                {% set service_translation = found.service.translate(found.locale) %}
+                <section class="mt-8 rounded-card border-t-4 border-flag-green bg-mist p-6 shadow-card" aria-labelledby="resultat" role="status">
+                    <h2 id="resultat" class="type-h3 text-primary">{{ 'tracking.result.title'|trans }}</h2>
+                    <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'tracking.result.number'|trans }}</dt>
+                            <dd class="font-mono font-semibold text-ink">{{ found.trackingNumber }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'tracking.result.service'|trans }}</dt>
+                            <dd class="font-semibold text-ink" lang="{{ service_translation.locale }}">{{ service_translation.title }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'tracking.result.status'|trans }}</dt>
+                            <dd class="font-semibold text-ink" data-testid="tracking-status">{{ found.status.labelKey|trans }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'tracking.result.submitted'|trans }}</dt>
+                            <dd class="font-semibold text-ink">
+                                <time datetime="{{ found.createdAt|date('c') }}">{{ found.createdAt|format_datetime('long', 'short', locale: app.locale, timezone: site_timezone) }}</time>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'tracking.result.updated'|trans }}</dt>
+                            <dd class="font-semibold text-ink">
+                                <time datetime="{{ found.updatedAt|date('c') }}">{{ found.updatedAt|format_datetime('long', 'short', locale: app.locale, timezone: site_timezone) }}</time>
+                            </dd>
+                        </div>
+                    </dl>
+                    <p class="mt-4 text-small text-ink-muted">{{ ('tracking.status_help.' ~ found.status.value)|trans }}</p>
+                </section>
+            {% endif %}
+
+            {# Pas de Turbo : la réponse à ce POST (résultat ou erreur) s'affiche telle quelle, sans redirection ni URL porteuse de données. #}
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-turbo': 'false', 'data-controller': 'form-errors'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+                {{ form_row(form.number) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.website) }}
+                {{ form_rest(form) }}
+                <div>
+                    <twig:Button type="submit" :label="'tracking.submit'|trans" size="lg" icon="ri:search-line" />
+                </div>
+            {{ form_end(form, {render_rest: false}) }}
+        </div>
+    </div>
+{% endblock %}

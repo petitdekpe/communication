@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>{{ 'site.name'|trans }}</title>
+        <link>{{ url('app_news_index') }}</link>
+        <description>{{ 'news.feed_description'|trans }}</description>
+        <language>{{ app.locale }}</language>
+        <atom:link href="{{ url('app_news_feed') }}" rel="self" type="application/rss+xml"/>
+        {% if articles is not empty %}
+            <lastBuildDate>{{ articles|first.publishedAt|date('r') }}</lastBuildDate>
+        {% endif %}
+        {% for article in articles %}
+            {% set translation = article.translate(app.locale) %}
+            <item>
+                <title>{{ translation.title }}</title>
+                <link>{{ article_url(article, true) }}</link>
+                <guid isPermaLink="true">{{ article_url(article, true) }}</guid>
+                <pubDate>{{ article.publishedAt|date('r') }}</pubDate>
+                <category>{{ article.type.category.labelKey|trans }}</category>
+                {% if translation.excerpt %}<description>{{ translation.excerpt }}</description>{% endif %}
+            </item>
+        {% endfor %}
+    </channel>
+</rss>

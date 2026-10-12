@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'consultation.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'consultation.title'|trans}]" />
+
+        <h1 class="type-h1 mt-6 text-primary">{{ 'consultation.title'|trans }}</h1>
+        <p class="mt-3 max-w-3xl text-ink-muted">{{ 'consultation.intro'|trans }}</p>
+
+        {% if consultations is empty %}
+            <twig:EmptyState class="mt-8" :title="'consultation.empty.title'|trans" :message="'consultation.empty.message'|trans" />
+        {% else %}
+            <ul class="mt-8 grid gap-6 md:grid-cols-2" role="list">
+                {% for consultation in consultations %}
+                    {% set translation = consultation.translate(app.locale) %}
+                    {% set state = consultation.open(now) ? 'open' : (now < consultation.opensAt ? 'upcoming' : 'closed') %}
+                    <li{% if translation.locale != app.locale %} lang="{{ translation.locale }}"{% endif %}>
+                        <article class="group relative flex h-full flex-col gap-3 rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15 focus-within:shadow-raised">
+                            <p class="order-first">
+                                <span class="badge {{ state == 'open' ? 'bg-flag-green text-white' : 'bg-white text-primary ring-1 ring-primary ring-inset' }}">{{ ('consultation.state.' ~ state)|trans }}</span>
+                            </p>
+                            <h2 class="type-h3 text-primary">
+                                <a href="{{ path('app_consultation_show', {slug: translation.slug}) }}" class="underline-offset-4 group-hover:underline after:absolute after:inset-0">{{ translation.title }}</a>
+                            </h2>
+                            {% if translation.summary %}<p class="text-small text-ink-muted">{{ translation.summary }}</p>{% endif %}
+                            <p class="mt-auto text-small text-ink">
+                                {{ 'consultation.period'|trans({
+                                    from: consultation.opensAt|format_date('long', locale: app.locale, timezone: site_timezone),
+                                    to: consultation.closesAt|format_date('long', locale: app.locale, timezone: site_timezone),
+                                }) }}
+                            </p>
+                        </article>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

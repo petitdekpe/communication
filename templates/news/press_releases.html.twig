@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'press_releases.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    <link rel="alternate" type="application/rss+xml" title="{{ 'news.title'|trans }}" href="{{ path('app_news_feed') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'press_releases.title'|trans}]" />
+
+        <h1 class="type-h1 mt-6 text-primary">{{ 'press_releases.title'|trans }}</h1>
+
+        <div class="mt-8">
+            {% include 'news/_list.html.twig' with {listing: listing, route: 'app_press_releases', mode: 'rows', types: []} only %}
+        </div>
+    </div>
+{% endblock %}

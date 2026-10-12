@@ -1,0 +1,26 @@
+{# Le bloc jour/mois est décoratif : la date complète est lue via l'élément <time> masqué visuellement. #}
+{# Le jour est celui du fuseau d'affichage du site (Africa/Porto-Novo), pas celui du stockage (UTC). #}
+<article{{ attributes.defaults({class: 'group relative flex items-start gap-4'}) }}>
+    <div class="flex w-16 shrink-0 flex-col items-center rounded-card bg-primary py-2 text-white" aria-hidden="true">
+        <span class="font-display text-h2 font-bold lining-nums">{{ date|format_datetime(pattern: 'd', locale: app.locale, timezone: site_timezone) }}</span>
+        <span class="type-caption">{{ date|format_datetime(pattern: 'MMM', locale: app.locale, timezone: site_timezone)|trim('.') }}</span>
+    </div>
+
+    <div class="min-w-0 pt-1">
+        <h{{ headingLevel }} class="font-semibold text-ink">
+            {% if href %}
+                <a href="{{ href }}" class="underline-offset-4 group-hover:underline after:absolute after:inset-0">{{ title }}</a>
+            {% else %}
+                {{ title }}
+            {% endif %}
+        </h{{ headingLevel }}>
+        <p class="sr-only"><time datetime="{{ date|date('Y-m-d', site_timezone) }}">{{ date|format_date('full', locale: app.locale, timezone: site_timezone) }}</time></p>
+        {% if meta %}<p class="mt-1 text-small text-ink-muted">{{ meta }}</p>{% endif %}
+        {% if location %}
+            <p class="mt-1 flex items-center gap-1 text-small text-ink-muted">
+                {{ ux_icon('ri:map-pin-line', {class: 'size-4 shrink-0'}) }}
+                <span class="sr-only">{{ 'agenda.location'|trans }} </span>{{ location }}
+            </p>
+        {% endif %}
+    </div>
+</article>

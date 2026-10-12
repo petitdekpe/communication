@@ -1,0 +1,12 @@
+{{ 'site.name'|trans({}, null, locale) }}
+
+{{ 'request.mail.title'|trans({}, null, locale) }}
+
+{{ 'request.mail.intro'|trans({service: serviceTitle}, null, locale) }}
+
+{{ 'request.done.number_label'|trans({}, null, locale) }} {{ trackingNumber }}
+
+{{ 'request.mail.how_to_track'|trans({}, null, locale) }}
+{{ url('app_tracking', {_locale: locale}) }}
+
+{{ 'request.mail.ignore'|trans({}, null, locale) }}

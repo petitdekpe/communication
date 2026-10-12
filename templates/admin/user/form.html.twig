@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set heading = user ? 'admin.user.edit' : 'admin.user.new' %}
+{% block title %}{{ heading|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-3xl" data-controller="confirm-dialog">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'users'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.users'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ heading|trans }}</h1>
+        {% if self %}<p class="mt-2 text-small text-ink-muted" role="note">{{ 'admin.user.self_locked'|trans }}</p>{% endif %}
+        {% if not user %}<p class="mt-2 text-small text-ink-muted">{{ 'admin.user.invite_hint'|trans }}</p>{% endif %}
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-controller': 'form-errors'}}) }}
+            {% include 'service/_form_errors.html.twig' with {form: form} only %}
+            <twig:Admin:FormSection :title="'admin.section.account'|trans">
+                {{ form_row(form.name) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.active) }}
+            </twig:Admin:FormSection>
+            <twig:Admin:FormSection :title="'admin.section.roles'|trans">
+                {{ form_row(form.roles) }}
+            </twig:Admin:FormSection>
+            {{ form_rest(form) }}
+            <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+        {{ form_end(form, {render_rest: false}) }}
+
+        {% if user %}
+            <twig:Admin:FormSection class="mt-8" :title="'admin.section.security'|trans" :description="'admin.user.2fa_status'|trans({status: (user.totpAuthenticationEnabled ? 'admin.user.2fa_on' : 'admin.user.2fa_off')|trans})">
+                {% if not self %}
+                    <form id="reset-2fa" method="post" action="{{ path('app_admin_user_reset_2fa', {id: user.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('admin_user_2fa_' ~ user.id) }}">
+                        <button type="button" class="btn btn-outline border-flag-red text-flag-red"
+                                data-action="confirm-dialog#ask" data-confirm-dialog-form-param="reset-2fa"
+                                data-confirm-dialog-message-param="{{ 'admin.confirm.reset_2fa'|trans({title: user.name}) }}">{{ 'admin.user.reset_2fa'|trans }}</button>
+                    </form>
+                {% endif %}
+                <p class="text-small text-ink-muted">
+                    {{ 'admin.column.last_access'|trans }} :
+                    {% if user.lastLoginAt %}<time datetime="{{ user.lastLoginAt|date('c') }}">{{ user.lastLoginAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time>{% else %}{{ 'admin.user.never'|trans }}{% endif %}
+                </p>
+            </twig:Admin:FormSection>
+            <twig:Admin:ConfirmDialog />
+        {% endif %}
+    </div>
+{% endblock %}

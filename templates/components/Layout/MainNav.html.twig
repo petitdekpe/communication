@@ -1,0 +1,55 @@
+{#
+    Menu principal desktop (≥ lg). Modèle « disclosure » : chaque rubrique à sous-menu est un bouton
+    aria-expanded / aria-controls. Clavier (contrôleur main-nav) : ←/→ entre rubriques, ↓/↑ ouvre et
+    parcourt le sous-menu, Début/Fin, Échap ferme et rend le focus au bouton.
+#}
+{% set path_info = app.request.pathInfo %}
+
+<nav aria-label="{{ 'nav.main_label'|trans }}"
+     class="hidden border-t border-ink-muted/20 lg:block"
+     data-controller="main-nav"
+     data-action="keydown->main-nav#keydown focusout->main-nav#focusout click@document->main-nav#clickOutside turbo:before-cache@document->main-nav#closeAll">
+    <ul class="container-site flex flex-wrap items-stretch gap-x-1">
+        {% for item in this.items %}
+            {% set is_current = item.isCurrent(path_info) %}
+            {% set top_classes = 'inline-flex items-center gap-1 border-b-4 px-2 py-3 text-small xl:px-3 font-semibold text-ink hover:border-primary ' ~ (is_current ? 'border-flag-green' : 'border-transparent') %}
+            <li class="relative">
+                {% if item.hasChildren %}
+                    <button type="button"
+                            id="nav-{{ loop.index }}-bouton"
+                            class="group {{ top_classes }} aria-expanded:border-primary"
+                            aria-expanded="false"
+                            aria-controls="nav-{{ loop.index }}-panneau"
+                            data-main-nav-target="top"
+                            data-action="main-nav#toggle">
+                        {{ item.label|trans }}
+                        {{ ux_icon('ri:arrow-down-s-line', {class: 'size-5 transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none'}) }}
+                    </button>
+                    <div id="nav-{{ loop.index }}-panneau"
+                         class="absolute top-full left-0 z-50 mt-px min-w-72 rounded-card bg-white p-2 shadow-raised"
+                         data-main-nav-target="panel"
+                         hidden>
+                        <ul>
+                            {% for child in item.children %}
+                                <li>
+                                    <a href="{{ child.href }}"
+                                       class="block rounded-card px-4 py-2.5 text-small text-ink hover:bg-mist aria-[current=page]:font-bold aria-[current=page]:text-primary"
+                                       {% if child.href == path_info %}aria-current="page"{% endif %}>
+                                        {{ child.label|trans }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{{ item.href }}"
+                       class="{{ top_classes }}"
+                       data-main-nav-target="top"
+                       {% if item.href == path_info %}aria-current="page"{% endif %}>
+                        {{ item.label|trans }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

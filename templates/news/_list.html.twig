@@ -1,0 +1,85 @@
+{#
+    Liste filtrée et paginée, dans un Turbo Frame : les filtres et la pagination ne rechargent que ce bloc,
+    et l'URL (data-turbo-action="advance") reflète les filtres, donc partageable.
+    Variables : listing (NewsListing), route, mode ('cards' | 'rows'), types (liste de types, ou vide).
+#}
+<turbo-frame id="news-results" data-turbo-action="advance">
+    <form action="{{ path(route) }}" method="get"
+          class="flex flex-wrap items-end gap-4 rounded-card bg-mist p-4 lg:p-6"
+          data-controller="auto-submit">
+        {% if types|length > 0 %}
+            <div>
+                <label for="filtre-type" class="block text-small font-semibold text-ink">{{ 'news.filter.type'|trans }}</label>
+                <select id="filtre-type" name="type" class="mt-1 min-h-11 rounded-pill border border-ink-muted bg-white px-4 text-ink" data-action="auto-submit#submit">
+                    <option value="">{{ 'news.filter.all'|trans }}</option>
+                    {% for type in types %}
+                        <option value="{{ type.value }}"{{ listing.type == type ? ' selected' }}>{{ type.category.labelKey|trans }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+        {% if mode == 'cards' %}
+            <div>
+                <label for="filtre-categorie" class="block text-small font-semibold text-ink">{{ 'news.filter.category'|trans }}</label>
+                <select id="filtre-categorie" name="category" class="mt-1 min-h-11 rounded-pill border border-ink-muted bg-white px-4 text-ink" data-action="auto-submit#submit">
+                    <option value="">{{ 'news.filter.all'|trans }}</option>
+                    {% for category in listing.categories %}
+                        {% set category_translation = category.translate(app.locale) %}
+                        <option value="{{ category_translation.slug }}"{{ listing.category in [category.translate('fr').slug, category_translation.slug] ? ' selected' }}>{{ category_translation.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+        <div>
+            <label for="filtre-annee" class="block text-small font-semibold text-ink">{{ 'news.filter.year'|trans }}</label>
+            <select id="filtre-annee" name="year" class="mt-1 min-h-11 rounded-pill border border-ink-muted bg-white px-4 text-ink" data-action="auto-submit#submit">
+                <option value="">{{ 'news.filter.all'|trans }}</option>
+                {% for year in listing.years %}
+                    <option value="{{ year }}"{{ listing.year == year ? ' selected' }}>{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <twig:Button type="submit" :label="'news.filter.submit'|trans" size="md" />
+        {% if listing.hasFilters %}
+            <a href="{{ path(route) }}" class="btn btn-ghost">{{ 'news.filter.reset'|trans }}</a>
+        {% endif %}
+    </form>
+
+    <p class="mt-6 text-small text-ink-muted" role="status">
+        {{ 'news.results_count'|trans({count: listing.total}) }}
+    </p>
+
+    {% if listing.articles is empty %}
+        <twig:EmptyState class="mt-6" :title="'news.empty.title'|trans" :message="'news.empty.message'|trans" />
+    {% elseif mode == 'cards' %}
+        <ul class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
+            {% for article in listing.articles %}
+                <li class="flex"><twig:ArticleTeaser :article="article" :headingLevel="2" class="w-full" /></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <ol class="mt-6 divide-y divide-ink-muted/20 border-y border-ink-muted/20">
+            {% for article in listing.articles %}
+                {% set translation = article.translate(app.locale) %}
+                {% set pdf = article.attachedPdf %}
+                <li class="group relative flex flex-wrap items-start justify-between gap-4 py-6"{% if translation.locale != app.locale %} lang="{{ translation.locale }}"{% endif %}>
+                    <div class="min-w-0 flex-1">
+                        <time datetime="{{ article.publishedAt|date('Y-m-d') }}" class="text-small text-ink-muted">{{ article.publishedAt|format_date('long', locale: app.locale) }}</time>
+                        <h2 class="type-h3 mt-1 text-primary">
+                            <a href="{{ article_url(article) }}" class="underline-offset-4 hover:underline">{{ translation.title }}</a>
+                        </h2>
+                        {% if translation.excerpt %}<p class="mt-2 text-small text-ink-muted">{{ translation.excerpt }}</p>{% endif %}
+                    </div>
+                    {% if pdf %}
+                        <a href="{{ media_url(pdf.file) }}" class="btn btn-outline btn-sm shrink-0" download>
+                            {{ ux_icon('ri:download-2-line', {class: 'size-4'}) }}
+                            {{ 'news.download_pdf'|trans }}<span class="sr-only"> : {{ translation.title }}</span>
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    <twig:Pagination class="mt-8" :currentPage="listing.page" :totalPages="max(1, listing.totalPages)" :route="route" :routeParams="listing.params" />
+</turbo-frame>

@@ -1,0 +1,12 @@
+parameters:
+    level: 6
+    paths:
+        - src/
+        - tests/
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+        # Motif Symfony : propriété nullable pendant la saisie, valeur exigée par la validation
+        # (NotBlank) et par la colonne.
+        allowNullablePropertyForRequiredField: true

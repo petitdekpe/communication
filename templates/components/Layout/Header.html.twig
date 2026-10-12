@@ -1,0 +1,26 @@
+{# En-tête blanc collant : identité, recherche, menu (mobile : bouton plein écran ; desktop : barre de navigation). #}
+<header class="sticky top-0 z-40 bg-white shadow-card">
+    <div class="container-site flex items-center justify-between gap-3 py-2 lg:py-3">
+        <twig:Layout:Identity />
+
+        <div class="flex shrink-0 items-center gap-2">
+            {# Sous 640 px, la recherche est proposée dans le menu mobile (place insuffisante). #}
+            <div class="hidden sm:block">
+                <button type="button"
+                        class="btn btn-outline btn-icon lg:px-4"
+                        aria-haspopup="dialog"
+                        aria-controls="recherche"
+                        aria-keyshortcuts="Control+K Meta+K"
+                        data-action="search-dialog#open">
+                    {{ ux_icon('ri:search-line', {class: 'size-5'}) }}
+                    <span class="sr-only lg:not-sr-only">{{ 'search.open'|trans }}</span>
+                    <kbd class="hidden rounded-pill bg-mist px-2 font-sans text-caption text-ink-muted xl:inline" aria-hidden="true" data-search-dialog-target="shortcutHint">Ctrl K</kbd>
+                </button>
+            </div>
+
+            <twig:Layout:MobileMenu />
+        </div>
+    </div>
+
+    <twig:Layout:MainNav />
+</header>

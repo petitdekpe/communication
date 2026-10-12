@@ -1,0 +1,25 @@
+{# Barre utilitaire bleu nuit (36 px) suivie du filet tricolore. #}
+<div class="surface-dark">
+    <div class="container-site flex h-9 items-center justify-between gap-3 text-caption tracking-normal sm:gap-4 sm:text-small">
+        <p class="min-w-0 truncate font-medium" data-test="portail-officiel">{{ 'utility.official_portal'|trans }}</p>
+
+        <div class="flex shrink-0 items-center gap-6">
+            <nav aria-label="{{ 'utility.nav_label'|trans }}" class="hidden md:block">
+                <ul class="flex items-center gap-6">
+                    {% for link in this.links %}
+                        <li>
+                            <a href="{{ link.href }}" class="underline-offset-4 hover:underline"{% if link.href == app.request.pathInfo %} aria-current="page"{% endif %}>
+                                {{ link.label|trans }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <p class="hidden xl:block">{{ 'utility.helpline'|trans({value: site_setting_or_pending('support.phone')}) }}</p>
+
+            <twig:Layout:LanguageSwitcher />
+        </div>
+    </div>
+</div>
+<div class="filet-tricolore" aria-hidden="true"></div>

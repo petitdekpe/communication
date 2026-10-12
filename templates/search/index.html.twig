@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'search.page_title'|trans }}{% if query %} : {{ query }}{% endif %} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'search.page_title'|trans}]" />
+
+        <h1 class="type-h1 mt-6 text-primary">{{ 'search.page_title'|trans }}</h1>
+
+        <form action="{{ path('app_search') }}" method="get" role="search" class="mt-6 max-w-2xl">
+            <label for="page-recherche-q" class="block text-small font-semibold text-ink">{{ 'search.label'|trans }}</label>
+            <div class="mt-2 flex flex-col gap-2 sm:flex-row">
+                <input id="page-recherche-q" name="q" type="search" value="{{ query }}" maxlength="100" autocomplete="off"
+                       class="min-w-0 flex-1 rounded-pill border border-ink-muted bg-white px-5 py-3 text-ink">
+                <twig:Button type="submit" :label="'search.submit'|trans" icon="ri:search-line" size="lg" />
+            </div>
+        </form>
+
+        {% if query is empty %}
+            <p class="mt-8 text-ink-muted">{{ 'search.hint'|trans }}</p>
+        {% elseif tooShort %}
+            <p class="mt-8 text-ink-muted" role="status">{{ 'search.too_short'|trans }}</p>
+        {% else %}
+            {% set total = 0 %}
+            {% for results in groups %}{% set total = total + results|length %}{% endfor %}
+            <p class="mt-8 text-ink" role="status">
+                {{ 'search.results_for'|trans({query: query}) }}
+                <span class="text-ink-muted">{{ 'search.results_count'|trans({count: total}) }}</span>
+            </p>
+
+            {% if groups is empty %}
+                <twig:EmptyState class="mt-6" :title="'search.empty.title'|trans" :message="'search.empty.message'|trans" />
+            {% else %}
+                {# Sommaire des groupes puis un groupe par type de contenu. #}
+                <nav class="mt-6" aria-label="{{ 'search.groups_nav'|trans }}">
+                    <ul class="flex flex-wrap gap-2" role="list">
+                        {% for type in types|filter(t => groups[t.value] is defined) %}
+                            <li><a href="#resultats-{{ type.value }}" class="btn btn-outline btn-sm">{{ type.labelKey|trans }} ({{ groups[type.value]|length }})</a></li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+
+                {% for type in types|filter(t => groups[t.value] is defined) %}
+                    <section class="mt-10" aria-labelledby="resultats-{{ type.value }}" data-search-group="{{ type.value }}">
+                        <h2 id="resultats-{{ type.value }}" class="type-h2 text-primary">{{ type.labelKey|trans }}</h2>
+                        <ol class="mt-4 divide-y divide-ink-muted/20 border-y border-ink-muted/20">
+                            {% for result in groups[type.value] %}
+                                <li class="py-4"{% if result.locale != app.locale %} lang="{{ result.locale }}"{% endif %}>
+                                    <h3 class="font-semibold"><a href="{{ result.url }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ result.title }}</a></h3>
+                                    {% if result.date %}
+                                        <p class="text-small text-ink-muted"><time datetime="{{ result.date|date('Y-m-d') }}">{{ result.date|format_date('long', locale: app.locale) }}</time></p>
+                                    {% endif %}
+                                    {% if result.snippet %}<p class="mt-1 text-small text-ink">{{ result.snippet|length > 220 ? (result.snippet|slice(0, 220)) ~ '…' : result.snippet }}</p>{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </section>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

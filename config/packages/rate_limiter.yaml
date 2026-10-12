@@ -1,0 +1,52 @@
+framework:
+    cache:
+        pools:
+            # Compteurs des limiteurs : sur le cache applicatif (partagé entre les processus du serveur).
+            app.rate_limiter_pool:
+                adapter: cache.app
+
+    rate_limiter:
+        # Envois de formulaire de démarche, par adresse IP. Chaque envoi compte, valide ou non.
+        service_request_submit:
+            policy: sliding_window
+            limit: 10
+            interval: '1 hour'
+            cache_pool: app.rate_limiter_pool
+        # Consultations de la page de suivi, par adresse IP : freine l'essai de numéros de suivi.
+        tracking_lookup:
+            policy: sliding_window
+            limit: 10
+            interval: '15 minutes'
+            cache_pool: app.rate_limiter_pool
+        # Contributions aux consultations, par adresse IP.
+        consultation_contribution:
+            policy: sliding_window
+            limit: 10
+            interval: '1 hour'
+            cache_pool: app.rate_limiter_pool
+        # Demandes d'inscription à la lettre d'information, par adresse IP (évite d'inonder une boîte de messages).
+        newsletter_subscribe:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+            cache_pool: app.rate_limiter_pool
+        # Codes TOTP : 5 essais par session de connexion, 30 par adresse IP (plusieurs agents derrière une même passerelle).
+        two_factor_session:
+            policy: sliding_window
+            limit: 5
+            interval: '15 minutes'
+            cache_pool: app.rate_limiter_pool
+        two_factor_ip:
+            policy: sliding_window
+            limit: 30
+            interval: '15 minutes'
+            cache_pool: app.rate_limiter_pool
+
+when@test:
+    framework:
+        cache:
+            pools:
+                # Sur disque (et non en mémoire : le cache mémoire est vidé entre deux requêtes du client de test,
+                # et le serveur de Panther est un autre processus). Les tests vident ce cache avant de commencer.
+                app.rate_limiter_pool:
+                    adapter: cache.adapter.filesystem

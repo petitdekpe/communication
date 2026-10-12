@@ -1,0 +1,100 @@
+{#
+    Menu mobile (< lg) : bouton « Menu » qui ouvre un <dialog> plein écran (focus piégé, Échap ferme,
+    focus rendu au bouton). Les rubriques se déplient en accordéon (aria-expanded).
+#}
+{% set path_info = app.request.pathInfo %}
+
+<div class="lg:hidden"
+     data-controller="mobile-menu"
+     data-action="turbo:before-cache@document->mobile-menu#close">
+    <button type="button"
+            class="btn btn-primary btn-icon sm:px-4"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="menu-mobile"
+            data-mobile-menu-target="trigger"
+            data-action="mobile-menu#open">
+        {{ ux_icon('ri:menu-line', {class: 'size-5'}) }}
+        <span class="sr-only sm:not-sr-only">{{ 'nav.menu'|trans }}</span>
+    </button>
+
+    <dialog id="menu-mobile"
+            aria-labelledby="menu-mobile-titre"
+            class="m-0 h-dvh max-h-none w-full max-w-none bg-white p-0 text-ink"
+            data-mobile-menu-target="dialog"
+            data-action="close->mobile-menu#onClose">
+        <div class="flex h-full flex-col">
+            <div class="container-site flex items-center justify-between gap-4 border-b border-ink-muted/20 py-3">
+                <p id="menu-mobile-titre" class="text-body font-bold text-primary">{{ 'nav.menu'|trans }}</p>
+                <button type="button" class="btn btn-outline" data-action="mobile-menu#close">
+                    {{ ux_icon('ri:close-line', {class: 'size-5'}) }}
+                    <span>{{ 'nav.close'|trans }}</span>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto">
+                <div class="container-site pt-4 sm:hidden">
+                    <button type="button" class="btn btn-outline w-full" aria-haspopup="dialog" aria-controls="recherche"
+                            data-action="mobile-menu#close search-dialog#open">
+                        {{ ux_icon('ri:search-line', {class: 'size-5'}) }}
+                        <span>{{ 'search.open'|trans }}</span>
+                    </button>
+                </div>
+
+                <nav aria-label="{{ 'nav.main_label'|trans }}" class="container-site">
+                    <ul class="mt-2 divide-y divide-ink-muted/20">
+                        {% for item in this.items %}
+                            <li>
+                                {% if item.hasChildren %}
+                                    <button type="button"
+                                            class="group flex w-full items-center justify-between gap-4 py-4 text-left text-body font-semibold text-primary"
+                                            aria-expanded="false"
+                                            aria-controls="menu-mobile-{{ loop.index }}"
+                                            data-action="mobile-menu#toggleSection">
+                                        {{ item.label|trans }}
+                                        {{ ux_icon('ri:arrow-down-s-line', {class: 'size-6 shrink-0 transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none'}) }}
+                                    </button>
+                                    <ul id="menu-mobile-{{ loop.index }}" class="pb-4" hidden>
+                                        {% for child in item.children %}
+                                            <li>
+                                                <a href="{{ child.href }}"
+                                                   class="block rounded-card px-4 py-3 text-body text-ink hover:bg-mist aria-[current=page]:font-bold"
+                                                   {% if child.href == path_info %}aria-current="page"{% endif %}>
+                                                    {{ child.label|trans }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <a href="{{ item.href }}"
+                                       class="block py-4 text-body font-semibold text-primary"
+                                       {% if item.href == path_info %}aria-current="page"{% endif %}>
+                                        {{ item.label|trans }}
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+
+                <div class="container-site mt-4 border-t border-ink-muted/20 pt-6 pb-10">
+                    <nav aria-label="{{ 'utility.nav_label'|trans }}">
+                        <ul class="space-y-1">
+                            {% for link in this.utilityLinks %}
+                                <li>
+                                    <a href="{{ link.href }}" class="block py-2 text-small font-medium text-ink underline-offset-4 hover:underline">
+                                        {{ link.label|trans }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <p class="mt-4 text-small text-ink-muted">{{ 'utility.helpline'|trans({value: site_setting_or_pending('support.phone')}) }}</p>
+                    <div class="mt-6 text-small">
+                        <twig:Layout:LanguageSwitcher variant="light" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+</div>

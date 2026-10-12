@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set heading = page ? 'page_editor.properties.edit' : 'page_editor.properties.new' %}
+{% block title %}{{ heading|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-6xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'pages'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.pages'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ heading|trans }}</h1>
+        {% if not page %}
+            <p class="mt-2 max-w-3xl text-ink-muted">{{ 'page_editor.properties.new_help'|trans }}</p>
+        {% endif %}
+
+        <div class="mt-8">
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'grid gap-6', 'data-controller': 'form-errors', 'data-turbo': 'true'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+                <twig:Admin:LocaleTabs :tabs="tabs" :active="active">
+                    <twig:block name="fr">{% for field in form.translations.fr %}{{ form_row(field) }}{% endfor %}</twig:block>
+                    <twig:block name="en">{% for field in form.translations.en %}{{ form_row(field) }}{% endfor %}</twig:block>
+                </twig:Admin:LocaleTabs>
+
+                {{ form_rest(form) }}
+                <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+            {{ form_end(form, {render_rest: false}) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'admin/security/base.html.twig' %}
+
+{% block title %}{{ 'admin.forgot.sent_title'|trans }}{% endblock %}
+
+{% block auth_content %}
+    <h1 class="type-h2 text-primary">{{ 'admin.forgot.sent_title'|trans }}</h1>
+    <p class="mt-3 text-ink" role="status">{{ 'admin.forgot.sent'|trans({hours: (lifetime / 3600)|round}) }}</p>
+    <p class="mt-6 text-small"><a href="{{ path('app_admin_login') }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.forgot.back'|trans }}</a></p>
+{% endblock %}

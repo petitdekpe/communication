@@ -1,0 +1,33 @@
+{% set readable = this.readableSize %}
+{% set size_label = readable.unitKey|trans({size: readable.value}) %}
+{% set type_label = fileType.labelKey|trans %}
+
+<div{{ attributes.defaults({class: 'flex items-center gap-4 border-b border-ink-muted/20 py-4'}) }}>
+    <span class="flex size-12 shrink-0 items-center justify-center rounded-card bg-mist text-primary" aria-hidden="true">
+        {{ ux_icon(fileType.icon, {class: 'size-6'}) }}
+    </span>
+
+    <div class="min-w-0 flex-1">
+        <p class="font-semibold text-ink">{{ title }}</p>
+        <p class="mt-1 text-small text-ink-muted">
+            {% if documentType %}{{ documentType.labelKey|trans }} · {% endif %}{{ type_label }} · {{ size_label }} ·
+            {% if documentType %}{{ 'documents.signed_on'|trans }} {% endif %}<time datetime="{{ date|date('Y-m-d') }}">{{ date|format_date('medium', locale: app.locale) }}</time>
+        </p>
+        {% if reference or language or downloads is not null %}
+            <p class="mt-1 text-small text-ink-muted">
+                {%- set details = [] -%}
+                {%- if reference %}{% set details = details|merge([('documents.reference'|trans) ~ ' ' ~ reference]) %}{% endif -%}
+                {%- if language %}{% set details = details|merge([('documents.file_language'|trans) ~ ' ' ~ (language|language_name(app.locale)|capitalize)]) %}{% endif -%}
+                {%- if downloads is not null %}{% set details = details|merge(['documents.downloads'|trans({count: downloads})]) %}{% endif -%}
+                {{ details|join(' · ') }}
+            </p>
+        {% endif %}
+        {% if summary %}<p class="mt-2 text-small text-ink">{{ summary }}</p>{% endif %}
+    </div>
+
+    <a href="{{ href }}" download class="btn btn-outline btn-sm btn-icon shrink-0 sm:px-3">
+        {{ ux_icon('ri:download-2-line', {class: 'size-4'}) }}
+        <span class="sr-only sm:not-sr-only">{{ 'ui.download'|trans }}</span>
+        <span class="sr-only"> : {{ title }} ({{ type_label }}, {{ size_label }})</span>
+    </a>
+</div>

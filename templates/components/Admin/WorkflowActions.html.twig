@@ -1,0 +1,114 @@
+{#
+    En-tête de formulaire : état, transitions, programmation, aperçu signé, verrou d'édition, versions, historique.
+    Composant : App\Twig\Components\Admin\WorkflowActions.
+#}
+{% set resource = this.resource %}
+{% set id = this.id %}
+{% set status = content ? content.status.value : null %}
+{% set foreign = this.foreignLock %}
+<section class="rounded-card bg-white p-4 shadow-card ring-1 ring-ink-muted/15" aria-labelledby="workflow-titre"
+         {% if this.canLock %}data-controller="edit-lock"
+         data-edit-lock-touch-url-value="{{ path('app_admin_lock_touch', {resource: resource.id, id: id}) }}"
+         data-edit-lock-release-url-value="{{ path('app_admin_lock_release', {resource: resource.id, id: id}) }}"
+         data-edit-lock-token-value="{{ this.token('lock') }}"{% endif %}>
+    <h2 id="workflow-titre" class="type-caption text-ink-muted">{{ 'workflow.title'|trans }}</h2>
+
+    {# Avertissement de verrou : annoncé aux lecteurs d'écran (aria-live, sans role=alert : ce rôle reste réservé aux erreurs de formulaire) ; mis à jour par le contrôleur edit-lock si quelqu'un prend la main. #}
+    <div aria-live="polite" data-edit-lock-target="warning" data-template="{{ 'workflow.lock.warning_short'|trans({name: '%name%'}) }}" class="mt-3 rounded-card bg-flag-yellow p-3 text-small font-bold text-primary"{% if not foreign %} hidden{% endif %}>
+        <span data-edit-lock-target="message">{% if foreign %}{{ 'workflow.lock.warning'|trans({name: foreign.name, time: foreign.expiresAt|format_time('short', timezone: 'Africa/Porto-Novo')}) }}{% endif %}</span>
+    </div>
+
+    <div class="mt-3 flex flex-wrap items-center gap-3">
+        {% if status %}<twig:Admin:StatusBadge kind="publication" :status="status" />{% else %}<span class="text-small text-ink-muted">{{ 'admin.status.new'|trans }}</span>{% endif %}
+        {% if content and content.scheduledAt %}
+            <span class="text-small text-ink">{{ 'workflow.scheduled_for'|trans({date: content.scheduledAt|format_datetime('long', 'short', timezone: 'Africa/Porto-Novo')}) }}</span>
+        {% endif %}
+    </div>
+
+    {% if this.transitions is not empty or this.canUnschedule %}
+        <div class="mt-4 flex flex-wrap items-start gap-3">
+            {% for name in this.transitions %}
+                {% set action_url = path('app_admin_workflow_apply', {resource: resource.id, id: id, transition: name}) %}
+                {% if name == 'reject' %}
+                    <details class="w-full max-w-xl rounded-card ring-1 ring-ink-muted/30 p-3">
+                        <summary class="cursor-pointer text-small font-bold text-flag-red">{{ 'admin.action.reject'|trans }}</summary>
+                        <form method="post" action="{{ action_url }}" class="mt-3 grid gap-3">
+                            <input type="hidden" name="_token" value="{{ this.token('workflow') }}">
+                            <label for="workflow-reason" class="text-small font-bold">{{ 'workflow.reason.label'|trans }} <span aria-hidden="true">*</span></label>
+                            <textarea id="workflow-reason" name="reason" rows="3" required class="w-full rounded-card border border-ink-muted p-2" aria-describedby="workflow-reason-help"></textarea>
+                            <p id="workflow-reason-help" class="text-small text-ink-muted">{{ 'workflow.reason.help'|trans }}</p>
+                            <div><button type="submit" class="btn btn-outline btn-sm text-flag-red border-flag-red">{{ 'workflow.reason.submit'|trans }}</button></div>
+                        </form>
+                    </details>
+                {% elseif name == 'publish' %}
+                    <form method="post" action="{{ action_url }}" class="grid gap-2 rounded-card ring-1 ring-ink-muted/30 p-3">
+                        <input type="hidden" name="_token" value="{{ this.token('workflow') }}">
+                        <label for="workflow-scheduled" class="text-small font-bold">{{ 'workflow.schedule.label'|trans }}</label>
+                        <input id="workflow-scheduled" type="datetime-local" name="scheduled_at" class="rounded-card border border-ink-muted p-2" aria-describedby="workflow-scheduled-help">
+                        <p id="workflow-scheduled-help" class="text-small text-ink-muted">{{ 'workflow.schedule.help'|trans }}</p>
+                        <div><button type="submit" class="btn btn-primary btn-sm">{{ 'admin.action.publish'|trans }}</button></div>
+                    </form>
+                {% else %}
+                    <form method="post" action="{{ action_url }}">
+                        <input type="hidden" name="_token" value="{{ this.token('workflow') }}">
+                        <button type="submit" class="btn btn-outline btn-sm">{{ ('admin.action.' ~ name)|trans }}</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+            {% if this.canUnschedule %}
+                <form method="post" action="{{ path('app_admin_workflow_apply', {resource: resource.id, id: id, transition: 'unschedule'}) }}">
+                    <input type="hidden" name="_token" value="{{ this.token('workflow') }}">
+                    <button type="submit" class="btn btn-outline btn-sm">{{ 'workflow.unschedule'|trans }}</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if this.previewLinks is not empty %}
+        <div class="mt-4">
+            <h3 class="text-small font-bold">{{ 'workflow.preview.title'|trans }}</h3>
+            <p class="text-small text-ink-muted">{{ 'workflow.preview.help'|trans }}</p>
+            <ul class="mt-2 grid gap-2" role="list">
+                {% for locale, url in this.previewLinks %}
+                    <li class="flex flex-wrap items-center gap-2">
+                        <a href="{{ url }}" target="_blank" rel="noopener" class="text-small font-bold text-primary underline underline-offset-4 hover:no-underline">
+                            {{ ('workflow.preview.open.' ~ locale)|trans }}<span class="sr-only"> ({{ 'footer.external_site'|trans }})</span>
+                        </a>
+                        <label class="sr-only" for="preview-{{ locale }}">{{ ('workflow.preview.url.' ~ locale)|trans }}</label>
+                        <input id="preview-{{ locale }}" type="text" readonly value="{{ url }}" class="min-w-0 flex-1 rounded-card border border-ink-muted/40 bg-mist px-2 py-1 text-small" onfocus="this.select()">
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if this.isSaved %}
+        <p class="mt-4 text-small">
+            <a href="{{ path('app_admin_versions', {resource: resource.id, id: id}) }}" class="font-bold text-primary underline underline-offset-4 hover:no-underline">{{ 'workflow.versions.link'|trans({count: this.versionCount}) }}</a>
+        </p>
+
+        <details class="mt-4">
+            <summary class="cursor-pointer text-small font-bold">{{ 'workflow.history.title'|trans }}</summary>
+            {% if this.history is empty %}
+                <p class="mt-2 text-small text-ink-muted">{{ 'workflow.history.empty'|trans }}</p>
+            {% else %}
+                <ol class="mt-2 grid gap-2" role="list">
+                    {% for entry in this.history %}
+                        <li class="rounded-card bg-mist p-3 text-small">
+                            <p>
+                                <strong>{{ ('workflow.history.transition.' ~ entry.transition)|trans }}</strong>
+                                {{ 'workflow.history.by'|trans({who: entry.actorName ?: ('system' == entry.actor ? ('workflow.history.system'|trans) : entry.actor)}) }}
+                                <time datetime="{{ entry.occurredAt|date('c') }}" class="text-ink-muted">{{ entry.occurredAt|format_datetime('medium', 'short', timezone: 'Africa/Porto-Novo') }}</time>
+                            </p>
+                            {% if entry.reason and entry.transition != 'schedule' %}
+                                <p class="mt-1"><span class="font-bold">{{ 'workflow.history.reason'|trans }}</span> {{ entry.reason }}</p>
+                            {% elseif entry.transition == 'schedule' and entry.reason %}
+                                <p class="mt-1">{{ entry.reason|date('d/m/Y H:i', 'Africa/Porto-Novo') }}</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </details>
+    {% endif %}
+</section>

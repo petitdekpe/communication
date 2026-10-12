@@ -1,0 +1,4 @@
+<span{{ attributes.defaults({class: 'badge ' ~ this.cssClass}) }}>
+    {%- if this.isAudience %}<span class="sr-only">{{ 'badge.audience_prefix'|trans }} </span>{% endif -%}
+    {{ value.labelKey|trans }}
+</span>

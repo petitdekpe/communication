@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+<body style="margin:0;padding:24px;background:#f7f9fc;color:#1b1b1b;font-family:Montserrat,Arial,sans-serif;line-height:1.5">
+    <div style="max-width:560px;margin:0 auto;background:#ffffff;border-top:4px solid #008751;padding:24px">
+        <p style="margin:0 0 4px;font-size:14px;color:#475569">{{ 'site.name'|trans({}, null, locale) }}</p>
+        <h1 style="margin:0 0 16px;font-size:20px;color:#162233">{{ 'newsletter.mail.title'|trans({}, null, locale) }}</h1>
+        <p>{{ 'newsletter.mail.intro'|trans({}, null, locale) }}</p>
+        <p style="margin:24px 0"><a href="{{ url('app_newsletter_confirm', {_locale: locale, token: confirmToken}) }}" style="display:inline-block;padding:12px 24px;background:#162233;color:#ffffff;text-decoration:none;border-radius:999px;font-weight:bold">{{ 'newsletter.mail.confirm'|trans({}, null, locale) }}</a></p>
+        <p style="font-size:14px;color:#475569">{{ 'newsletter.mail.ignore'|trans({}, null, locale) }}</p>
+        <p style="font-size:14px;color:#475569"><a href="{{ url('app_newsletter_unsubscribe', {_locale: locale, token: unsubscribeToken}) }}" style="color:#162233">{{ 'newsletter.mail.unsubscribe'|trans({}, null, locale) }}</a></p>
+    </div>
+</body>
+</html>

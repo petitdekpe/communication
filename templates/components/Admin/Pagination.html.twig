@@ -1,0 +1,43 @@
+{#
+    Pagination d'une liste (Pagerfanta). L'adresse conserve les filtres et le tri (paramètres de la requête) et ne change que « page ».
+
+    <twig:Admin:Pagination :pager="pager" route="app_admin_resource_list" :params="{resource: 'articles'}" :query="app.request.query.all" />
+#}
+{% props pager, route, params = {}, query = {} %}
+{% if pager.haveToPaginate %}
+    {% set current = pager.currentPage %}
+    {% set last = pager.nbPages %}
+    {% set pages = [] %}
+    {% for number in 1..last %}
+        {% if number == 1 or number == last or (number - current)|abs <= 2 %}
+            {% set pages = pages|merge([number]) %}
+        {% endif %}
+    {% endfor %}
+    <nav aria-label="{{ 'admin.pagination.label'|trans }}"{{ attributes.defaults({class: 'mt-6 flex flex-wrap items-center justify-between gap-3'}) }}>
+        <p class="text-small text-ink-muted">{{ 'admin.pagination.summary'|trans({from: (current - 1) * pager.maxPerPage + 1, to: min(current * pager.maxPerPage, pager.nbResults), total: pager.nbResults}) }}</p>
+        <ul class="flex flex-wrap items-center gap-1" role="list">
+            <li>
+                {% if pager.hasPreviousPage %}
+                    <a class="btn btn-outline btn-sm" rel="prev" href="{{ path(route, params|merge(query)|merge({page: pager.previousPage})) }}">{{ 'admin.pagination.previous'|trans }}</a>
+                {% endif %}
+            </li>
+            {% set previous = 0 %}
+            {% for number in pages %}
+                {% if number - previous > 1 %}<li aria-hidden="true" class="px-1 text-ink-muted">…</li>{% endif %}
+                <li>
+                    <a class="btn btn-sm {{ number == current ? 'btn-primary' : 'btn-outline' }}"
+                       href="{{ path(route, params|merge(query)|merge({page: number})) }}"
+                       {% if number == current %}aria-current="page"{% endif %}>
+                        <span class="sr-only">{{ 'admin.pagination.page'|trans }} </span>{{ number }}
+                    </a>
+                </li>
+                {% set previous = number %}
+            {% endfor %}
+            <li>
+                {% if pager.hasNextPage %}
+                    <a class="btn btn-outline btn-sm" rel="next" href="{{ path(route, params|merge(query)|merge({page: pager.nextPage})) }}">{{ 'admin.pagination.next'|trans }}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+{% endif %}

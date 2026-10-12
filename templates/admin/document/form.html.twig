@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set heading = document ? 'admin.document.edit' : 'admin.document.new' %}
+{% block title %}{{ heading|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-6xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'documents'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.documents'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ heading|trans }}</h1>
+        {% if translateOnly %}<p class="mt-2 text-small text-ink-muted" role="note">{{ 'admin.translate_only'|trans }}</p>{% endif %}
+
+        <div class="mt-6"><twig:Admin:WorkflowActions :content="document" /></div>
+
+        <div class="mt-8">
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'grid gap-6', 'data-controller': 'form-errors'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+                <twig:Admin:FormSection :title="'admin.section.details'|trans">
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        {{ form_row(form.type) }}
+                        {{ form_row(form.reference) }}
+                        {{ form_row(form.documentDate) }}
+                        {{ form_row(form.fileLanguage) }}
+                    </div>
+                </twig:Admin:FormSection>
+
+                <twig:Admin:FormSection :title="'admin.section.file'|trans">
+                    {% if document and document.file %}
+                        <p class="text-small text-ink-muted">{{ 'admin.field.current_file'|trans }} <strong class="text-ink">{{ document.file.originalFilename }}</strong></p>
+                    {% endif %}
+                    {{ form_row(form.file) }}
+                </twig:Admin:FormSection>
+
+                <twig:Admin:LocaleTabs :tabs="tabs" :active="active">
+                    <twig:block name="fr">{% for field in form.translations.fr %}{{ form_row(field) }}{% endfor %}</twig:block>
+                    <twig:block name="en">{% for field in form.translations.en %}{{ form_row(field) }}{% endfor %}</twig:block>
+                </twig:Admin:LocaleTabs>
+
+                {{ form_rest(form) }}
+                <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+            {{ form_end(form, {render_rest: false}) }}
+
+        </div>
+    </div>
+{% endblock %}

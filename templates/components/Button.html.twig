@@ -1,0 +1,13 @@
+{# Capturé dans un bloc (et non via un ternaire) pour que le SVG reste du HTML non échappé. #}
+{% set icon_markup %}{% if icon %}{{ ux_icon(icon, {class: size.iconClass ~ ' shrink-0'}) }}{% endif %}{% endset %}
+{% set inner %}
+    {%- if iconPosition == 'start' %}{{ icon_markup }}{% endif -%}
+    <span{% if iconOnly %} class="sr-only"{% endif %}>{{ label }}</span>
+    {%- if iconPosition == 'end' %}{{ icon_markup }}{% endif -%}
+{% endset %}
+
+{% if href %}
+    <a href="{{ href }}"{{ attributes.defaults({class: this.cssClass}) }}>{{ inner }}</a>
+{% else %}
+    <button type="{{ type }}"{% if disabled %} disabled{% endif %}{{ attributes.defaults({class: this.cssClass}) }}>{{ inner }}</button>
+{% endif %}

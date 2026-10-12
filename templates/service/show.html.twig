@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    {% set legal = service.legalBasis %}
+    {% set legal_file = legal and legal.published ? legal.file : null %}
+
+    <div class="container-site py-8 lg:py-12">
+        <div class="print:hidden">
+            <twig:Breadcrumb :items="[
+                {label: 'breadcrumb.home'|trans, href: path('app_home')},
+                {label: 'services.title'|trans, href: path('app_services_index')},
+                {label: translation.title},
+            ]" />
+
+            <twig:TranslationFallbackNotice :translatable="service" class="mt-6 max-w-3xl" />
+        </div>
+
+        {# lang : langue réelle du texte affiché (fr en cas de repli sur une page /en). #}
+        <article lang="{{ translation.locale }}" class="mt-8">
+            <header class="max-w-3xl">
+                <twig:Badge :value="service.audience" />
+                <h1 class="type-display mt-4 text-primary">{{ translation.title }}</h1>
+                {% if translation.summary %}
+                    <p class="mt-6 text-h3 font-normal text-ink">{{ translation.summary }}</p>
+                {% endif %}
+            </header>
+
+            <div class="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+                <div class="grid gap-10">
+                    {% if translation.body %}
+                        <div class="prose-article">{{ translation.body|sanitize_html('app.article_body') }}</div>
+                    {% endif %}
+
+                    <section aria-labelledby="etapes">
+                        <h2 id="etapes" class="type-h2 text-primary">{{ 'services.steps.title'|trans }}</h2>
+                        {% if translation.steps is empty %}
+                            <p class="mt-4 text-ink-muted">{{ 'ui.not_specified'|trans }}</p>
+                        {% else %}
+                            <ol class="mt-4 grid gap-4" role="list">
+                                {% for step in translation.steps %}
+                                    <li class="flex items-start gap-4">
+                                        <span class="flex size-9 shrink-0 items-center justify-center rounded-pill bg-primary font-bold text-white" aria-hidden="true">{{ loop.index }}</span>
+                                        <p class="pt-1">
+                                            <span class="sr-only">{{ 'services.steps.step'|trans({number: loop.index}) }} : </span>{{ step }}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </section>
+
+                    <section aria-labelledby="pieces-requises">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <h2 id="pieces-requises" class="type-h2 text-primary">{{ 'services.documents.title'|trans }}</h2>
+                            {% if translation.requiredDocuments is not empty %}
+                                <button type="button" class="btn btn-outline btn-sm print:hidden" data-controller="print" data-action="print#print">
+                                    {{ ux_icon('ri:printer-line', {class: 'size-4'}) }}
+                                    {{ 'services.documents.print'|trans }}
+                                </button>
+                            {% endif %}
+                        </div>
+                        {% if translation.requiredDocuments is empty %}
+                            <p class="mt-4 text-ink-muted">{{ 'services.documents.none'|trans }}</p>
+                        {% else %}
+                            <p class="mt-2 text-small text-ink-muted">{{ 'services.documents.hint'|trans }}</p>
+                            {# Cases à cocher imprimables : aucune donnée envoyée, elles servent de pense-bête sur papier comme à l'écran. #}
+                            <ul class="mt-4 grid gap-3" role="list">
+                                {% for document in translation.requiredDocuments %}
+                                    <li class="flex items-start gap-3 break-inside-avoid">
+                                        <input type="checkbox" id="piece-{{ loop.index }}" class="mt-1 size-5 shrink-0 accent-primary">
+                                        <label for="piece-{{ loop.index }}" class="text-ink">{{ document }}</label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </section>
+
+                    {% if legal %}
+                        <section aria-labelledby="base-legale">
+                            <h2 id="base-legale" class="type-h2 text-primary">{{ 'services.legal.title'|trans }}</h2>
+                            {% set legal_translation = legal.translate(app.locale) %}
+                            <p class="mt-4">
+                                {% if legal_file %}
+                                    <a href="{{ path('app_document_download', {id: legal.id}) }}" class="font-semibold text-primary underline underline-offset-4 hover:no-underline">{{ legal_translation.title }}</a>
+                                {% else %}
+                                    {{ legal_translation.title }}
+                                {% endif %}
+                                {% if legal.reference %}<span class="text-ink-muted"> ({{ 'documents.reference'|trans }} {{ legal.reference }})</span>{% endif %}
+                            </p>
+                        </section>
+                    {% endif %}
+
+                    {% if translation.contact %}
+                        <section aria-labelledby="contact">
+                            <h2 id="contact" class="type-h2 text-primary">{{ 'services.contact.title'|trans }}</h2>
+                            <p class="mt-4 whitespace-pre-line">{{ translation.contact }}</p>
+                        </section>
+                    {% endif %}
+                </div>
+
+                {# Encadré récapitulatif : coût, délai, disponibilité en ligne, et le bouton d'action. #}
+                <aside aria-labelledby="recapitulatif" class="rounded-card border-t-4 border-flag-green bg-mist p-6 shadow-card lg:sticky lg:top-40 print:static print:shadow-none">
+                    <h2 id="recapitulatif" class="type-h3 text-primary">{{ 'services.summary.title'|trans }}</h2>
+                    <dl class="mt-4 grid gap-4">
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'service.cost'|trans }}</dt>
+                            <dd class="font-semibold text-ink">{{ translation.cost ?? 'ui.not_specified'|trans }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'service.delay'|trans }}</dt>
+                            <dd class="font-semibold text-ink">{{ translation.delay ?? 'ui.not_specified'|trans }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-small text-ink-muted">{{ 'service.online'|trans }}</dt>
+                            <dd class="inline-flex items-center gap-1 font-semibold {{ service.online ? 'text-flag-green' : 'text-ink' }}">
+                                {{ ux_icon(service.online ? 'ri:checkbox-circle-fill' : 'ri:close-circle-line', {class: 'size-5 shrink-0'}) }}
+                                {{ (service.online ? 'ui.yes' : 'ui.no')|trans }}
+                            </dd>
+                        </div>
+                    </dl>
+
+                    <div class="mt-6 grid gap-3 print:hidden">
+                        {% if internalForm %}
+                            <twig:Button :label="'services.action.apply'|trans" :href="path('app_service_request', {slug: translation.slug})" size="lg" icon="ri:arrow-right-line" iconPosition="end" />
+                        {% elseif service.onlineUrl %}
+                            <a href="{{ service.onlineUrl }}" class="btn btn-primary btn-lg" rel="noopener noreferrer" target="_blank">
+                                {{ 'services.action.external'|trans }}
+                                {{ ux_icon('ri:external-link-line', {class: 'size-5'}) }}
+                                <span class="sr-only"> ({{ 'footer.external_site'|trans }})</span>
+                            </a>
+                        {% endif %}
+                        {% if internalForm %}
+                            <a href="{{ path('app_tracking') }}" class="btn btn-outline">{{ 'services.action.track'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </aside>
+            </div>
+        </article>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.metaTitle ?: translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    {% if translation.metaDescription %}<meta name="description" content="{{ translation.metaDescription }}">{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        {% if breadcrumb is not empty %}<twig:Breadcrumb :items="breadcrumb" />{% endif %}
+
+        <twig:TranslationFallbackNotice :translatable="page" class="mt-6 max-w-3xl" />
+
+        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
+            <h1 class="type-display text-primary">{{ translation.title }}</h1>
+            {% if translation.body %}
+                <div class="prose-article mt-8">{{ translation.body|sanitize_html('app.article_body') }}</div>
+            {% endif %}
+        </article>
+    </div>
+{% endblock %}

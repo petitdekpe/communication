@@ -1,0 +1,26 @@
+# Vignettes des images de la médiathèque : https://symfony.com/bundles/LiipImagineBundle
+liip_imagine:
+    driver: 'gd'
+    # Les originaux vivent dans le stockage Flysystem des médias (jamais dans public/) ; seules les vignettes générées
+    # sont écrites sous public/media/cache.
+    loaders:
+        media:
+            flysystem:
+                filesystem_service: 'media.storage'
+    data_loader: media
+    resolvers:
+        default:
+            web_path:
+                web_root: '%kernel.project_dir%/public'
+                cache_prefix: 'media/cache'
+    filter_sets:
+        # Vignette de galerie (rognée au centre, 4:3).
+        thumb:
+            quality: 80
+            filters:
+                thumbnail: { size: [480, 360], mode: outbound }
+        # Image de la visionneuse : réduite à 1600 px de large au plus.
+        viewer:
+            quality: 85
+            filters:
+                downscale: { max: [1600, 1200] }

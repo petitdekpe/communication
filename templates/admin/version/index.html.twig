@@ -1,0 +1,87 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'workflow.versions.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-6xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: resource.id}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ resource.label|trans }}</a>
+            {% if resource.editRoute %}
+                <span aria-hidden="true"> / </span>
+                <a href="{{ path(resource.editRoute, {id: content.id}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ title }}</a>
+            {% endif %}
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ 'workflow.versions.title'|trans }}</h1>
+        <p class="mt-2 text-ink-muted">{{ title }}</p>
+
+        {% if versions is empty %}
+            <p class="mt-8">{{ 'workflow.versions.empty'|trans }}</p>
+        {% else %}
+            <form method="get" class="mt-8 flex flex-wrap items-end gap-4" aria-label="{{ 'workflow.versions.compare'|trans }}">
+                <div class="grid gap-1">
+                    <label for="version-a" class="text-small font-bold">{{ 'workflow.versions.left'|trans }}</label>
+                    <select id="version-a" name="a" class="rounded-card border border-ink-muted p-2">
+                        {% for version in versions %}
+                            <option value="{{ version.number }}"{% if old and old.number == version.number %} selected{% elseif not old and loop.last %} selected{% endif %}>{{ 'workflow.versions.option'|trans({number: version.number, date: version.createdAt|format_datetime('short', 'short', timezone: 'Africa/Porto-Novo'), author: version.author}) }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="grid gap-1">
+                    <label for="version-b" class="text-small font-bold">{{ 'workflow.versions.right'|trans }}</label>
+                    <select id="version-b" name="b" class="rounded-card border border-ink-muted p-2">
+                        {% for version in versions %}
+                            <option value="{{ version.number }}"{% if new and new.number == version.number %} selected{% elseif not new and loop.first %} selected{% endif %}>{{ 'workflow.versions.option'|trans({number: version.number, date: version.createdAt|format_datetime('short', 'short', timezone: 'Africa/Porto-Novo'), author: version.author}) }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">{{ 'workflow.versions.compare'|trans }}</button>
+            </form>
+
+            <h2 class="type-h3 mt-10 text-primary">{{ 'workflow.versions.list'|trans }}</h2>
+            <ol class="mt-4 grid gap-2" role="list">
+                {% for version in versions %}
+                    <li class="flex flex-wrap items-center justify-between gap-3 rounded-card bg-white p-3 ring-1 ring-ink-muted/15">
+                        <p class="text-small">
+                            <strong>{{ 'workflow.versions.number'|trans({number: version.number}) }}</strong>
+                            <time datetime="{{ version.createdAt|date('c') }}" class="text-ink-muted">{{ version.createdAt|format_datetime('medium', 'short', timezone: 'Africa/Porto-Novo') }}</time>
+                            {{ 'workflow.history.by'|trans({who: version.author}) }}
+                            {% if version.restoredFrom %}<em>{{ 'workflow.versions.restored_from'|trans({number: version.restoredFrom}) }}</em>{% endif %}
+                        </p>
+                        {% if canRestore and not loop.first %}
+                            <form method="post" action="{{ path('app_admin_version_restore', {resource: resource.id, id: content.id, number: version.number}) }}">
+                                <input type="hidden" name="_token" value="{{ restoreToken }}">
+                                <button type="submit" class="btn btn-outline btn-sm">{{ 'workflow.versions.restore'|trans({number: version.number}) }}</button>
+                            </form>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+
+            {% if old and new %}
+                <h2 class="type-h3 mt-10 text-primary">{{ 'workflow.versions.diff_title'|trans({a: old.number, b: new.number}) }}</h2>
+                <p class="mt-2 text-small text-ink-muted">{{ 'workflow.versions.legend'|trans }}</p>
+                {% set changed = rows|filter(r => r.changed) %}
+                {% if changed is empty %}
+                    <p class="mt-6">{{ 'workflow.versions.identical'|trans }}</p>
+                {% endif %}
+                <div class="mt-6 grid gap-6">
+                    {% for row in changed %}
+                        <section aria-labelledby="diff-{{ loop.index }}">
+                            <h3 id="diff-{{ loop.index }}" class="text-small font-bold text-primary">{{ row.path }}</h3>
+                            <div class="mt-2 grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <p class="text-small font-bold text-ink-muted">{{ 'workflow.versions.number'|trans({number: old.number}) }}</p>
+                                    <pre class="mt-1 whitespace-pre-wrap break-words rounded-card bg-mist p-3 text-small font-sans">{% for op in row.ops %}{% if op.type == 'del' %}<del class="bg-flag-red/20 text-ink">{{ op.text }}</del>{% elseif op.type == 'same' %}{{ op.text }}{% endif %}{% endfor %}</pre>
+                                </div>
+                                <div>
+                                    <p class="text-small font-bold text-ink-muted">{{ 'workflow.versions.number'|trans({number: new.number}) }}</p>
+                                    <pre class="mt-1 whitespace-pre-wrap break-words rounded-card bg-mist p-3 text-small font-sans">{% for op in row.ops %}{% if op.type == 'ins' %}<ins class="bg-flag-green/20 text-ink">{{ op.text }}</ins>{% elseif op.type == 'same' %}{{ op.text }}{% endif %}{% endfor %}</pre>
+                                </div>
+                            </div>
+                        </section>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

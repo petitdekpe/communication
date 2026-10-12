@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" class="scroll-pt-20 lg:scroll-pt-36">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{{ 'site.name'|trans }}{% endblock %}</title>
+
+        {# Préchargement des deux polices du premier affichage (sous-ensemble latin) : le texte courant et les grands titres (Baskervville, élément le plus grand de l'accueil). #}
+        <link rel="preload" href="{{ asset('fonts/montserrat-latin-400-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="{{ asset('fonts/baskervville-latin-700-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+
+        {# Versions linguistiques de la page (référencement). #}
+        {% for locale, url in alternate_urls() %}
+            <link rel="alternate" hreflang="{{ locale }}" href="{{ absolute_url(url) }}">
+        {% endfor %}
+
+        <script type="application/ld+json">{{ schema_organization() }}</script>
+        {% block head_extra %}{% endblock %}
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphp_hot_reload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    {# Le contrôleur de recherche est porté par <body> : le lien d'évitement, le bouton d'en-tête
+       et le raccourci Ctrl/Cmd+K pilotent tous la même modale. #}
+    <body class="flex min-h-dvh flex-col"
+          data-controller="search-dialog"
+          data-action="keydown@window->search-dialog#shortcut turbo:before-cache@document->search-dialog#close">
+        {% block body %}
+            <twig:Layout:SkipLinks />
+            {% if preview|default(false) %}
+                {# Aperçu d'un contenu non publié (lien signé) : bandeau toujours visible, texte bleu nuit sur jaune (contraste AA). #}
+                <div role="status" class="bg-flag-yellow px-4 py-3 text-center text-small font-bold text-primary">{{ 'preview.banner'|trans }}</div>
+            {% endif %}
+            <twig:Layout:UtilityBar />
+            <twig:Layout:Header />
+
+            <main id="contenu" tabindex="-1" class="flex-1">
+                {% block content %}{% endblock %}
+            </main>
+
+            <twig:Layout:Footer />
+            <twig:Layout:SearchDialog />
+            {# Code de suivi d'audience saisi par le super administrateur (Paramètres du site) : absent tant qu'il n'est pas renseigné. #}
+            {% set audience_code = site_setting('analytics.code') %}
+            {% if audience_code and not preview|default(false) %}{{ audience_code|raw }}{% endif %}
+        {% endblock %}
+    </body>
+</html>

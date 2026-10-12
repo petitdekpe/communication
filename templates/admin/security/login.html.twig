@@ -1,0 +1,29 @@
+{% extends 'admin/security/base.html.twig' %}
+
+{% block title %}{{ 'admin.login.title'|trans }}{% endblock %}
+
+{% block auth_content %}
+    <h1 class="type-h2 text-primary">{{ 'admin.login.title'|trans }}</h1>
+
+    {% if error %}
+        {# Même message pour un identifiant inconnu, un mot de passe faux ou un compte désactivé. #}
+        <p role="alert" class="mt-4 rounded-card border-l-4 border-flag-red bg-white p-3 text-small font-semibold text-flag-red ring-1 ring-ink-muted/20">{{ 'admin.login.error'|trans }}</p>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_admin_login') }}" class="mt-6 grid gap-5" data-turbo="false">
+        <div class="grid gap-1">
+            <label for="email" class="text-small font-semibold text-ink">{{ 'admin.field.email'|trans }}</label>
+            <input id="email" name="email" type="email" value="{{ last_email }}" autocomplete="username" required autofocus
+                   class="min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+        </div>
+        <div class="grid gap-1">
+            <label for="password" class="text-small font-semibold text-ink">{{ 'admin.field.password'|trans }}</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required
+                   class="min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+        </div>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <button type="submit" class="btn btn-primary btn-lg">{{ 'admin.login.submit'|trans }}</button>
+    </form>
+
+    <p class="mt-6 text-small"><a href="{{ path('app_admin_forgot_password') }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.login.forgot'|trans }}</a></p>
+{% endblock %}

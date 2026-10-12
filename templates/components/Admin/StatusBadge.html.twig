@@ -1,0 +1,21 @@
+{#
+    Pastille de statut : publication (draft, in_review, published, archived), demande (received, in_review, approved,
+    rejected) ou abonnement (pending, confirmed, unsubscribed). Le texte est toujours affiché (jamais la couleur seule).
+    Contrastes WCAG AA : texte blanc uniquement sur vert, rouge ou gris foncé ; texte bleu nuit sur jaune.
+
+    <twig:Admin:StatusBadge kind="publication" status="published" />
+#}
+{% props kind = 'publication', status %}
+{% set classes = {
+    draft: 'bg-mist text-ink ring-1 ring-ink-muted ring-inset',
+    in_review: 'bg-flag-yellow text-primary',
+    published: 'bg-flag-green text-white',
+    archived: 'bg-ink-muted text-white',
+    received: 'bg-white text-primary ring-1 ring-primary ring-inset',
+    approved: 'bg-flag-green text-white',
+    rejected: 'bg-flag-red text-white',
+    pending: 'bg-flag-yellow text-primary',
+    confirmed: 'bg-flag-green text-white',
+    unsubscribed: 'bg-ink-muted text-white',
+} %}
+<span{{ attributes.defaults({class: 'badge ' ~ (classes[status] ?? 'bg-mist text-ink ring-1 ring-ink-muted ring-inset')}) }}>{{ ('admin.status.' ~ kind ~ '.' ~ status)|trans }}</span>

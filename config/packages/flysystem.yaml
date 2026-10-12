@@ -1,0 +1,30 @@
+# Stockage des fichiers : https://github.com/thephpleague/flysystem-bundle
+flysystem:
+    storages:
+        # Médias (images, documents officiels). Adaptateur local pointant, en production, sur le montage NFS.
+        media.storage:
+            adapter: 'local'
+            options:
+                directory: '%env(resolve:MEDIA_STORAGE_DIR)%'
+
+        # Pièces jointes des demandes (données personnelles) : stockage privé, hors de la racine web (public/).
+        # Aucune route ne sert ces fichiers ; en production, un montage NFS distinct de celui des médias.
+        private.storage:
+            adapter: 'local'
+            options:
+                directory: '%env(resolve:PRIVATE_STORAGE_DIR)%'
+                permissions:
+                    file: { public: 0o640, private: 0o640 }
+                    dir: { public: 0o750, private: 0o750 }
+
+when@test:
+    flysystem:
+        storages:
+            media.storage:
+                adapter: 'local'
+                options:
+                    directory: '%kernel.project_dir%/var/storage/media_test'
+            private.storage:
+                adapter: 'local'
+                options:
+                    directory: '%kernel.project_dir%/var/storage/private_test'

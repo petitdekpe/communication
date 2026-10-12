@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+<body style="margin:0;padding:24px;background:#f7f9fc;color:#1b1b1b;font-family:Montserrat,Arial,sans-serif;line-height:1.5">
+    <div style="max-width:560px;margin:0 auto;background:#ffffff;border-top:4px solid #008751;padding:24px">
+        <p style="margin:0 0 4px;font-size:14px;color:#475569">{{ 'site.name'|trans({}, null, locale) }}</p>
+        <h1 style="margin:0 0 16px;font-size:20px;color:#162233">{{ 'request.mail.title'|trans({}, null, locale) }}</h1>
+        <p>{{ 'request.mail.intro'|trans({service: serviceTitle}, null, locale) }}</p>
+        <p style="margin:24px 0;padding:16px;background:#f7f9fc;text-align:center">
+            <span style="display:block;font-size:14px;color:#475569">{{ 'request.done.number_label'|trans({}, null, locale) }}</span>
+            <strong style="font-size:22px;letter-spacing:1px;color:#162233">{{ trackingNumber }}</strong>
+        </p>
+        <p>{{ 'request.mail.how_to_track'|trans({}, null, locale) }}</p>
+        <p><a href="{{ url('app_tracking', {_locale: locale}) }}" style="color:#162233">{{ url('app_tracking', {_locale: locale}) }}</a></p>
+        <p style="margin-top:24px;font-size:14px;color:#475569">{{ 'request.mail.ignore'|trans({}, null, locale) }}</p>
+    </div>
+</body>
+</html>

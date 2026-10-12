@@ -1,0 +1,42 @@
+{% set link_class = 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-pill px-3 text-small font-semibold' %}
+
+{# Une seule page : rien à paginer, rien n'est rendu. #}
+{% if totalPages > 1 %}
+<nav{{ attributes.defaults({'aria-label': 'pagination.label'|trans}) }}>
+    <ul class="flex flex-wrap items-center gap-1">
+        {% if currentPage > 1 %}
+            <li>
+                <a href="{{ this.url(currentPage - 1) }}" rel="prev" class="{{ link_class }} text-primary hover:bg-mist">
+                    {{ ux_icon('ri:arrow-left-s-line', {class: 'size-5'}) }}
+                    <span class="sr-only">{{ 'pagination.page'|trans }} </span><span class="sr-only sm:not-sr-only">{{ 'pagination.previous'|trans }}</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% for page in this.pages %}
+            <li>
+                {% if page is null %}
+                    <span class="{{ link_class }} text-ink-muted" aria-hidden="true">…</span>
+                {% elseif page == currentPage %}
+                    <a href="{{ this.url(page) }}" aria-current="page" class="{{ link_class }} bg-primary text-white">
+                        <span class="sr-only">{{ 'pagination.page'|trans }} </span>{{ page }}
+                    </a>
+                {% else %}
+                    <a href="{{ this.url(page) }}" class="{{ link_class }} text-primary ring-1 ring-ink-muted/30 ring-inset hover:bg-mist">
+                        <span class="sr-only">{{ 'pagination.page'|trans }} </span>{{ page }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <li>
+                <a href="{{ this.url(currentPage + 1) }}" rel="next" class="{{ link_class }} text-primary hover:bg-mist">
+                    <span class="sr-only">{{ 'pagination.page'|trans }} </span><span class="sr-only sm:not-sr-only">{{ 'pagination.next'|trans }}</span>
+                    {{ ux_icon('ri:arrow-right-s-line', {class: 'size-5'}) }}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

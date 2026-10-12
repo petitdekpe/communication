@@ -1,0 +1,27 @@
+{#
+    Contenu de la fenêtre « Choisir un média » : images de la médiathèque (fragment HTML chargé par le contrôleur
+    Stimulus media-dialog). Chaque image est un bouton ; le nom du fichier et le texte alternatif servent de nom accessible.
+#}
+{% if medias is empty %}
+    <p class="rounded-card bg-mist p-4 text-ink-muted" data-media-dialog-empty>{{ (query ? 'page_editor.media.no_result' : 'page_editor.media.empty')|trans }}</p>
+{% else %}
+    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" role="list">
+        {% for media in medias %}
+            {% set alt = media.translate('fr').alt|default(media.originalFilename) %}
+            <li>
+                <button type="button" class="group grid w-full gap-1 rounded-card border border-transparent bg-white p-2 text-left ring-1 ring-ink-muted/30 hover:border-primary focus-visible:border-primary"
+                        data-action="media-dialog#choose" data-media-dialog-id-param="{{ media.id }}" data-media-dialog-name-param="{{ media.originalFilename }}" data-media-dialog-thumb-param="{{ media_image(media, 'thumb') }}">
+                    <img src="{{ media_image(media, 'thumb') }}" alt="" loading="lazy" class="aspect-4/3 w-full rounded-card bg-mist object-cover">
+                    <span class="truncate text-small font-semibold text-ink">{{ media.originalFilename }}</span>
+                    <span class="sr-only">{{ alt }}</span>
+                    {% if media.width and media.height %}<span class="text-caption text-ink-muted">{{ media.width }} × {{ media.height }}</span>{% endif %}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if more %}
+        <p class="mt-4 text-center">
+            <button type="button" class="btn btn-outline" data-action="media-dialog#more" data-media-dialog-page-param="{{ page + 1 }}">{{ 'page_editor.media.more'|trans }}</button>
+        </p>
+    {% endif %}
+{% endif %}

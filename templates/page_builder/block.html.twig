@@ -1,0 +1,7 @@
+{# Enveloppe d'un bloc : fond, espacement, largeur, ancre et visibilité viennent des réglages communs. #}
+{% set frame = block.frame %}
+<section{% if block.anchor %} id="{{ block.anchor }}"{% endif %} class="{{ frame.section }}" data-block="{{ block.type }}"{% if editing|default(false) %} data-pb-id="{{ block.id }}"{% endif %}>
+    <div class="{{ frame.inner }}">
+        {{ component(block.component, {data: block.data, locale: locale, id: block.id, dark: frame.dark}) }}
+    </div>
+</section>

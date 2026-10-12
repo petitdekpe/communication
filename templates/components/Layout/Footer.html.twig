@@ -1,0 +1,84 @@
+{# Pied de page bleu nuit : identité, coordonnées, colonnes de liens, réseaux sociaux, sites institutionnels, liens légaux. #}
+<footer class="surface-dark">
+    <div class="filet-tricolore" aria-hidden="true"></div>
+
+    <div class="container-site grid gap-10 py-12 lg:grid-cols-12 lg:gap-8 lg:py-16">
+        <div class="lg:col-span-4">
+            <twig:Layout:Identity inverse />
+
+            <h2 class="sr-only">{{ 'footer.contact_title'|trans }}</h2>
+            <address class="mt-6 space-y-1 text-small not-italic text-white/80">
+                <p>{{ 'footer.address'|trans({value: site_setting_or_pending('contact.address')}) }}</p>
+                <p>{{ 'footer.phone'|trans({value: site_setting_or_pending('contact.phone')}) }}</p>
+                <p>{{ 'footer.email'|trans({value: site_setting_or_pending('contact.email')}) }}</p>
+            </address>
+
+            <h2 class="mt-8 type-caption text-white">{{ 'footer.social_title'|trans }}</h2>
+            <ul class="mt-3 flex flex-wrap gap-3">
+                {% for network in this.social %}
+                    <li>
+                        <a href="{{ network.href }}"
+                           class="btn btn-icon border-white/40 text-white hover:bg-white hover:text-primary"
+                           {% if network.external %}rel="noopener"{% endif %}>
+                            {{ ux_icon(network.icon, {class: 'size-5'}) }}
+                            <span class="sr-only">{{ network.label|trans }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="grid gap-8 sm:grid-cols-3 lg:col-span-8">
+            {% for column in this.columns %}
+                <div>
+                    <h2 class="type-caption text-white">{{ column.label|trans }}</h2>
+                    <ul class="mt-4 space-y-3">
+                        {% for link in column.children %}
+                            <li>
+                                <a href="{{ link.href }}" class="text-small text-white/90 underline-offset-4 hover:text-white hover:underline">
+                                    {{ link.label|trans }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="border-t border-white/20">
+        <div class="container-site py-6">
+            <nav aria-label="{{ 'footer.institutional_label'|trans }}">
+                <ul class="flex flex-wrap gap-x-8 gap-y-3">
+                    {% for site in this.institutional %}
+                        <li>
+                            <a href="{{ site.href }}" class="inline-flex items-center gap-1 text-small font-semibold text-white underline-offset-4 hover:underline">
+                                {{ site.label|trans }}
+                                {{ ux_icon('ri:arrow-right-up-line', {class: 'size-4'}) }}
+                                <span class="sr-only">{{ 'footer.external_site'|trans }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="border-t border-white/20">
+        <div class="container-site flex flex-col gap-4 py-6 text-small lg:flex-row lg:items-center lg:justify-between">
+            <nav aria-label="{{ 'footer.legal_label'|trans }}">
+                <ul class="flex flex-wrap gap-x-6 gap-y-2">
+                    {% for link in this.legal %}
+                        <li>
+                            <a href="{{ link.href }}" class="text-white/90 underline-offset-4 hover:text-white hover:underline"
+                               {% if link.href == app.request.pathInfo %}aria-current="page"{% endif %}>
+                                {{ link.label|trans }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <p class="text-white/80">{{ 'footer.copyright'|trans({year: 'now'|date('Y')}) }}</p>
+        </div>
+    </div>
+</footer>

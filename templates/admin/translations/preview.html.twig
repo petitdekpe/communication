@@ -1,0 +1,57 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.translations.preview_title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-6xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_translations') }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.translations'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ 'admin.translations.preview_title'|trans }}</h1>
+
+        {% if preview.fileErrors is not empty %}
+            <div role="alert" class="mt-6 rounded-card border-l-4 border-flag-red bg-white p-4">
+                {% for error in preview.fileErrors %}<p class="font-semibold text-ink">{{ error|trans }}</p>{% endfor %}
+            </div>
+        {% else %}
+            <p class="mt-2 text-small text-ink-muted" role="status">{{ 'admin.translations.preview_summary'|trans({applicable: preview.applicable|length, total: preview.rows|length}) }}</p>
+
+            <div class="mt-6 overflow-x-auto rounded-card border border-ink-muted/30 bg-white">
+                <table class="w-full text-left text-small">
+                    <caption class="sr-only">{{ 'admin.translations.preview_title'|trans }}</caption>
+                    <thead class="bg-mist text-ink">
+                        <tr>
+                            <th scope="col" class="p-3">{{ 'admin.translations.col.content'|trans }}</th>
+                            <th scope="col" class="p-3">{{ 'admin.translations.col.field'|trans }}</th>
+                            <th scope="col" class="p-3">{{ 'admin.translations.col.current'|trans }}</th>
+                            <th scope="col" class="p-3">{{ 'admin.translations.col.proposed'|trans }}</th>
+                            <th scope="col" class="p-3">{{ 'admin.translations.col.result'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-ink-muted/15">
+                        {% for row in preview.rows %}
+                            <tr>
+                                <th scope="row" class="p-3 font-semibold text-ink" lang="fr">{{ row.title }}</th>
+                                <td class="p-3 font-mono text-ink">{{ row.field }}</td>
+                                <td class="max-w-xs whitespace-pre-line break-words p-3 text-ink-muted" lang="en">{{ row.current ?: '–' }}</td>
+                                <td class="max-w-xs whitespace-pre-line break-words p-3 text-ink" lang="en">{{ row.proposed }}</td>
+                                <td class="p-3 {{ row.error ? 'font-semibold text-flag-red' : 'text-ink' }}">{{ (row.error ?? 'admin.translations.ok')|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                {% if importId %}
+                    <form method="post" action="{{ path('app_admin_translations_confirm') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('admin_translations_confirm') }}">
+                        <input type="hidden" name="id" value="{{ importId }}">
+                        <button type="submit" class="btn btn-primary btn-lg">{{ 'admin.translations.apply'|trans({count: preview.applicable|length}) }}</button>
+                    </form>
+                {% endif %}
+                <a href="{{ path('app_admin_translations') }}" class="btn btn-outline btn-lg">{{ 'admin.confirm.cancel'|trans }}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

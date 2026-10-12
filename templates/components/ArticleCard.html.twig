@@ -1,0 +1,25 @@
+{# Ordre DOM : titre d'abord (lecteurs d'écran), puis métadonnées ; l'image et le badge sont remontés visuellement. #}
+<article{{ attributes.defaults({class: 'group relative flex flex-col overflow-hidden rounded-card bg-white shadow-card focus-within:shadow-raised'}) }}>
+    <div class="flex flex-1 flex-col gap-3 {{ featured ? 'p-6 lg:p-8' : 'p-5' }}">
+        <h{{ headingLevel }} class="font-display font-bold text-primary {{ featured ? 'text-h3 sm:text-h2' : 'text-h3' }}">
+            <a href="{{ href }}" class="underline-offset-4 group-hover:underline after:absolute after:inset-0">{{ title }}</a>
+        </h{{ headingLevel }}>
+
+        <div class="order-first flex flex-wrap items-center gap-3">
+            {% if category %}<twig:Badge :value="category" />{% endif %}
+            <time datetime="{{ date|date('Y-m-d') }}" class="text-small text-ink-muted">{{ date|format_date('long', locale: app.locale) }}</time>
+        </div>
+
+        {% if excerpt %}
+            <p class="{{ featured ? 'text-body text-ink' : 'line-clamp-3 text-small text-ink-muted' }}">{{ excerpt }}</p>
+        {% endif %}
+    </div>
+
+    <div class="order-first aspect-video bg-mist">
+        {% if image %}
+            <img src="{{ image starts with 'http' or image starts with '/' ? image : asset(image) }}"
+                 alt="{{ imageAlt }}" width="{{ featured ? 1280 : 640 }}" height="{{ featured ? 720 : 360 }}"{% if not featured %} loading="lazy"{% endif %}
+                 class="size-full object-cover">
+        {% endif %}
+    </div>
+</article>

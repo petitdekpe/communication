@@ -1,0 +1,13 @@
+{{ 'site.name'|trans({}, null, locale) }}
+
+{{ 'newsletter.mail.title'|trans({}, null, locale) }}
+
+{{ 'newsletter.mail.intro'|trans({}, null, locale) }}
+
+{{ 'newsletter.mail.confirm'|trans({}, null, locale) }} :
+{{ url('app_newsletter_confirm', {_locale: locale, token: confirmToken}) }}
+
+{{ 'newsletter.mail.ignore'|trans({}, null, locale) }}
+
+{{ 'newsletter.mail.unsubscribe'|trans({}, null, locale) }} :
+{{ url('app_newsletter_unsubscribe', {_locale: locale, token: unsubscribeToken}) }}

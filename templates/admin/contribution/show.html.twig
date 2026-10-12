@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.contribution.title'|trans({name: contribution.name}) }}{% endblock %}
+
+{% block content %}
+    {% set consultation_translation = contribution.consultation.translate(app.locale) %}
+    <div class="mx-auto max-w-4xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'contributions'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.contributions'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ contribution.name }}</h1>
+        <p class="mt-2 text-ink-muted" lang="{{ consultation_translation.locale }}">{{ consultation_translation.title }}</p>
+
+        <div class="mt-8 grid gap-6">
+            <twig:Admin:FormSection :title="'admin.contribution.data'|trans">
+                <dl class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.name'|trans }}</dt>
+                        <dd class="font-semibold text-ink">{{ contribution.name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.organization'|trans }}</dt>
+                        <dd class="font-semibold text-ink">{{ contribution.organization ?: '–' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.received'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ contribution.createdAt|date('c') }}">{{ contribution.createdAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.request.consented'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ contribution.consentedAt|date('c') }}">{{ contribution.consentedAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                </dl>
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.contribution.text'|trans">
+                <p class="whitespace-pre-line break-words text-ink">{{ contribution.text }}</p>
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.request.attachments'|trans">
+                {% if contribution.filePath %}
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <span class="min-w-0 break-all text-ink">{{ contribution.fileOriginalName }} <span class="text-small text-ink-muted">({{ contribution.fileMimeType }}, {{ (contribution.fileSize / 1024)|round }} Ko)</span></span>
+                        <a href="{{ path('app_admin_contribution_file', {id: contribution.id}) }}" class="btn btn-outline btn-sm" download>{{ 'ui.download'|trans }}<span class="sr-only"> : {{ contribution.fileOriginalName }}</span></a>
+                    </div>
+                {% else %}
+                    <p class="text-ink-muted">{{ 'admin.request.no_attachments'|trans }}</p>
+                {% endif %}
+            </twig:Admin:FormSection>
+        </div>
+    </div>
+{% endblock %}

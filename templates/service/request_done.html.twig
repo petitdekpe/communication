@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'request.done.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'services.title'|trans, href: path('app_services_index')},
+            {label: translation.title, href: path('app_service_show', {slug: translation.slug})},
+            {label: 'request.done.title'|trans},
+        ]" />
+
+        <div class="mt-8 max-w-3xl">
+            <h1 class="type-h1 text-primary">{{ 'request.done.title'|trans }}</h1>
+            <p class="mt-4 text-ink" lang="{{ translation.locale }}">{{ translation.title }}</p>
+
+            <div class="mt-8 rounded-card border-t-4 border-flag-green bg-mist p-6 shadow-card" role="status">
+                <p class="text-small text-ink-muted">{{ 'request.done.number_label'|trans }}</p>
+                <p class="mt-1 break-all font-mono text-h2 font-bold text-primary" data-testid="tracking-number">{{ trackingNumber }}</p>
+                <p class="mt-4 text-ink">{{ 'request.done.keep'|trans }}</p>
+            </div>
+
+            <p class="mt-6 text-ink">{{ 'request.done.email'|trans }}</p>
+            <p class="mt-2 text-ink-muted">{{ 'request.done.tracking_hint'|trans }}</p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+                <twig:Button :label="'request.done.track'|trans" :href="path('app_tracking')" icon="ri:arrow-right-line" iconPosition="end" />
+                <a href="{{ path('app_services_index') }}" class="btn btn-outline">{{ 'request.done.back'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

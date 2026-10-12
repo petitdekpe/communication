@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.resource.settings'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-3xl">
+        <h1 class="type-h1 text-primary">{{ 'admin.resource.settings'|trans }}</h1>
+        <p class="mt-2 text-small text-ink-muted">{{ 'admin.settings.intro'|trans }}</p>
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-controller': 'form-errors'}}) }}
+            {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+            <twig:Admin:FormSection :title="'admin.settings.section.contact'|trans" :description="'admin.settings.section.contact_help'|trans">
+                {{ form_row(form.address) }}
+                {{ form_row(form.phone) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.supportPhone) }}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.settings.section.social'|trans" :description="'admin.settings.section.social_help'|trans">
+                {{ form_row(form.facebook) }}
+                {{ form_row(form.x) }}
+                {{ form_row(form.youtube) }}
+                {{ form_row(form.linkedin) }}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.settings.section.notice'|trans" :description="'admin.settings.section.notice_help'|trans">
+                {{ form_row(form.noticeFr) }}
+                {{ form_row(form.noticeEn) }}
+                {{ form_row(form.noticeLink) }}
+                <div class="grid gap-6 sm:grid-cols-2">
+                    {{ form_row(form.noticeStartsAt) }}
+                    {{ form_row(form.noticeEndsAt) }}
+                </div>
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.settings.section.analytics'|trans" :description="'admin.settings.section.analytics_help'|trans">
+                {{ form_row(form.analyticsCode) }}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.settings.section.retention'|trans" :description="'admin.settings.section.retention_help'|trans">
+                {{ form_row(form.retentionRequests) }}
+                {{ form_row(form.retentionContributions) }}
+                {{ form_row(form.retentionSubscribers) }}
+            </twig:Admin:FormSection>
+
+            {{ form_rest(form) }}
+            <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+{% endblock %}

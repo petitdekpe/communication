@@ -1,0 +1,28 @@
+{#
+    Récapitulatif des erreurs en tête de formulaire : une ligne par erreur, avec un lien vers le champ concerné
+    (y compris dans les sous-formulaires, comme les onglets de langue).
+    Le bloc est annoncé (role="alert") et reçoit le focus par le contrôleur Stimulus form-errors.
+    Variable : form (formulaire racine).
+#}
+{% macro collect(view) %}
+    {% for child in view %}
+        {% for error in child.vars.errors %}
+            <li><a href="#{{ child.vars.id }}" class="font-semibold text-primary underline underline-offset-4 hover:no-underline">{{ error.message }}</a></li>
+        {% endfor %}
+        {% if child|length > 0 %}{{ _self.collect(child) }}{% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% set field_html %}{{ _self.collect(form) }}{% endset %}
+
+{% if form.vars.errors|length > 0 or field_html|trim is not empty %}
+    <div role="alert" tabindex="-1" data-form-errors-target="summary" class="rounded-card border-l-4 border-flag-red bg-white p-4 shadow-card">
+        <h2 class="type-h3 text-flag-red">{{ 'request.error.summary_title'|trans }}</h2>
+        <ul class="mt-2 grid gap-1 text-small text-ink" role="list">
+            {% for error in form.vars.errors %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+            {{ field_html }}
+        </ul>
+    </div>
+{% endif %}

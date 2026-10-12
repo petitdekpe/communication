@@ -1,0 +1,93 @@
+{#
+    Thème des formulaires du portail : Tailwind, champs en pastille, erreurs reliées aux champs.
+    Symfony 7.4 ajoute déjà aria-describedby (aide et erreurs) et aria-invalid ; ce thème n'ajoute que la mise en forme.
+    Les messages d'erreur arrivent déjà traduits (domaine « validators » pour les contraintes).
+#}
+{% extends 'form_div_layout.html.twig' %}
+
+{%- block form_row_render -%}
+    <div{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' grid gap-1')|trim})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_help(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row_render -%}
+
+{%- block checkbox_row -%}
+    {%- set attr = {} -%}
+    {%- set aria_describedby = [] -%}
+    {%- if help -%}
+        {%- set aria_describedby = aria_describedby|merge([id ~ '_help']) -%}
+    {%- endif -%}
+    {%- if errors|length > 0 -%}
+        {%- set aria_describedby = aria_describedby|merge(errors|map((_, index) => id ~ '_error' ~ (index + 1))) -%}
+        {%- set attr = attr|merge({'aria-invalid': 'true'}) -%}
+    {%- endif -%}
+    {%- if aria_describedby|length > 0 -%}
+        {%- set attr = attr|merge({'aria-describedby': aria_describedby|join(' ')}) -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' grid gap-1')|trim})} %}{{ block('attributes') }}{% endwith %}>
+        <div class="flex items-start gap-3">
+            {{- form_widget(form, {attr: attr|merge({class: 'mt-1 size-5 shrink-0 accent-primary'})}) -}}
+            {{- form_label(form, null, {label_attr: {class: 'text-small text-ink'}}) -}}
+        </div>
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
+
+{# Piège à robots : hors écran, inerte (ni focus, ni lecture vocale, ni clic). Voir App\Form\HoneypotType. #}
+{%- block honeypot_row -%}
+    <div class="absolute -left-[9999px] h-px w-px overflow-hidden" inert>
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock honeypot_row -%}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({for: id}) %}
+        {%- endif -%}
+        {% set label_attr = label_attr|merge({class: (label_attr.class|default('text-small font-semibold text-ink'))|trim}) %}
+        <{{ element|default('label') }}{% with {attr: label_attr} %}{{ block('attributes') }}{% endwith %}>
+            {{- block('form_label_content') -}}
+            {%- if required %} <span aria-hidden="true" class="text-flag-red">*</span>{% endif -%}
+        </{{ element|default('label') }}>
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{%- block form_help -%}
+    {%- if help -%}
+        <{{ element|default('p') }} id="{{ id }}_help" class="text-small text-ink-muted">
+            {{- block('form_help_content') -}}
+        </{{ element|default('p') }}>
+    {%- endif -%}
+{%- endblock form_help -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul class="grid gap-1 text-small font-semibold text-flag-red" role="{{ form is rootform ? 'alert' : 'list' }}">
+            {%- for error in errors -%}
+                <li id="{{ id ~ '_error' ~ loop.index }}" class="flex items-start gap-2">
+                    {{ ux_icon('ri:error-warning-line', {class: 'mt-0.5 size-4 shrink-0'}) }}
+                    <span>{{ error.message }}</span>
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {%- set required = false -%}
+    {%- endif -%}
+    {%- if type == 'file' -%}
+        {%- set attr = attr|merge({class: 'block w-full rounded-card border border-ink-muted bg-white p-2 text-small text-ink file:mr-3 file:cursor-pointer file:rounded-pill file:border-0 file:bg-primary file:px-4 file:py-2 file:font-semibold file:text-white'}) -%}
+    {%- else -%}
+        {%- set attr = attr|merge({class: 'min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink aria-[invalid=true]:border-flag-red'}) -%}
+    {%- endif -%}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
