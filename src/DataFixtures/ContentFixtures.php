@@ -20,6 +20,7 @@ use App\Factory\CategoryFactory;
 use App\Factory\SettingFactory;
 use App\Factory\TagFactory;
 use App\Home\HomeSettings;
+use App\Settings\SiteSettings;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,8 @@ use Doctrine\Persistence\ObjectManager;
 
 /**
  * Contenu éditorial réel, repris de sources publiques citées dans chaque article (gouv.bj, presse béninoise).
- * Aucune coordonnée, aucun chiffre ni délai n'est ajouté tant qu'une source officielle ne les fournit pas.
+ * Aucun chiffre ni délai n'est ajouté tant qu'une source officielle ne le fournit pas ; les pages et les coordonnées
+ * viennent du document éditorial officiel (octobre 2026), ce qu'il laisse à renseigner reste un marqueur [À VALIDER].
  *
  * Avant de charger le contenu réel, les données de démonstration (toute ligne dont un texte contient « [À VALIDER] »)
  * sont supprimées ; le contenu saisi dans l'administration, les comptes et la page d'accueil sont conservés.
@@ -51,9 +53,11 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
     {
         $this->purgeDemo($manager);
 
-        $governance = $this->category(0, 'Gouvernement et nominations', 'Government and appointments', 'Nominations et organisation du ministère.', 'Appointments and organisation of the ministry.');
-        $dialogue = $this->category(1, 'Concertations avec le secteur', 'Consultations with the sector', 'Rencontres avec les organisations professionnelles des médias.', 'Meetings with the media professional organisations.');
-        $regulation = $this->category(2, 'Régulation des médias', 'Media regulation', 'Actualité de la Haute Autorité de l\'Audiovisuel et de la Communication (HAAC).', 'News from the High Authority for Audiovisual and Communication (HAAC).');
+        // Rubriques d'actualités du document éditorial : Vie du Ministère, Médias et communication, Projets, Avis et annonces.
+        $life = $this->category(0, 'Vie du Ministère', 'Ministry life', 'Réunions, audiences, visites, rencontres et activités institutionnelles.', 'Meetings, audiences, visits and institutional activities.');
+        $mediaNews = $this->category(1, 'Médias et communication', 'Media and communication', 'Actualités du secteur et initiatives concernant les professionnels.', 'Sector news and initiatives concerning professionals.');
+        $this->category(2, 'Projets', 'Projects', 'Avancement des projets et principales étapes de leur mise en œuvre.', 'Project progress and main implementation milestones.');
+        $this->category(3, 'Avis et annonces', 'Notices and announcements', 'Informations administratives et annonces destinées aux citoyens et aux professionnels.', 'Administrative information and announcements for citizens and professionals.');
 
         $media = $this->tag('Médias', 'Media');
         $haac = $this->tag('HAAC', 'HAAC');
@@ -64,7 +68,7 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->article(
             ArticleType::Dossier,
             '2026-05-24 12:00',
-            $governance,
+            $life,
             [$media, $appointments],
             true,
             [
@@ -90,7 +94,7 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->article(
             ArticleType::Actualite,
             '2026-07-05 07:03',
-            $dialogue,
+            $life,
             [$media, $consultation],
             false,
             [
@@ -116,7 +120,7 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->article(
             ArticleType::Actualite,
             '2026-09-17 12:00',
-            $dialogue,
+            $life,
             [$media, $haac, $consultation],
             false,
             [
@@ -140,7 +144,7 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->article(
             ArticleType::Actualite,
             '2026-10-01 12:00',
-            $regulation,
+            $mediaNews,
             [$media, $haac, $online],
             false,
             [
@@ -164,7 +168,7 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->article(
             ArticleType::Communique,
             '2026-10-07 18:00',
-            $governance,
+            $life,
             [$appointments],
             false,
             [
@@ -189,16 +193,19 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $this->services($manager);
         $this->pages($manager);
 
-        // Page d'accueil : textes tirés de la vision officielle citée par gouv.bj.
-        $this->removeSettings($manager, [HomeSettings::HERO_TITLE, HomeSettings::HERO_LEAD]);
+        // Page d'accueil et coordonnées : textes du document éditorial officiel.
+        $this->removeSettings($manager, [HomeSettings::HERO_TITLE, HomeSettings::HERO_LEAD, SiteSettings::CONTACT_ADDRESS, SiteSettings::CONTACT_PHONE, SiteSettings::CONTACT_EMAIL]);
         SettingFactory::createOne(['name' => HomeSettings::HERO_TITLE, 'values' => [
-            'fr' => 'Bâtir un écosystème de médias fiables au service du Bénin',
-            'en' => 'Building an ecosystem of reliable media in service of Benin',
+            'fr' => 'Des médias professionnels. Des contenus de qualité. Une communication au service des citoyens.',
+            'en' => 'Professional media. Quality content. Communication in the service of citizens.',
         ]]);
         SettingFactory::createOne(['name' => HomeSettings::HERO_LEAD, 'values' => [
-            'fr' => 'Le Ministère de la Communication, en charge des Médias, accompagne les professionnels des médias et informe les citoyens.',
-            'en' => 'The Ministry of Communication, in charge of Media, supports media professionals and informs citizens.',
+            'fr' => 'Le secteur des médias et de la communication évolue rapidement. Le Ministère accompagne cette transformation en agissant sur la qualité de l’information, la professionnalisation des acteurs, le développement des contenus, la transformation des médias de service public et l’adaptation du secteur aux nouveaux usages.',
+            'en' => 'The media and communication sector is changing fast. The Ministry supports this transformation by working on the quality of information, the professionalisation of stakeholders, content development, the transformation of public service media and the sector’s adaptation to new uses.',
         ]]);
+        SettingFactory::createOne(['name' => SiteSettings::CONTACT_ADDRESS, 'values' => ['fr' => '01 BP 120 Cotonou, Bénin', 'en' => '01 BP 120 Cotonou, Benin']]);
+        SettingFactory::createOne(['name' => SiteSettings::CONTACT_PHONE, 'values' => ['fr' => '+229 01 21 35 80 66', 'en' => '+229 01 21 35 80 66']]);
+        SettingFactory::createOne(['name' => SiteSettings::CONTACT_EMAIL, 'values' => ['fr' => 'mc.contact@gouv.bj', 'en' => 'mc.contact@gouv.bj']]);
     }
 
     /** Supprime les lignes de démonstration (texte contenant le marqueur), */
@@ -342,38 +349,50 @@ final class ContentFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
     }
 
-    /** Pages « Le ministère », « Missions » et « Organisation », rédigées à partir des seules sources citées. */
+    /**
+     * Pages du document éditorial (voir EditorialPages). Les pages de même chemin déjà en base sont remplacées,
+     * pour que le chargement reste rejouable.
+     */
     private function pages(ObjectManager $manager): void
     {
-        $ministry = $this->page($manager, null, 0, [
-            'fr' => ['Le ministère', '<p>Le Ministère de la Communication, en charge des Médias, a été recréé lors de la formation du premier gouvernement du Président Romuald Wadagni, le 24 mai 2026. Il est dirigé par Aurélie Adam Soulé Zoumarou, ministre de la Communication, en charge des Médias.</p><p>Il met en œuvre la vision du Chef de l\'État : bâtir un écosystème de médias fiables et de production de contenus qui valorisent le Bénin.</p>'],
-            'en' => ['The ministry', '<p>The Ministry of Communication, in charge of Media, was re-established when President Romuald Wadagni\'s first government was formed on 24 May 2026. It is headed by Aurélie Adam Soulé Zoumarou, Minister of Communication, in charge of Media.</p><p>It carries out the Head of State\'s vision: building an ecosystem of reliable media and content production that showcases Benin.</p>'],
-        ]);
-        $this->page($manager, $ministry, 0, [
-            'fr' => ['Missions', '<p>Le ministère s\'appuie sur la vision du Président Romuald Wadagni, qui vise un environnement médiatique « professionnel, viable, innovant et davantage au service du développement ».</p><p>Depuis le 3 juillet 2026, la ministre mène des concertations avec le CNPA, l\'UPMB et l\'ODEM, puis avec la HAAC, les radios, les télévisions, les agences de communication et les créateurs de contenus, afin d\'examiner les mutations du paysage médiatique et de recueillir les contributions des acteurs.</p>'],
-            'en' => ['Missions', '<p>The ministry builds on President Romuald Wadagni\'s vision of a media environment that is "professional, viable, innovative and more in service of development".</p><p>Since 3 July 2026, the Minister has held consultations with the CNPA, the UPMB and the ODEM, then with the HAAC, radio and television stations, communication agencies and content creators, to review changes in the media landscape and gather stakeholders\' contributions.</p>'],
-        ]);
-        $this->page($manager, $ministry, 1, [
-            'fr' => ['Organisation', '<p>Le Conseil des ministres du 7 octobre 2026 a nommé les responsables suivants au Ministère de la Communication, en charge des Médias :</p><ul><li>Directeur de cabinet : Djabirou Amadou ;</li><li>Secrétaire général : Marius Atayi Guedegbe ;</li><li>Inspecteur général : Eugène Alley ;</li><li>Directeur de l\'information et de la communication : Rémy Oke ;</li><li>Directeur du développement des médias : Ghislain Foundohou ;</li><li>Conseillers techniques : Amos Bankole, Appolinaire Gbaguidi, Fadil Moussougan et Léonce Yenoukoumè Akpolgan.</li></ul>'],
-            'en' => ['Organisation', '<p>The Council of Ministers of 7 October 2026 appointed the following officials at the Ministry of Communication, in charge of Media:</p><ul><li>Director of the Minister\'s Office: Djabirou Amadou;</li><li>Secretary General: Marius Atayi Guedegbe;</li><li>Inspector General: Eugène Alley;</li><li>Director of Information and Communication: Rémy Oke;</li><li>Director of Media Development: Ghislain Foundohou;</li><li>Technical advisers: Amos Bankole, Appolinaire Gbaguidi, Fadil Moussougan and Léonce Yenoukoumè Akpolgan.</li></ul>'],
-        ]);
-    }
-
-    /** @param array<string, array{0: string, 1: string}> $texts */
-    private function page(ObjectManager $manager, ?Page $parent, int $position, array $texts): Page
-    {
-        $page = (new Page())
-            ->setParent($parent)
-            ->setPosition($position)
-            ->setStatus(PublicationStatus::Published)
-            ->setPublishedAt(new \DateTimeImmutable('2026-10-08 08:00'));
-        foreach ($texts as $locale => [$title, $body]) {
-            $page->addTranslation((new PageTranslation())->setLocale($locale)->setTitle($title)->setBody($body));
+        $definitions = EditorialPages::all();
+        $slugs = [];
+        foreach ($definitions as $definition) {
+            foreach (['fr', 'en'] as $locale) {
+                $slugs[] = $definition[$locale]['slug'];
+            }
         }
-        $manager->persist($page);
+
+        $stale = $this->entityManager->createQuery('SELECT IDENTITY(t.translatable) FROM App\Entity\PageTranslation t WHERE t.slug IN (:slugs)')
+            ->setParameter('slugs', array_unique([...$slugs, 'nos-priorites', 'our-priorities']))
+            ->getSingleColumnResult();
+        foreach (array_unique($stale) as $id) {
+            $existing = $manager->find(Page::class, $id);
+            if ($existing instanceof Page && !$existing->isHome()) {
+                $manager->remove($existing);
+            }
+        }
         $manager->flush();
 
-        return $page;
+        /** @var array<string, Page> $created */
+        $created = [];
+        foreach ($definitions as $position => $definition) {
+            $page = (new Page())
+                ->setParent(null === $definition['parent'] ? null : $created[$definition['parent']])
+                ->setPosition($position)
+                ->setStatus(PublicationStatus::Published)
+                ->setPublishedAt(new \DateTimeImmutable('2026-10-12 08:00'));
+            foreach (['fr', 'en'] as $locale) {
+                $page->addTranslation((new PageTranslation())
+                    ->setLocale($locale)
+                    ->setTitle($definition[$locale]['title'])
+                    ->setSlug($definition[$locale]['slug'])
+                    ->setBody($definition[$locale]['body']));
+            }
+            $manager->persist($page);
+            $manager->flush();
+            $created[$definition['key']] = $page;
+        }
     }
 
     private function category(int $position, string $fr, string $en, string $descriptionFr, string $descriptionEn): Category

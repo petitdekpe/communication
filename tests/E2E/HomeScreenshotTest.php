@@ -41,7 +41,7 @@ final class HomeScreenshotTest extends PantherTestCase
         $this->waitForFonts($client);
 
         self::assertLessThanOrEqual($width, $client->executeScript('return document.documentElement.scrollWidth;'), 'Pas de débordement horizontal');
-        self::assertSame(10, $client->executeScript('return document.querySelectorAll("main > *").length;'), 'Les 10 blocs de la page sont présents');
+        self::assertSame(15, $client->executeScript('return document.querySelectorAll("main > *").length;'), 'Les 15 blocs de la page sont présents');
 
         // Fenêtre agrandie à la hauteur du document : la capture couvre toute la page.
         $height = $client->executeScript('return Math.ceil(document.documentElement.scrollHeight);');

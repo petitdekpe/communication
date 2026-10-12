@@ -31,9 +31,14 @@ menu:
     ministry:
         label: 'The ministry'
         overview: 'Overview'
+        minister: 'The Minister'
         missions: 'Missions and responsibilities'
         organisation: 'Organisation'
         agencies: 'Supervised bodies'
+    action:
+        label: 'Our work'
+        actions: 'Our actions'
+        fields: 'Fields of intervention'
     services:
         label: 'Services and procedures'
         all: 'All procedures'
@@ -47,10 +52,21 @@ menu:
         press_releases: 'Press releases'
         agenda: 'Agenda'
         consultations: 'Consultations'
+    press:
+        label: 'Media room'
+        accreditation: 'Accreditation'
+    media_library:
+        label: 'Media library'
+    resources:
+        label: 'Resources'
+    understand:
+        label: 'Understanding the media'
+    professionals:
+        label: 'Professionals'
     documents:
-        label: 'Documents'
+        label: 'Documentation'
     projects:
-        label: 'Projects and reforms'
+        label: 'Programmes and projects'
     data:
         label: 'Data'
         key_figures: 'Key figures'
@@ -58,22 +74,27 @@ menu:
     contact:
         label: 'Contact'
     utility:
-        press: 'Press room'
+        press: 'Media room'
         open_data: 'Open data'
         agenda: 'Agenda'
     footer:
         resources: 'Resources'
+        media: 'Media and professionals'
+        services: 'Services'
     social:
         facebook: 'Facebook'
         x: 'X (formerly Twitter)'
         youtube: 'YouTube'
         linkedin: 'LinkedIn'
     institutional:
-        gouv: 'gouv.bj'
-        presidence: 'presidence.bj'
-        service_public: 'service-public.bj'
+        gouv: 'Government of Benin'
+        presidence: 'Presidency of the Republic'
+        sgg: 'General Secretariat of the Government'
+        bodies: 'Sector bodies and organisations'
     legal:
         notice: 'Legal notice'
+        privacy: 'Privacy policy'
+        cookies: 'Cookie policy'
         accessibility: 'Accessibility'
         sitemap: 'Sitemap'
 
@@ -111,10 +132,17 @@ footer:
     legal_label: 'Legal information'
     copyright: '© Republic of Benin {year}'
 
+page:
+    consult: 'View'
+    minister:
+        photo_alt: 'Portrait of Ms Aurélie Adam Soulé Zoumarou, Minister of Communication, in charge of Media'
+
 home:
     hero:
         kicker: 'Official government portal'
         read: 'Read the article'
+        discover: 'Discover the Ministry'
+        projects: 'See our projects'
     search:
         label: 'Search for a procedure, an official text or news'
         submit: 'Search'
@@ -124,6 +152,75 @@ home:
         official_texts: 'Official texts'
         tnt: 'Digital terrestrial TV'
         sector_data: 'Sector data'
+    cap:
+        kicker: 'Our direction'
+        title: 'Supporting the transformation of the sector'
+        p1: 'Benin has a media and communication sector undergoing rapid change.'
+        p2: 'The press, radio, television, online media, audiovisual, content production, public communication and new digital uses now make up an increasingly diverse professional environment.'
+        p3: 'Our role is to support this change, to help structure the sector and to create the conditions needed for its development.'
+        p4: 'This involves, in particular, the quality and reliability of information, skills development, the evolution of the regulatory framework, digital transformation, the development of content in local languages and support for new professions.'
+        cta: 'Discover our priorities'
+    priorities:
+        kicker: 'Our priorities'
+        title: 'The priorities that guide our work'
+        outro: 'These orientations are in line with the ambitions of the 2026-2033 programme for the media: reliable media, content that promotes Benin, the transformation of public audiovisual, training, media literacy and the development of content creation.'
+        item: 'Priority {number}'
+        items:
+            1:
+                title: 'Quality and reliability of information'
+                text: 'Strengthen the conditions for professional, verified, contextualised and accessible information.'
+            2:
+                title: 'Professionalisation of stakeholders'
+                text: 'Develop skills and support the evolution of the professions of journalism, the press, audiovisual and communication.'
+            3:
+                title: 'Public service media'
+                text: 'Support the transformation of public service media, their content, their tools and their distribution methods.'
+            4:
+                title: 'Media and information literacy'
+                text: 'Give citizens, particularly young people, the means to better understand the media, the content they consult and the information in circulation.'
+            5:
+                title: 'Content and local languages'
+                text: 'Encourage the development of content that reflects the linguistic and cultural diversity of Benin.'
+            6:
+                title: 'Digital transformation'
+                text: 'Adapt infrastructure, professional practices and production and distribution methods to new uses.'
+            7:
+                title: 'Digital creation'
+                text: 'Support the emergence of new activities linked to the creation and production of digital content.'
+            8:
+                title: 'Public communication'
+                text: 'Contribute to public communication that is accessible, structured and tailored to citizens’ expectations.'
+    projects:
+        kicker: 'Our projects'
+        title: 'Projects to move the sector forward'
+        intro: 'The Ministry turns its priorities into concrete programmes and projects. Projects under way or in preparation include:'
+        cta: 'Discover all projects'
+        items:
+            1: 'the Digital Register of Beninese Media'
+            2: 'strengthening the institutional framework and the administrative and financial governance of rural and community radio stations'
+            3: 'the mapping of social media communities in local languages'
+            4: 'strengthening journalists’ English-language skills'
+            5: 'preparing the 2027 Regional Conference on digital terrestrial broadcasting (DTT)'
+            6: 'the evolution of the legislative and regulatory framework for communication and the media'
+            7: 'the acquisition of content for public service media'
+            8: 'hosting and storing the content of digital channels on the National Data Center'
+            9: 'audiovisual production in local languages as part of government communication'
+            10: 'thematic workshops with media stakeholders'
+    understand:
+        kicker: 'Understanding the media'
+        title: 'Understanding the media better'
+        text: 'The media are changing. Formats evolve, platforms multiply and new players appear. This space offers simple content to better understand how the media work, journalistic work, new digital uses and good practice when dealing with information.'
+        cta: 'Go to the learning space'
+    library:
+        kicker: 'Media library'
+        title: 'Images, videos and archives'
+        text: 'Find the Ministry’s photographs, videos, podcasts, interviews and archives.'
+        cta: 'See the media library'
+    paths:
+        ministry: 'the-ministry'
+        projects: 'programmes-and-projects'
+        understand: 'understanding-the-media'
+        media_room: 'media-room'
     featured:
         title: 'Top story'
     press_releases:
@@ -135,11 +232,13 @@ home:
         see_all: 'See all procedures'
     news:
         kicker: 'Ministry updates'
-        title: 'News'
+        title: 'Headlines'
+        lead: 'Find the Ministry’s main activities, decisions and initiatives, meetings with sector stakeholders, project progress and useful information for professionals and citizens.'
         see_all: 'All news'
     documents:
-        title: 'Official documents'
-        see_all: 'All documents'
+        title: 'The Ministry’s resources'
+        lead: 'Laws, decrees, orders, reports, studies, guides, reference frameworks and publications.'
+        see_all: 'Browse the documentation'
         empty: 'No documents published yet.'
     agenda:
         title: 'Agenda'
@@ -156,8 +255,9 @@ home:
         all: 'All consultations'
     press:
         kicker: 'Journalists and media'
-        title: 'Press room'
-        see_all: 'Go to the press room'
+        title: 'Media room'
+        lead: 'Press releases, press kits, speeches, agenda, photographic and audiovisual resources: find the information needed to cover the Ministry’s activities.'
+        see_all: 'Go to the media room'
         open: 'Open'
         cards:
             accreditation:
@@ -530,6 +630,21 @@ consultation:
         file: 'Attached file (optional)'
         file_help: 'PDF or JPG file, 5 MB maximum.'
         consent: 'I agree that my personal data (name, organisation, text and file) is processed to analyse this consultation.'
+
+contact:
+    title: 'Contact us'
+    form:
+        title: 'Your request'
+        intro: 'A question, a request for information, a professional enquiry? Write to us: your message is passed on to the Ministry''s services.'
+        submit: 'Send my request'
+    field:
+        name: 'Full name'
+        email: 'Email address'
+        phone: 'Telephone'
+        subject: 'Subject'
+        message: 'Message'
+        consent: 'I agree that the information entered may be used to process my request.'
+    thanks: 'Thank you, your request has been sent. The Ministry''s services will reply.'
 
 newsletter:
     title: 'Newsletter'

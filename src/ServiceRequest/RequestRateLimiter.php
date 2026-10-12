@@ -11,7 +11,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 /**
  * Limite par adresse IP (fenêtre glissante) : envois de formulaire de démarche, consultations du suivi,
- * contributions aux consultations et inscriptions à la lettre d'information.
+ * contributions aux consultations, messages de contact et inscriptions à la lettre d'information.
  * Chaque tentative compte, valide ou non : c'est ce qui freine le sondage de numéros de suivi.
  */
 final class RequestRateLimiter
@@ -25,6 +25,8 @@ final class RequestRateLimiter
         private readonly RateLimiterFactory $contributionLimiter,
         #[Autowire(service: 'limiter.newsletter_subscribe')]
         private readonly RateLimiterFactory $newsletterLimiter,
+        #[Autowire(service: 'limiter.contact_message')]
+        private readonly RateLimiterFactory $contactLimiter,
     ) {
     }
 
@@ -46,6 +48,11 @@ final class RequestRateLimiter
     public function consumeNewsletter(Request $request): RateLimit
     {
         return $this->newsletterLimiter->create($this->key($request))->consume();
+    }
+
+    public function consumeContact(Request $request): RateLimit
+    {
+        return $this->contactLimiter->create($this->key($request))->consume();
     }
 
     private function key(Request $request): string

@@ -248,6 +248,21 @@
     .prose-article h3 {
         margin-top: 1.5rem;
     }
+
+    /* Section de page éditoriale présentée en carte : filet tricolore, titre collé en haut. */
+    .prose-card {
+        max-width: none;
+        border-top: 4px solid var(--color-flag-green);
+    }
+    .prose-card:nth-child(3n + 2) {
+        border-top-color: var(--color-flag-yellow);
+    }
+    .prose-card:nth-child(3n) {
+        border-top-color: var(--color-flag-red);
+    }
+    .prose-card > h2 {
+        margin-top: 0;
+    }
     .prose-article ul,
     .prose-article ol {
         padding-left: 1.5rem;

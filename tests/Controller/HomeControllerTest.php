@@ -39,14 +39,14 @@ final class HomeControllerTest extends WebTestCase
 
         $main = $crawler->filter('main#contenu');
         self::assertSame(
-            ['À la une', 'Communiqués récents', 'Services prioritaires', 'Actualités', 'Documents officiels', 'Agenda', 'Chiffres clés', 'Espace presse', 'Lettre d\'information'],
+            ['Accompagner la transformation du secteur', 'Des projets pour faire évoluer le secteur', 'Communiqués récents', 'Services prioritaires', 'À la une', 'Les ressources du Ministère', 'Agenda', 'Chiffres clés', 'Mieux comprendre les médias', 'Espace médias', 'Images, vidéos et archives', 'Lettre d\'information'],
             array_values(array_filter(
                 $main->filter('h2')->each(static fn ($h2): string => trim($h2->text())),
                 static fn (string $title): bool => !str_starts_with($title, '[À VALIDER]'), // consultation (base de données)
             )),
             'Sections de la page d\'accueil, dans l\'ordre',
         );
-        self::assertCount(1, $crawler->filter('main form[role="search"] input[name="q"]'), 'Recherche dans l\'ouverture');
+        self::assertCount(0, $crawler->filter('main form[role="search"]'), 'Pas de recherche dans l\'ouverture');
         self::assertCount(1, $crawler->filter('main form[method="post"][action="/fr/lettre-information"] input[name="newsletter[email]"]'), 'Formulaire relié à l\'inscription avec double opt-in');
     }
 

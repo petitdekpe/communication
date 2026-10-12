@@ -62,20 +62,19 @@ final class MenuProvider
             'path' => ['fr' => 'le-ministere', 'en' => 'the-ministry'],
             'children' => [
                 ['label' => 'menu.ministry.overview', 'path' => ['fr' => 'le-ministere', 'en' => 'the-ministry']],
+                ['label' => 'menu.ministry.minister', 'path' => ['fr' => 'la-ministre', 'en' => 'the-minister']],
                 ['label' => 'menu.ministry.missions', 'path' => ['fr' => 'le-ministere/missions', 'en' => 'the-ministry/missions']],
                 ['label' => 'menu.ministry.organisation', 'path' => ['fr' => 'le-ministere/organisation', 'en' => 'the-ministry/organisation']],
                 ['label' => 'menu.ministry.agencies', 'path' => ['fr' => 'le-ministere/structures-sous-tutelle', 'en' => 'the-ministry/supervised-bodies']],
             ],
         ],
         [
-            'label' => 'menu.services.label',
-            'path' => ['fr' => 'demarches', 'en' => 'services'],
+            'label' => 'menu.action.label',
+            'path' => ['fr' => 'nos-actions', 'en' => 'our-actions'],
             'children' => [
-                ['label' => 'menu.services.all', 'path' => ['fr' => 'demarches', 'en' => 'services']],
-                ['label' => 'menu.services.journalists', 'path' => ['fr' => 'demarches?public=journalistes', 'en' => 'services?public=journalistes']],
-                ['label' => 'menu.services.media', 'path' => ['fr' => 'demarches?public=medias', 'en' => 'services?public=medias']],
-                ['label' => 'menu.services.companies', 'path' => ['fr' => 'demarches?public=entreprises', 'en' => 'services?public=entreprises']],
-                ['label' => 'menu.services.citizens', 'path' => ['fr' => 'demarches?public=citoyens', 'en' => 'services?public=citoyens']],
+                ['label' => 'menu.action.actions', 'path' => ['fr' => 'nos-actions', 'en' => 'our-actions']],
+                ['label' => 'menu.action.fields', 'path' => ['fr' => 'domaines-d-intervention', 'en' => 'fields-of-intervention']],
+                ['label' => 'menu.projects.label', 'path' => ['fr' => 'programmes-et-projets', 'en' => 'programmes-and-projects']],
             ],
         ],
         [
@@ -88,21 +87,31 @@ final class MenuProvider
                 ['label' => 'menu.news.consultations', 'path' => ['fr' => 'consultations', 'en' => 'consultations']],
             ],
         ],
-        ['label' => 'menu.documents.label', 'path' => ['fr' => 'documents', 'en' => 'documents']],
-        ['label' => 'menu.projects.label', 'path' => ['fr' => 'projets-et-reformes', 'en' => 'projects-and-reforms']],
         [
-            'label' => 'menu.data.label',
-            'path' => ['fr' => 'donnees', 'en' => 'data'],
+            'label' => 'menu.press.label',
+            'path' => ['fr' => 'espace-medias', 'en' => 'media-room'],
             'children' => [
-                ['label' => 'menu.data.key_figures', 'path' => ['fr' => 'donnees/chiffres-cles', 'en' => 'data/key-figures']],
-                ['label' => 'menu.data.open_data', 'path' => ['fr' => 'donnees/donnees-ouvertes', 'en' => 'data/open-data']],
+                ['label' => 'menu.press.label', 'path' => ['fr' => 'espace-medias', 'en' => 'media-room']],
+                ['label' => 'menu.press.accreditation', 'path' => ['fr' => 'demarches?public=journalistes', 'en' => 'services?public=journalistes']],
+                ['label' => 'menu.media_library.label', 'path' => ['fr' => 'mediatheque', 'en' => 'media-library']],
+            ],
+        ],
+        [
+            'label' => 'menu.resources.label',
+            'path' => ['fr' => 'documents', 'en' => 'documents'],
+            'children' => [
+                ['label' => 'menu.documents.label', 'path' => ['fr' => 'documents', 'en' => 'documents']],
+                ['label' => 'menu.understand.label', 'path' => ['fr' => 'comprendre-les-medias', 'en' => 'understanding-the-media']],
+                ['label' => 'menu.professionals.label', 'path' => ['fr' => 'espace-professionnels', 'en' => 'professionals']],
+                ['label' => 'menu.services.label', 'path' => ['fr' => 'demarches', 'en' => 'services']],
+                ['label' => 'menu.data.key_figures', 'path' => ['fr' => 'donnees', 'en' => 'data']],
             ],
         ],
         ['label' => 'menu.contact.label', 'path' => ['fr' => 'contact', 'en' => 'contact']],
     ];
 
     private const array UTILITY = [
-        ['label' => 'menu.utility.press', 'path' => ['fr' => 'espace-presse', 'en' => 'press-room']],
+        ['label' => 'menu.utility.press', 'path' => ['fr' => 'espace-medias', 'en' => 'media-room']],
         ['label' => 'menu.utility.open_data', 'path' => ['fr' => 'donnees/donnees-ouvertes', 'en' => 'data/open-data']],
         ['label' => 'menu.utility.agenda', 'path' => ['fr' => 'agenda', 'en' => 'events']],
     ];
@@ -112,28 +121,30 @@ final class MenuProvider
             'label' => 'menu.ministry.label',
             'children' => [
                 ['label' => 'menu.ministry.overview', 'path' => ['fr' => 'le-ministere', 'en' => 'the-ministry']],
-                ['label' => 'menu.ministry.missions', 'path' => ['fr' => 'le-ministere/missions', 'en' => 'the-ministry/missions']],
-                ['label' => 'menu.ministry.organisation', 'path' => ['fr' => 'le-ministere/organisation', 'en' => 'the-ministry/organisation']],
-                ['label' => 'menu.projects.label', 'path' => ['fr' => 'projets-et-reformes', 'en' => 'projects-and-reforms']],
+                ['label' => 'menu.ministry.minister', 'path' => ['fr' => 'la-ministre', 'en' => 'the-minister']],
+                ['label' => 'menu.action.actions', 'path' => ['fr' => 'nos-actions', 'en' => 'our-actions']],
+                ['label' => 'menu.action.fields', 'path' => ['fr' => 'domaines-d-intervention', 'en' => 'fields-of-intervention']],
+                ['label' => 'menu.projects.label', 'path' => ['fr' => 'programmes-et-projets', 'en' => 'programmes-and-projects']],
             ],
         ],
         [
-            'label' => 'menu.services.label',
+            'label' => 'menu.footer.media',
+            'children' => [
+                ['label' => 'menu.news.label', 'path' => ['fr' => 'actualites', 'en' => 'news']],
+                ['label' => 'menu.press.label', 'path' => ['fr' => 'espace-medias', 'en' => 'media-room']],
+                ['label' => 'menu.documents.label', 'path' => ['fr' => 'documents', 'en' => 'documents']],
+                ['label' => 'menu.understand.label', 'path' => ['fr' => 'comprendre-les-medias', 'en' => 'understanding-the-media']],
+                ['label' => 'menu.professionals.label', 'path' => ['fr' => 'espace-professionnels', 'en' => 'professionals']],
+                ['label' => 'menu.media_library.label', 'path' => ['fr' => 'mediatheque', 'en' => 'media-library']],
+            ],
+        ],
+        [
+            'label' => 'menu.footer.services',
             'children' => [
                 ['label' => 'menu.services.journalists', 'path' => ['fr' => 'demarches?public=journalistes', 'en' => 'services?public=journalistes']],
                 ['label' => 'menu.services.media', 'path' => ['fr' => 'demarches?public=medias', 'en' => 'services?public=medias']],
-                ['label' => 'menu.services.companies', 'path' => ['fr' => 'demarches?public=entreprises', 'en' => 'services?public=entreprises']],
-                ['label' => 'menu.services.citizens', 'path' => ['fr' => 'demarches?public=citoyens', 'en' => 'services?public=citoyens']],
-            ],
-        ],
-        [
-            'label' => 'menu.footer.resources',
-            'children' => [
-                ['label' => 'menu.news.label', 'path' => ['fr' => 'actualites', 'en' => 'news']],
-                ['label' => 'menu.news.press_releases', 'path' => ['fr' => 'communiques', 'en' => 'press-releases']],
-                ['label' => 'menu.documents.label', 'path' => ['fr' => 'documents', 'en' => 'documents']],
-                ['label' => 'menu.data.open_data', 'path' => ['fr' => 'donnees/donnees-ouvertes', 'en' => 'data/open-data']],
-                ['label' => 'menu.utility.press', 'path' => ['fr' => 'espace-presse', 'en' => 'press-room']],
+                ['label' => 'menu.news.consultations', 'path' => ['fr' => 'consultations', 'en' => 'consultations']],
+                ['label' => 'menu.contact.label', 'path' => ['fr' => 'contact', 'en' => 'contact']],
             ],
         ],
     ];
@@ -149,11 +160,14 @@ final class MenuProvider
     private const array INSTITUTIONAL = [
         ['label' => 'menu.institutional.gouv', 'url' => 'https://www.gouv.bj'],
         ['label' => 'menu.institutional.presidence', 'url' => 'https://presidence.bj'],
-        ['label' => 'menu.institutional.service_public', 'url' => 'https://service-public.bj'],
+        ['label' => 'menu.institutional.sgg', 'url' => self::TO_VALIDATE],
+        ['label' => 'menu.institutional.bodies', 'path' => ['fr' => 'le-ministere/structures-sous-tutelle', 'en' => 'the-ministry/supervised-bodies']],
     ];
 
     private const array LEGAL = [
         ['label' => 'menu.legal.notice', 'path' => ['fr' => 'mentions-legales', 'en' => 'legal-notice']],
+        ['label' => 'menu.legal.privacy', 'path' => ['fr' => 'politique-de-confidentialite', 'en' => 'privacy-policy']],
+        ['label' => 'menu.legal.cookies', 'path' => ['fr' => 'politique-cookies', 'en' => 'cookie-policy']],
         ['label' => 'menu.legal.accessibility', 'path' => ['fr' => 'accessibilite', 'en' => 'accessibility']],
         ['label' => 'menu.legal.sitemap', 'path' => ['fr' => 'plan-du-site', 'en' => 'sitemap']],
     ];

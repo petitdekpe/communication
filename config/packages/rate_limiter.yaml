@@ -30,6 +30,12 @@ framework:
             limit: 5
             interval: '1 hour'
             cache_pool: app.rate_limiter_pool
+        # Messages du formulaire « Nous contacter », par adresse IP.
+        contact_message:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+            cache_pool: app.rate_limiter_pool
         # Codes TOTP : 5 essais par session de connexion, 30 par adresse IP (plusieurs agents derrière une même passerelle).
         two_factor_session:
             policy: sliding_window

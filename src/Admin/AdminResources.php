@@ -8,6 +8,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Consultation;
 use App\Entity\ConsultationContribution;
+use App\Entity\ContactMessage;
 use App\Entity\Event;
 use App\Entity\KeyFigure;
 use App\Entity\MediaGallery;
@@ -127,6 +128,12 @@ final class AdminResources
                 ['key' => 'status', 'label' => 'admin.column.status', 'path' => 'status', 'type' => 'request-status', 'sort' => 'e.status'],
                 ['key' => 'createdAt', 'label' => 'admin.column.received', 'path' => 'createdAt', 'type' => 'datetime', 'sort' => 'e.createdAt'],
             ], searchFields: ['trackingNumber', 'email'], defaultSort: 'e.createdAt', showRoute: 'app_admin_request_show', exportable: true),
+            new AdminResource('contact_messages', 'requests', 'admin.resource.contact_messages', 'ri:mail-line', ContactMessage::class, 'ROLE_PRESS', [
+                ['key' => 'name', 'label' => 'admin.column.name', 'path' => 'name', 'type' => 'text', 'sort' => 'e.name'],
+                ['key' => 'subject', 'label' => 'admin.column.subject', 'path' => 'subject', 'type' => 'text', 'sort' => 'e.subject'],
+                ['key' => 'email', 'label' => 'admin.column.email', 'path' => 'email', 'type' => 'text', 'sort' => 'e.email'],
+                ['key' => 'createdAt', 'label' => 'admin.column.received', 'path' => 'createdAt', 'type' => 'datetime', 'sort' => 'e.createdAt'],
+            ], searchFields: ['name', 'email', 'subject'], defaultSort: 'e.createdAt', showRoute: 'app_admin_contact_message_show', exportable: true),
             new AdminResource('contributions', 'requests', 'admin.resource.contributions', 'ri:message-3-line', ConsultationContribution::class, 'ROLE_ADMIN', [
                 ['key' => 'name', 'label' => 'admin.column.name', 'path' => 'name', 'type' => 'text', 'sort' => 'e.name'],
                 ['key' => 'organization', 'label' => 'admin.column.organization', 'path' => 'organization', 'type' => 'text'],

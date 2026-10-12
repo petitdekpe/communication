@@ -12,10 +12,87 @@
 
         <twig:TranslationFallbackNotice :translatable="page" class="mt-6 max-w-3xl" />
 
-        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
-            <h1 class="type-display text-primary">{{ translation.title }}</h1>
-            {% if translation.body %}
-                <div class="prose-article mt-8">{{ translation.body|sanitize_html('app.article_body') }}</div>
+        {% set is_minister = translation.slug in ['la-ministre', 'the-minister'] %}
+        {% set is_understanding = translation.slug in ['comprendre-les-medias', 'understanding-the-media'] %}
+        {% set body = translation.body ? translation.body|sanitize_html('app.article_body')|body_sections : null %}
+        <article lang="{{ translation.locale }}" class="mt-8">
+            <h1 class="type-display max-w-3xl text-primary">{{ translation.title }}</h1>
+            {% if is_minister and body %}
+                {# Portrait et mot de la Ministre : texte courant, sans carte. #}
+                <div class="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
+                    <img src="{{ asset('images/ministre.jpg') }}" width="530" height="600" alt="{{ 'page.minister.photo_alt'|trans }}" class="w-full max-w-sm rounded-card object-cover shadow-card lg:sticky lg:top-8">
+                    <div class="prose-article max-w-3xl">
+                        {{ body.intro|raw }}
+                        {% for section in body.sections %}{{ section|raw }}{% endfor %}
+                    </div>
+                </div>
+            {% elseif is_understanding and body %}
+                {# « Comprendre les médias » : texte courant, sans carte. #}
+                <div class="prose-article mt-8 max-w-3xl">
+                    {{ body.intro|raw }}
+                    {% for section in body.sections %}{{ section|raw }}{% endfor %}
+                </div>
+            {% elseif body %}
+                {% if body.intro %}
+                    <div class="prose-article mt-8 max-w-3xl text-lg">{{ body.intro|raw }}</div>
+                {% endif %}
+                {% for section in body.sections %}
+                    {% set fiches = section|heading_cards %}
+                    {% set cards = fiches ? null : section|definition_cards %}
+                    {% if fiches %}
+                        {# Fiches (projets) : titre du projet, puis objectif, description et enjeu en cartes sans numéro. #}
+                        <section class="mt-10">
+                            <div class="prose-article max-w-3xl">{{ fiches.before|raw }}</div>
+                            {% for fiche in fiches.cards %}
+                                <div class="mt-10">
+                                    <h3 class="type-h3 text-primary">{{ fiche.title|raw }}</h3>
+                                    <ul class="mt-4 grid gap-4 {{ fiche.items|length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2' }}">
+                                        {% for item in fiche.items %}
+                                            <li class="rounded-card bg-white p-5 shadow-card ring-1 ring-ink-muted/15">
+                                                <h4 class="font-semibold text-primary">{{ item.title|raw }}</h4>
+                                                <p class="mt-1 text-small text-ink-muted">{{ item.text|raw }}</p>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    {% elseif cards %}
+                        {# Liste de définitions (actions, domaines d'intervention) : cartes numérotées, comme les priorités. #}
+                        <section class="mt-10">
+                            <div class="prose-article max-w-3xl">{{ cards.before|raw }}</div>
+                            <ol class="mt-8 grid gap-4 md:grid-cols-2">
+                                {% for item in cards.items %}
+                                    <li class="{{ item.href ? 'group relative focus-within:shadow-raised hover:shadow-raised ' : '' }}flex gap-4 rounded-card bg-white p-5 shadow-card ring-1 ring-ink-muted/15">
+                                        {% if cards.numbered %}<span class="flex size-10 shrink-0 items-center justify-center rounded-pill bg-primary font-bold text-white" aria-hidden="true">{{ loop.index }}</span>{% endif %}
+                                        <div class="flex flex-1 flex-col">
+                                            <h3 class="font-semibold text-primary">
+                                                {% if item.href %}<a href="{{ item.href }}" class="underline-offset-4 group-hover:underline after:absolute after:inset-0">{{ item.title }}</a>{% else %}{{ item.title|raw }}{% endif %}
+                                            </h3>
+                                            <p class="mt-1 text-small text-ink-muted">{{ item.text|raw }}</p>
+                                            {% if item.href %}
+                                                <span class="mt-3 inline-flex items-center gap-1 text-small font-semibold text-primary" aria-hidden="true">
+                                                    {{ 'page.consult'|trans }}
+                                                    {{ ux_icon('ri:arrow-right-line', {class: 'size-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none'}) }}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                            {% if cards.after %}<div class="prose-article mt-6 max-w-3xl">{{ cards.after|raw }}</div>{% endif %}
+                        </section>
+                    {% else %}
+                        {% if loop.first or (body.sections[loop.index0 - 1]|definition_cards or body.sections[loop.index0 - 1]|heading_cards) %}<div class="mt-10 grid gap-6 lg:grid-cols-2">{% endif %}
+                        <section class="prose-article prose-card rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15 lg:p-8">
+                            {{ section|raw }}
+                        </section>
+                        {% if loop.last or (body.sections[loop.index0 + 1]|definition_cards or body.sections[loop.index0 + 1]|heading_cards) %}</div>{% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if translation.slug in ['le-ministere', 'the-ministry'] %}
+                    {% include 'page/_priorities.html.twig' %}
+                {% endif %}
             {% endif %}
         </article>
     </div>
