@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'news.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    <link rel="alternate" type="application/rss+xml" title="{{ 'news.title'|trans }}" href="{{ path('app_news_feed') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'news.title'|trans}]" />
+
+        <div class="mt-6 flex flex-wrap items-end justify-between gap-4">
+            <h1 class="type-h1 text-primary">{{ 'news.title'|trans }}</h1>
+            <a href="{{ path('app_news_feed') }}" class="inline-flex items-center gap-1 text-small font-semibold text-primary underline underline-offset-4 hover:no-underline">
+                {{ ux_icon('ri:rss-line', {class: 'size-4'}) }}{{ 'news.rss'|trans }}
+            </a>
+        </div>
+
+        <div class="mt-8">
+            {% include 'news/_list.html.twig' with {listing: listing, route: 'app_news_index', mode: 'cards', types: types} only %}
+        </div>
+    </div>
+{% endblock %}

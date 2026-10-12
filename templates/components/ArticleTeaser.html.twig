@@ -1,0 +1,14 @@
+{% set translation = article.translate(app.locale) %}
+{% set cover = article.coverImage %}
+<twig:ArticleCard
+    :title="translation.title ?? ''"
+    :href="article_url(article)"
+    :date="article.publishedAt"
+    :category="article.type.category"
+    :excerpt="translation.excerpt"
+    :image="cover ? media_url(cover) : null"
+    :imageAlt="cover ? media_alt(cover) : null"
+    :featured="featured"
+    :headingLevel="headingLevel"
+    :lang="translation.locale != app.locale ? translation.locale : null"
+    class="{{ attributes.render('class') }}" />

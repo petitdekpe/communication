@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{# Pages d'authentification : carte centrée sur fond bleu nuit, sans menu (l'utilisateur n'est pas encore connecté). #}
+{% block body %}
+    <div class="surface-dark flex min-h-dvh flex-col items-center justify-center px-4 py-10">
+        <p class="flex flex-col items-center gap-3">
+            <span class="rounded-card bg-white px-4 py-2">
+                <img src="{{ asset('images/logo/logo-ministere.png') }}" alt="{{ 'identity.logo_alt'|trans }}" width="600" height="160" class="h-14 w-auto">
+            </span>
+            <span class="font-bold text-white">{{ 'admin.site'|trans }}</span>
+        </p>
+        <main id="contenu" tabindex="-1" class="mt-8 w-full max-w-md rounded-card bg-white p-6 text-ink shadow-raised sm:p-8">
+            {% block auth_content %}{% endblock %}
+        </main>
+    </div>
+    <twig:Admin:Flash />
+{% endblock %}

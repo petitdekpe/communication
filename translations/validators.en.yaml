@@ -1,0 +1,20 @@
+# Messages des contraintes des formulaires de démarche (domaine « validators », paramètres {{ x }}).
+request:
+    error:
+        required: 'This field is required.'
+        email_required: 'Enter your email address.'
+        email_invalid: 'This email address is not valid.'
+        phone_invalid: 'The phone number can only contain digits, spaces and the characters + ( ) . -'
+        attachments_required: 'Attach at least one supporting document.'
+        attachments_max: 'You can attach 5 files at most.'
+        file_too_large: 'The file “{{ name }}” is too large ({{ size }} {{ suffix }}). Maximum size: {{ limit }} {{ suffix }}.'
+        file_type: 'The file “{{ name }}” is not accepted: only PDF and JPG files are allowed.'
+        consent_required: 'You must agree to the processing of your personal data to send the request.'
+        rejected: 'Submission refused.'
+tracking:
+    error:
+        number_required: 'Enter your tracking number.'
+consultation:
+    error:
+        text_short: 'Your contribution is too short (10 characters minimum).'
+        text_long: 'Your contribution is too long (10,000 characters maximum).'

@@ -1,0 +1,13 @@
+# Double authentification TOTP obligatoire pour l'administration (https://symfony.com/bundles/SchebTwoFactorBundle)
+scheb_two_factor:
+    # Types de jetons soumis à la 2FA : le formulaire de connexion produit l'un ou l'autre selon la version de Symfony.
+    # Les retirer désactiverait silencieusement la 2FA : tests/Admin/TwoFactorTest le vérifie.
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+    totp:
+        enabled: true
+        issuer: 'Portail MCM'
+        # Tolérance de 15 s de décalage d'horloge (doit rester inférieure à la période de 30 s).
+        leeway: 15
+        template: admin/security/two_factor.html.twig

@@ -1,0 +1,78 @@
+{#
+    Bibliothèque filtrée et paginée, dans un Turbo Frame : le formulaire et la pagination ne rechargent que ce bloc,
+    et l'URL (data-turbo-action="advance") reflète les filtres, donc partageable.
+    Pas de soumission automatique : la saisie de mots-clés et de dates ne doit pas déclencher de changement inattendu.
+    Variables : listing (DocumentListing), types (liste de DocumentType).
+#}
+<turbo-frame id="documents-results" data-turbo-action="advance">
+    <form action="{{ path('app_documents') }}" method="get" role="search" aria-label="{{ 'documents.search.label'|trans }}"
+          class="grid gap-4 rounded-card bg-mist p-4 sm:grid-cols-2 lg:grid-cols-12 lg:p-6">
+        <div class="sm:col-span-2 lg:col-span-6">
+            <label for="doc-q" class="block text-small font-semibold text-ink">{{ 'documents.filter.keywords'|trans }}</label>
+            <input id="doc-q" name="q" type="search" value="{{ listing.keywords }}" maxlength="100" aria-describedby="doc-q-aide"
+                   class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+            <p id="doc-q-aide" class="mt-1 text-small text-ink-muted">{{ 'documents.filter.keywords_hint'|trans }}</p>
+        </div>
+        <div class="lg:col-span-3">
+            <label for="doc-type" class="block text-small font-semibold text-ink">{{ 'documents.filter.type'|trans }}</label>
+            <select id="doc-type" name="type" class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+                <option value="">{{ 'documents.filter.all'|trans }}</option>
+                {% for type in types %}
+                    <option value="{{ type.value }}"{{ listing.type == type ? ' selected' }}>{{ type.labelKey|trans }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="lg:col-span-3">
+            <label for="doc-sort" class="block text-small font-semibold text-ink">{{ 'documents.filter.sort'|trans }}</label>
+            <select id="doc-sort" name="sort" class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+                <option value="date_desc"{{ listing.newestFirst ? ' selected' }}>{{ 'documents.filter.sort_newest'|trans }}</option>
+                <option value="date_asc"{{ not listing.newestFirst ? ' selected' }}>{{ 'documents.filter.sort_oldest'|trans }}</option>
+            </select>
+        </div>
+        <div class="lg:col-span-3">
+            <label for="doc-from" class="block text-small font-semibold text-ink">{{ 'documents.filter.from'|trans }}</label>
+            <input id="doc-from" name="from" type="date" value="{{ listing.from }}" class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+        </div>
+        <div class="lg:col-span-3">
+            <label for="doc-to" class="block text-small font-semibold text-ink">{{ 'documents.filter.to'|trans }}</label>
+            <input id="doc-to" name="to" type="date" value="{{ listing.to }}" class="mt-1 min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-ink">
+        </div>
+        <div class="flex flex-wrap items-end gap-3 sm:col-span-2 lg:col-span-6">
+            <twig:Button type="submit" :label="'documents.filter.submit'|trans" icon="ri:search-line" size="md" />
+            {% if listing.hasFilters %}
+                <a href="{{ path('app_documents') }}" class="btn btn-ghost">{{ 'documents.filter.reset'|trans }}</a>
+            {% endif %}
+        </div>
+    </form>
+
+    <p class="mt-6 text-small text-ink-muted" role="status">
+        {{ 'documents.results_count'|trans({count: listing.total}) }}
+        {% if listing.keywordsIgnored %}<br>{{ 'documents.keywords_ignored'|trans }}{% endif %}
+    </p>
+
+    {% if listing.documents is empty %}
+        <twig:EmptyState class="mt-6" :title="'documents.empty.title'|trans" :message="'documents.empty.message'|trans" />
+    {% else %}
+        <ol class="mt-6 border-t border-ink-muted/20">
+            {% for document in listing.documents %}
+                {% set translation = document.translate(app.locale) %}
+                {% set file = document.file %}
+                <li{% if translation.locale != app.locale %} lang="{{ translation.locale }}"{% endif %}>
+                    <twig:DocumentRow
+                        :title="translation.title ?? ''"
+                        :href="path('app_document_download', {id: document.id})"
+                        :fileType="enum_file_type(file.mimeType)"
+                        :size="file.size ?? 0"
+                        :date="document.documentDate ?? document.publishedAt"
+                        :documentType="document.type"
+                        :reference="document.reference"
+                        :language="document.fileLanguage"
+                        :downloads="document.downloadCount"
+                        :summary="translation.summary" />
+                </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    <twig:Pagination class="mt-8" :currentPage="listing.page" :totalPages="max(1, listing.totalPages)" route="app_documents" :routeParams="listing.params" />
+</turbo-frame>

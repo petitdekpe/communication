@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'media_library.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'media_library.title'|trans}]" />
+
+        <h1 class="type-h1 mt-6 text-primary">{{ 'media_library.title'|trans }}</h1>
+        <p class="mt-3 max-w-3xl text-ink-muted">{{ 'media_library.intro'|trans }}</p>
+
+        {# Galeries photo : vignettes LiipImagine ; chaque vignette ouvre la visionneuse (dialogue natif, clavier et lecteurs d'écran). #}
+        <section class="mt-12" aria-labelledby="photos">
+            <h2 id="photos" class="type-h2 text-primary">{{ 'media_library.photos'|trans }}</h2>
+
+            {% if galleries is empty %}
+                <twig:EmptyState class="mt-6" :title="'media_library.empty_photos.title'|trans" :message="'media_library.empty_photos.message'|trans" />
+            {% endif %}
+
+            {% for gallery in galleries %}
+                {% set gallery_translation = gallery.translate(app.locale) %}
+                {% set gallery_id = 'galerie-' ~ gallery.id %}
+                <section class="mt-10" aria-labelledby="{{ gallery_id }}-titre"
+                         data-controller="lightbox"
+                         data-lightbox-counter-template-value="{{ 'media_library.viewer.counter'|trans({current: '{current}', total: '{total}'}) }}"
+                         {% if gallery_translation.locale != app.locale %}lang="{{ gallery_translation.locale }}"{% endif %}>
+                    <h3 id="{{ gallery_id }}-titre" class="type-h3 text-primary">{{ gallery_translation.title }}</h3>
+                    {% if gallery_translation.description %}
+                        <p class="mt-2 max-w-3xl text-ink-muted">{{ gallery_translation.description }}</p>
+                    {% endif %}
+
+                    <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
+                        {% for item in gallery.items %}
+                            {% set media = item.media %}
+                            {% set media_translation = media.translate(app.locale) %}
+                            <li>
+                                <button type="button"
+                                        class="group block w-full overflow-hidden rounded-card bg-mist text-left ring-1 ring-ink-muted/15"
+                                        data-action="lightbox#open"
+                                        data-index="{{ loop.index0 }}"
+                                        data-full="{{ media_image(media, 'viewer') }}"
+                                        data-alt="{{ media_alt(media) }}"
+                                        data-caption="{{ media_translation.caption }}"
+                                        data-credit="{{ media.credit }}">
+                                    <img src="{{ media_image(media, 'thumb') }}" alt="{{ media_alt(media) }}" loading="lazy"
+                                         width="480" height="360"
+                                         class="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105 motion-reduce:transition-none">
+                                    <span class="sr-only">{{ 'media_library.viewer.open'|trans }}</span>
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <dialog aria-labelledby="{{ gallery_id }}-viewer-titre" data-lightbox-target="dialog"
+                            data-action="keydown->lightbox#keydown click->lightbox#backdrop"
+                            class="m-auto max-h-[95dvh] w-[min(64rem,calc(100%-1rem))] rounded-card bg-white p-0 text-ink shadow-raised">
+                        <div class="flex items-center justify-between gap-4 border-b border-ink-muted/20 p-4">
+                            <h4 id="{{ gallery_id }}-viewer-titre" class="type-h3 text-primary">{{ gallery_translation.title }}</h4>
+                            <button type="button" class="btn btn-outline btn-icon" data-action="lightbox#close" data-lightbox-target="close">
+                                {{ ux_icon('ri:close-line', {class: 'size-5'}) }}
+                                <span class="sr-only">{{ 'media_library.viewer.close'|trans }}</span>
+                            </button>
+                        </div>
+                        <figure class="p-4">
+                            <img data-lightbox-target="image" src="" alt="" class="mx-auto max-h-[65dvh] w-auto max-w-full rounded-card">
+                            <figcaption class="mt-3 text-small text-ink-muted" data-lightbox-target="caption"></figcaption>
+                        </figure>
+                        <div class="flex items-center justify-between gap-4 border-t border-ink-muted/20 p-4">
+                            <button type="button" class="btn btn-outline" data-action="lightbox#previous">
+                                {{ ux_icon('ri:arrow-left-line', {class: 'size-5'}) }}
+                                {{ 'media_library.viewer.previous'|trans }}
+                            </button>
+                            <p class="text-small text-ink-muted" role="status" aria-live="polite" data-lightbox-target="counter"></p>
+                            <button type="button" class="btn btn-outline" data-action="lightbox#next">
+                                {{ 'media_library.viewer.next'|trans }}
+                                {{ ux_icon('ri:arrow-right-line', {class: 'size-5'}) }}
+                            </button>
+                        </div>
+                    </dialog>
+                </section>
+            {% endfor %}
+        </section>
+
+        {# Vidéos : rien n'est chargé depuis YouTube tant que l'internaute n'a pas cliqué (aucun cookie, aucun traceur). #}
+        <section class="mt-16" aria-labelledby="videos">
+            <h2 id="videos" class="type-h2 text-primary">{{ 'media_library.videos'|trans }}</h2>
+            <p class="mt-2 text-small text-ink-muted">{{ 'media_library.videos_privacy'|trans }}</p>
+
+            {% if videos is empty %}
+                <twig:EmptyState class="mt-6" :title="'media_library.empty_videos.title'|trans" :message="'media_library.empty_videos.message'|trans" />
+            {% else %}
+                <ul class="mt-6 grid gap-6 md:grid-cols-2" role="list">
+                    {% for video in videos %}
+                        {% set video_translation = video.translate(app.locale) %}
+                        <li{% if video_translation.locale != app.locale %} lang="{{ video_translation.locale }}"{% endif %}>
+                            <article class="overflow-hidden rounded-card bg-white shadow-card ring-1 ring-ink-muted/15"
+                                     data-controller="video-embed"
+                                     data-video-embed-id-value="{{ video.youtubeId }}"
+                                     data-video-embed-title-value="{{ video_translation.title }}">
+                                <div class="flex aspect-video items-center justify-center bg-primary" data-video-embed-target="stage">
+                                    <button type="button" class="btn btn-accent btn-lg" data-action="video-embed#play" data-video-embed-target="button">
+                                        {{ ux_icon('ri:play-circle-fill', {class: 'size-6'}) }}
+                                        {{ 'media_library.play'|trans }}<span class="sr-only"> : {{ video_translation.title }}</span>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="type-h3 text-primary">{{ video_translation.title }}</h3>
+                                    {% if video_translation.description %}
+                                        <p class="mt-2 text-small text-ink-muted">{{ video_translation.description }}</p>
+                                    {% endif %}
+                                    <noscript>
+                                        <p class="mt-2 text-small"><a href="https://www.youtube.com/watch?v={{ video.youtubeId }}" rel="noopener noreferrer" class="text-primary underline underline-offset-4">{{ 'media_library.watch_on_youtube'|trans }}</a></p>
+                                    </noscript>
+                                </div>
+                            </article>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

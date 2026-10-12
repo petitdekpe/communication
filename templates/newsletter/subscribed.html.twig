@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'newsletter.subscribed.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <div class="max-w-3xl">
+            <h1 class="type-h1 text-primary">{{ 'newsletter.subscribed.title'|trans }}</h1>
+            <p class="mt-4 text-ink" role="status">{{ 'newsletter.subscribed.message'|trans }}</p>
+            <p class="mt-8"><twig:Button :label="'newsletter.back'|trans" :href="path('app_home')" /></p>
+        </div>
+    </div>
+{% endblock %}

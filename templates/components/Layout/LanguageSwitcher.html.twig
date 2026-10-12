@@ -1,0 +1,28 @@
+{#
+    Sélecteur FR / EN : URL équivalente de la page courante dans chaque langue, slug traduit compris
+    (App\Routing\AlternateUrlResolver), ou accueil si la page n'a pas de route (page d'erreur).
+#}
+{% props variant = 'dark' %}
+
+{% set alternates = alternate_urls() %}
+
+<nav aria-label="{{ 'language.nav_label'|trans }}">
+    <ul class="flex items-center gap-1">
+        {% for locale in ['fr', 'en'] %}
+            {% set is_current = locale == app.request.locale %}
+            {% set href = alternates[locale] %}
+            <li>
+                <a href="{{ href }}" hreflang="{{ locale }}" lang="{{ locale }}"
+                   {% if is_current %}aria-current="true"{% endif %}
+                   class="inline-flex min-w-8 items-center justify-center rounded-pill px-2 py-0.5 font-semibold
+                          {% if variant == 'dark' %}
+                              {{ is_current ? 'bg-white text-primary' : 'text-white hover:underline underline-offset-4' }}
+                          {% else %}
+                              {{ is_current ? 'bg-primary text-white' : 'text-primary hover:underline underline-offset-4' }}
+                          {% endif %}">
+                    {{ locale|upper }}<span class="sr-only"> ({{ ('language.' ~ locale)|trans }})</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

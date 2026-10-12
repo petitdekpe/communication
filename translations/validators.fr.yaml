@@ -1,0 +1,32 @@
+# Messages des contraintes des formulaires de démarche (domaine « validators », paramètres {{ x }}).
+request:
+    error:
+        required: 'Ce champ est obligatoire.'
+        email_required: 'Saisissez votre adresse électronique.'
+        email_invalid: "Cette adresse électronique n'est pas valide."
+        phone_invalid: 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et les signes + ( ) . -'
+        attachments_required: 'Joignez au moins une pièce justificative.'
+        attachments_max: 'Vous pouvez joindre 5 fichiers au maximum.'
+        file_too_large: 'Le fichier « {{ name }} » est trop volumineux ({{ size }} {{ suffix }}). Taille maximale : {{ limit }} {{ suffix }}.'
+        file_type: "Le fichier « {{ name }} » n'est pas accepté : seuls les fichiers PDF et JPG sont autorisés."
+        consent_required: "Vous devez accepter le traitement de vos données personnelles pour envoyer la demande."
+        rejected: 'Envoi refusé.'
+tracking:
+    error:
+        number_required: 'Saisissez votre numéro de suivi.'
+consultation:
+    error:
+        text_short: 'Votre contribution est trop courte (10 caractères au minimum).'
+        text_long: 'Votre contribution est trop longue (10 000 caractères au maximum).'
+admin:
+    error:
+        too_long: 'Ce champ est trop long.'
+        file_required: 'Choisissez un fichier.'
+        document_type: 'Format de fichier non accepté (PDF, Word, Excel ou ZIP).'
+        role_required: 'Choisissez au moins un rôle.'
+    user:
+        email_taken: 'Cette adresse est déjà utilisée par un autre compte.'
+    password:
+        too_short: 'Le mot de passe doit contenir au moins 12 caractères.'
+        compromised: 'Ce mot de passe figure dans une fuite de données connue : choisissez-en un autre.'
+        mismatch: 'Les deux mots de passe ne correspondent pas.'

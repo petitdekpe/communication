@@ -1,0 +1,7 @@
+{# Affiché seulement en mode debug : un bloc invalide ou inconnu est ignoré en production. #}
+{% for violation in violations %}
+    <div role="alert" data-block-error class="container-site my-4 rounded-card border-l-4 border-flag-red bg-white p-4 text-small text-ink">
+        <p class="font-semibold">Bloc ignoré (position {{ violation.index }}{% if violation.type %}, type « {{ violation.type }} »{% endif %})</p>
+        <p class="mt-1 break-words">{% if violation.path %}<code>{{ violation.path }}</code> : {% endif %}{{ violation.message }}</p>
+    </div>
+{% endfor %}

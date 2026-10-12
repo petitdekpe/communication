@@ -1,0 +1,12 @@
+{#
+    Section de formulaire : <fieldset> nommé par sa <legend>, avec une description facultative.
+
+    <twig:Admin:FormSection title="Identité" description="…">…champs…</twig:Admin:FormSection>
+#}
+{% props title, description = null %}
+{% set description_id = description ? 'section-' ~ (title|lower|replace({' ': '-'})|slice(0, 30)) ~ '-aide' : null %}
+<fieldset{{ attributes.defaults({class: 'grid gap-6 rounded-card border border-ink-muted/30 bg-white p-6'}) }}{% if description_id %} aria-describedby="{{ description_id }}"{% endif %}>
+    <legend class="px-2 type-h3 text-primary">{{ title }}</legend>
+    {% if description %}<p id="{{ description_id }}" class="-mt-2 text-small text-ink-muted">{{ description }}</p>{% endif %}
+    {% block content %}{% endblock %}
+</fieldset>

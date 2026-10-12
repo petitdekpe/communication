@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'request.title'|trans }} : {{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'services.title'|trans, href: path('app_services_index')},
+            {label: translation.title, href: path('app_service_show', {slug: translation.slug})},
+            {label: 'request.title'|trans},
+        ]" />
+
+        <twig:TranslationFallbackNotice :translatable="service" class="mt-6 max-w-3xl" />
+
+        <div class="mt-8 max-w-3xl">
+            <h1 class="type-h1 text-primary">{{ 'request.title'|trans }}</h1>
+            <p class="mt-2 text-h3 font-normal text-ink-muted" lang="{{ translation.locale }}">{{ translation.title }}</p>
+            <p class="mt-6 text-ink-muted">{{ 'request.intro'|trans }}</p>
+            <p class="mt-2 text-small text-ink-muted">{{ 'request.required_hint'|trans }}</p>
+
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-controller': 'form-errors'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+                {# Champs propres à la démarche, dans l'ordre du formulaire ; les champs communs suivent. #}
+                <fieldset class="grid gap-6 rounded-card border border-ink-muted/30 p-6">
+                    <legend class="px-2 type-h3 text-primary">{{ 'request.section.details'|trans }}</legend>
+                    {% for child in form|filter(child => child.vars.name not in ['email', 'attachments', 'consent', 'website']) %}
+                        {{ form_row(child) }}
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="grid gap-6 rounded-card border border-ink-muted/30 p-6">
+                    <legend class="px-2 type-h3 text-primary">{{ 'request.section.contact'|trans }}</legend>
+                    {{ form_row(form.email) }}
+                </fieldset>
+
+                <fieldset class="grid gap-6 rounded-card border border-ink-muted/30 p-6">
+                    <legend class="px-2 type-h3 text-primary">{{ 'request.section.attachments'|trans }}</legend>
+                    {{ form_row(form.attachments) }}
+                </fieldset>
+
+                <fieldset class="grid gap-6 rounded-card border border-ink-muted/30 p-6">
+                    <legend class="px-2 type-h3 text-primary">{{ 'request.section.consent'|trans }}</legend>
+                    {{ form_row(form.consent) }}
+                </fieldset>
+
+                {{ form_row(form.website) }}
+                {{ form_rest(form) }}
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <twig:Button type="submit" :label="'request.submit'|trans" size="lg" icon="ri:send-plane-line" iconPosition="end" />
+                    <a href="{{ path('app_service_show', {slug: translation.slug}) }}" class="btn btn-ghost">{{ 'request.cancel'|trans }}</a>
+                </div>
+            {{ form_end(form, {render_rest: false}) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<article{{ attributes.defaults({class: '@container group relative flex flex-col gap-4 rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15 focus-within:shadow-raised'}) }}>
+    <h{{ headingLevel }} class="type-h3 text-primary">
+        <a href="{{ href }}" class="underline-offset-4 group-hover:underline after:absolute after:inset-0">{{ title }}</a>
+    </h{{ headingLevel }}>
+
+    <div class="order-first">
+        <twig:Badge :value="audience" />
+    </div>
+
+    <p class="text-small text-ink-muted">{{ summary }}</p>
+
+    <span class="mt-auto inline-flex items-center gap-1 text-small font-semibold text-primary" aria-hidden="true">
+        {{ 'service.see'|trans }}
+        {{ ux_icon('ri:arrow-right-line', {class: 'size-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none'}) }}
+    </span>
+</article>

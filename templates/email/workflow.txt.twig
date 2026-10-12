@@ -1,0 +1,11 @@
+{{ ('workflow.email.' ~ kind ~ '.title')|trans({}, null, locale) }}
+
+{{ ('workflow.email.' ~ kind ~ '.intro')|trans({title: title}, null, locale) }}
+{% if reason %}
+
+{{ 'workflow.history.reason'|trans({}, null, locale) }} {{ reason }}
+{% endif %}
+{% if url %}
+
+{{ 'workflow.email.open'|trans({}, null, locale) }} : {{ url }}
+{% endif %}

@@ -1,0 +1,23 @@
+{% set title_id = 'avis-' ~ id ~ '-titre' %}
+
+<div role="region" aria-labelledby="{{ title_id }}"
+     {{ attributes.defaults({class: 'border-y-4 border-flag-red bg-cream text-ink'}) }}
+     {% if dismissible %}data-controller="official-notice" data-official-notice-id-value="{{ id }}"{% endif %}>
+    <div class="container-site flex items-start gap-3 py-3">
+        {{ ux_icon('ri:information-line', {class: 'mt-0.5 size-5 shrink-0 text-primary'}) }}
+        <p class="min-w-0 flex-1 text-small">
+            <strong id="{{ title_id }}" class="font-bold">{{ title ?? 'notice.default_title'|trans }}</strong>
+            <span aria-hidden="true">:</span>
+            {{ message }}
+            {% if href %}
+                <a href="{{ href }}" class="font-semibold text-primary underline underline-offset-4 hover:no-underline">{{ linkLabel ?? 'notice.more'|trans }}</a>
+            {% endif %}
+        </p>
+        {% if dismissible %}
+            <button type="button" class="btn btn-ghost btn-sm btn-icon -my-1.5 shrink-0" data-action="official-notice#dismiss">
+                {{ ux_icon('ri:close-line', {class: 'size-5'}) }}
+                <span class="sr-only">{{ 'notice.dismiss'|trans }}</span>
+            </button>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{# Toast : variables type (success|error|warning) et message (clé de traduction ou texte). Se ferme seul (contrôleur toasts) ou au clic. #}
+<div class="pointer-events-auto flex items-start gap-3 rounded-card border-l-4 bg-white p-4 shadow-raised {{ type == 'success' ? 'border-flag-green' : (type == 'warning' ? 'border-flag-yellow' : 'border-flag-red') }}" data-toasts-target="toast">
+    <span class="mt-0.5 shrink-0 {{ type == 'success' ? 'text-flag-green' : (type == 'warning' ? 'text-primary' : 'text-flag-red') }}" aria-hidden="true">
+        {{ ux_icon(type == 'success' ? 'ri:checkbox-circle-fill' : 'ri:error-warning-fill', {class: 'size-5'}) }}
+    </span>
+    <p class="min-w-0 flex-1 text-small font-semibold text-ink">{{ message|trans }}</p>
+    <button type="button" class="btn btn-ghost btn-sm btn-icon -my-1 -mr-2" data-action="toasts#dismiss">
+        {{ ux_icon('ri:close-line', {class: 'size-4'}) }}
+        <span class="sr-only">{{ 'admin.toast.close'|trans }}</span>
+    </button>
+</div>

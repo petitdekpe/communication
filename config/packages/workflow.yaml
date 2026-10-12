@@ -1,0 +1,38 @@
+framework:
+    workflows:
+        # Circuit de publication de tout contenu publiable (PublishableInterface).
+        # Chaque transition est protégée par un Voter (App\Workflow\PublicationGuardListener).
+        publication:
+            type: state_machine
+            audit_trail:
+                enabled: false
+            marking_store:
+                type: method
+                property: status
+            supports:
+                - App\Entity\Contract\PublishableInterface
+            initial_marking: !php/const App\Enum\PublicationStatus::Draft
+            places:
+                - !php/const App\Enum\PublicationStatus::Draft
+                - !php/const App\Enum\PublicationStatus::InReview
+                - !php/const App\Enum\PublicationStatus::Published
+                - !php/const App\Enum\PublicationStatus::Archived
+            transitions:
+                submit:
+                    from: !php/const App\Enum\PublicationStatus::Draft
+                    to: !php/const App\Enum\PublicationStatus::InReview
+                publish:
+                    from: !php/const App\Enum\PublicationStatus::InReview
+                    to: !php/const App\Enum\PublicationStatus::Published
+                reject:
+                    from: !php/const App\Enum\PublicationStatus::InReview
+                    to: !php/const App\Enum\PublicationStatus::Draft
+                unpublish:
+                    from: !php/const App\Enum\PublicationStatus::Published
+                    to: !php/const App\Enum\PublicationStatus::Draft
+                archive:
+                    from: !php/const App\Enum\PublicationStatus::Published
+                    to: !php/const App\Enum\PublicationStatus::Archived
+                restore:
+                    from: !php/const App\Enum\PublicationStatus::Archived
+                    to: !php/const App\Enum\PublicationStatus::Draft

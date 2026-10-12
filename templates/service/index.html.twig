@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'services.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'services.title'|trans}]" />
+
+        <h1 class="type-h1 mt-6 text-primary">{{ 'services.title'|trans }}</h1>
+        <p class="mt-3 max-w-3xl text-ink-muted">{{ 'services.intro'|trans }}</p>
+
+        {# Filtre par public : de simples liens (aucun script), l'état courant est annoncé par aria-current. #}
+        <nav class="mt-8" aria-label="{{ 'services.filter.label'|trans }}">
+            <ul class="flex flex-wrap gap-2" role="list">
+                <li>
+                    <a href="{{ path('app_services_index') }}"
+                       class="btn btn-sm {{ audience is null ? 'btn-primary' : 'btn-outline' }}"
+                       {% if audience is null %}aria-current="true"{% endif %}>{{ 'services.filter.all'|trans }}</a>
+                </li>
+                {% for item in audiences %}
+                    <li>
+                        <a href="{{ path('app_services_index', {public: item.value}) }}"
+                           class="btn btn-sm {{ audience == item ? 'btn-primary' : 'btn-outline' }}"
+                           {% if audience == item %}aria-current="true"{% endif %}>{{ item.labelKey|trans }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <p class="mt-6 text-small text-ink-muted" role="status">{{ 'services.results_count'|trans({count: services|length}) }}</p>
+
+        {% if services is empty %}
+            <twig:EmptyState class="mt-6" :title="'services.empty.title'|trans" :message="'services.empty.message'|trans" />
+        {% else %}
+            <ul class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
+                {% for service in services %}
+                    {% set translation = service.translate(app.locale) %}
+                    <li lang="{{ translation.locale }}" class="flex">
+                        <twig:ServiceCard class="w-full"
+                            :audience="service.audience"
+                            :title="translation.title ?? ''"
+                            :summary="translation.summary ?? ('ui.not_specified'|trans)"
+                            :href="path('app_service_show', {slug: translation.slug})"
+                            :online="service.online"
+                            :cost="translation.cost"
+                            :delay="translation.delay"
+                            :headingLevel="2" />
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set heading = article ? 'admin.article.edit' : 'admin.article.new' %}
+{% block title %}{{ heading|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-6xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'articles'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.articles'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ heading|trans }}</h1>
+        {% if translateOnly %}<p class="mt-2 text-small text-ink-muted" role="note">{{ 'admin.translate_only'|trans }}</p>{% endif %}
+
+        <div class="mt-6"><twig:Admin:WorkflowActions :content="article" /></div>
+
+        {# Le sélecteur de médias (fenêtre + formulaire d'envoi) est hors du formulaire de l'article : les formulaires ne s'imbriquent pas. #}
+        <div class="mt-8" data-controller="media-dialog"
+             data-media-dialog-picker-url-value="{{ path('app_admin_media_picker') }}"
+             data-media-dialog-upload-url-value="{{ path('app_admin_media_upload') }}">
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'grid gap-6', 'data-controller': 'form-errors', 'data-turbo': 'true'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+                <twig:Admin:FormSection :title="'admin.section.details'|trans">
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        {{ form_row(form.type) }}
+                        {{ form_row(form.category) }}
+                    </div>
+                    {{ form_row(form.featured) }}
+                </twig:Admin:FormSection>
+
+                {% set cover = article ? article.coverImage : null %}
+                {% set cover_id = form.coverImage.vars.id %}
+                <twig:Admin:FormSection :title="'admin.field.cover_image'|trans" :description="'admin.field.cover_image_help'|trans">
+                    {{ form_widget(form.coverImage) }}
+                    <div class="flex flex-wrap items-center gap-4">
+                        <img id="{{ cover_id }}-apercu" alt="" width="160" height="120" {% if not cover %}hidden{% endif %}
+                             src="{{ cover ? media_image(cover, 'thumb') : '' }}"
+                             class="aspect-4/3 w-40 rounded-card bg-mist object-cover">
+                        <p id="{{ cover_id }}-nom" data-empty="{{ 'page_editor.media.none'|trans }}" class="text-ink">{{ cover ? cover.originalFilename : 'page_editor.media.none'|trans }}</p>
+                    </div>
+                    {% if not form.coverImage.vars.disabled %}
+                        <div class="flex flex-wrap gap-3">
+                            <button type="button" class="btn btn-outline" data-action="media-dialog#open" data-media-dialog-target-param="{{ cover_id }}">
+                                {{ 'page_editor.media.choose'|trans }}
+                            </button>
+                            <button type="button" id="{{ cover_id }}-retirer" class="btn btn-ghost" {% if not cover %}hidden{% endif %}
+                                    data-action="media-dialog#clear" data-media-dialog-target-param="{{ cover_id }}">
+                                {{ 'page_editor.media.remove'|trans }}
+                            </button>
+                        </div>
+                    {% endif %}
+                </twig:Admin:FormSection>
+
+                <twig:Admin:LocaleTabs :tabs="tabs" :active="active">
+                    <twig:block name="fr">{% for field in form.translations.fr %}{{ form_row(field) }}{% endfor %}</twig:block>
+                    <twig:block name="en">{% for field in form.translations.en %}{{ form_row(field) }}{% endfor %}</twig:block>
+                </twig:Admin:LocaleTabs>
+
+                {{ form_rest(form) }}
+                <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+            {{ form_end(form, {render_rest: false}) }}
+
+            {% include 'admin/media/_dialog.html.twig' %}
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<div{{ attributes.defaults({class: 'flex flex-col items-center rounded-card bg-mist px-6 py-12 text-center'}) }}>
+    <span class="flex size-16 items-center justify-center rounded-pill bg-white text-primary shadow-card" aria-hidden="true">
+        {{ ux_icon(icon, {class: 'size-8'}) }}
+    </span>
+    <h{{ headingLevel }} class="type-h3 mt-4 text-primary">{{ title }}</h{{ headingLevel }}>
+    {% if message %}
+        <p class="mt-2 max-w-prose text-ink-muted">{{ message }}</p>
+    {% endif %}
+    {% if actionLabel %}
+        <twig:Button :label="actionLabel" :href="actionHref" variant="secondary" class="mt-6" />
+    {% endif %}
+</div>

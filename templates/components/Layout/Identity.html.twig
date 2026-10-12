@@ -1,0 +1,12 @@
+{#
+    Bloc identité : logo du Ministère (le nom du ministère et la mention République du Bénin sont dans l'image).
+    inverse = fond bleu nuit : le logo (texte sombre, fond transparent) est posé sur une pastille blanche.
+#}
+{% props inverse = false %}
+
+<a href="{{ path('app_home') }}" class="inline-flex min-w-0 items-center {{ inverse ? 'rounded-card bg-white px-3 py-2' : '' }}">
+    <img src="{{ asset('images/logo/logo-ministere.webp') }}"
+         alt="{{ 'identity.logo_alt'|trans }}"
+         width="600" height="160"
+         class="{{ inverse ? 'h-16 lg:h-20' : 'h-14 sm:h-16 lg:h-20' }} w-auto max-w-full shrink-0">
+</a>

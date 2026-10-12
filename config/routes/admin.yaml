@@ -1,0 +1,4 @@
+# Administration : routes sans préfixe de langue (la langue de travail se choisit dans l'interface).
+admin_controllers:
+    resource: ../../src/Admin/Controller/
+    type: attribute

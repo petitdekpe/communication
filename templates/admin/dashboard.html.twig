@@ -1,0 +1,89 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.menu.dashboard'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-7xl">
+        <h1 class="type-h1 text-primary">{{ 'admin.dashboard.title'|trans({name: app.user.name}) }}</h1>
+
+        {% if shortcuts is not empty %}
+            <section class="mt-6" aria-labelledby="raccourcis">
+                <h2 id="raccourcis" class="sr-only">{{ 'admin.dashboard.shortcuts'|trans }}</h2>
+                <ul class="flex flex-wrap gap-3" role="list">
+                    {% for shortcut in shortcuts %}
+                        <li><a href="{{ shortcut.url }}" class="btn btn-primary">{{ ux_icon(shortcut.icon, {class: 'size-5'}) }}{{ shortcut.label|trans }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        <div class="mt-8 grid gap-6 lg:grid-cols-2">
+            {% if toReview is not null %}
+                {{ _self.card('a-relire', 'admin.dashboard.to_review', toReview, 'admin.dashboard.to_review_empty') }}
+            {% endif %}
+            {% if requests is not null %}
+                <section class="rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15" aria-labelledby="demandes">
+                    <h2 id="demandes" class="type-h3 flex items-center justify-between gap-3 text-primary">
+                        {{ 'admin.dashboard.requests'|trans }}
+                        <span class="badge bg-primary text-white" data-testid="requests-count">{{ requests.count }}</span>
+                    </h2>
+                    {% if requests.items is empty %}
+                        <p class="mt-3 text-ink-muted">{{ 'admin.dashboard.requests_empty'|trans }}</p>
+                    {% else %}
+                        <ul class="mt-4 divide-y divide-ink-muted/15" role="list">
+                            {% for item in requests.items %}
+                                <li class="flex flex-wrap items-center justify-between gap-2 py-3">
+                                    <a href="{{ item.url }}" class="font-mono text-small font-semibold text-primary underline underline-offset-4 hover:no-underline">{{ item.number }}</a>
+                                    <span class="min-w-0 flex-1 truncate text-small text-ink-muted">{{ item.service }}</span>
+                                    <twig:Admin:StatusBadge kind="request" :status="item.status" />
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </section>
+            {% endif %}
+            {% if translations is not null %}
+                {{ _self.card('traductions', 'admin.dashboard.translations', translations, 'admin.dashboard.translations_empty') }}
+            {% endif %}
+
+            <section class="rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15" aria-labelledby="publications">
+                <h2 id="publications" class="type-h3 text-primary">{{ 'admin.dashboard.publications'|trans }}</h2>
+                {% if publications is empty %}
+                    <p class="mt-3 text-ink-muted">{{ 'admin.dashboard.publications_empty'|trans }}</p>
+                {% else %}
+                    <ul class="mt-4 divide-y divide-ink-muted/15" role="list">
+                        {% for log in publications %}
+                            <li class="py-3 text-small">
+                                <span class="font-semibold text-ink">{{ log.label ?? (log.entityClass ~ ' #' ~ log.entityId) }}</span>
+                                <span class="text-ink-muted"> · {{ log.actor }} · <time datetime="{{ log.occurredAt|date('c') }}">{{ log.occurredAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time></span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+
+{% endblock %}
+
+{# Carte « à traiter » : compteur et premiers éléments (contenus à relire, traductions manquantes). #}
+{% macro card(id, title, data, empty) %}
+    <section class="rounded-card bg-white p-6 shadow-card ring-1 ring-ink-muted/15" aria-labelledby="{{ id }}">
+        <h2 id="{{ id }}" class="type-h3 flex items-center justify-between gap-3 text-primary">
+            {{ title|trans }}
+            <span class="badge bg-primary text-white" data-testid="{{ id }}-count">{{ data.count }}</span>
+        </h2>
+        {% if data.items is empty %}
+            <p class="mt-3 text-ink-muted">{{ empty|trans }}</p>
+        {% else %}
+            <ul class="mt-4 divide-y divide-ink-muted/15" role="list">
+                {% for item in data.items %}
+                    <li class="flex flex-wrap items-center justify-between gap-2 py-3">
+                        <a href="{{ item.url }}" class="min-w-0 flex-1 truncate font-semibold text-primary underline underline-offset-4 hover:no-underline">{{ item.title ?: ('ui.not_specified'|trans) }}</a>
+                        <span class="text-small text-ink-muted">{{ item.label|trans }}{% if item.date %} · <time datetime="{{ item.date|date('c') }}">{{ item.date|format_date('medium', locale: app.locale) }}</time>{% endif %}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+{% endmacro %}

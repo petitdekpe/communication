@@ -1,0 +1,429 @@
+[
+    {
+        "id": "11111111-1111-4111-8111-111111111101",
+        "type": "hero",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Titre du bandeau",
+                "en": "[À VALIDER] Hero title"
+            },
+            "lead": {
+                "fr": "[À VALIDER] Chapô du bandeau",
+                "en": "[À VALIDER] Hero lead"
+            },
+            "image": "__MEDIA__",
+            "imageAlt": {
+                "fr": "[À VALIDER] Texte alternatif",
+                "en": "[À VALIDER] Alternative text"
+            },
+            "ctaLabel": {
+                "fr": "[À VALIDER] Bouton",
+                "en": "[À VALIDER] Button"
+            },
+            "ctaUrl": "/fr/contact"
+        },
+        "settings": {
+            "background": "cream",
+            "spacing": "l",
+            "anchor": "haut"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111102",
+        "type": "rich_text",
+        "version": 1,
+        "data": {
+            "body": {
+                "fr": "[À VALIDER] <p>Texte riche avec <strong>mise en forme</strong>.</p>",
+                "en": "[À VALIDER] <p>Rich text with <strong>formatting</strong>.</p>"
+            }
+        },
+        "settings": {
+            "width": "content"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111103",
+        "type": "image",
+        "version": 1,
+        "data": {
+            "image": "__MEDIA__",
+            "alt": {
+                "fr": "[À VALIDER] Image",
+                "en": "[À VALIDER] Image"
+            },
+            "caption": {
+                "fr": "[À VALIDER] Légende",
+                "en": "[À VALIDER] Caption"
+            }
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111104",
+        "type": "image_text",
+        "version": 1,
+        "data": {
+            "image": "__MEDIA__",
+            "alt": {
+                "fr": "[À VALIDER] Image",
+                "en": "[À VALIDER] Image"
+            },
+            "title": {
+                "fr": "[À VALIDER] Image et texte",
+                "en": "[À VALIDER] Image and text"
+            },
+            "body": {
+                "fr": "[À VALIDER] <p>Corps.</p>",
+                "en": "[À VALIDER] <p>Body.</p>"
+            },
+            "imagePosition": "right",
+            "ctaLabel": {
+                "fr": "[À VALIDER] Lire",
+                "en": "[À VALIDER] Read"
+            },
+            "ctaUrl": "https://example.org"
+        },
+        "settings": {
+            "background": "light"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111105",
+        "type": "card_grid",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Cartes",
+                "en": "[À VALIDER] Cards"
+            },
+            "columns": 3,
+            "items": [
+                {
+                    "title": {
+                        "fr": "[À VALIDER] Carte 1",
+                        "en": "[À VALIDER] Card 1"
+                    },
+                    "text": {
+                        "fr": "[À VALIDER] Texte",
+                        "en": "[À VALIDER] Text"
+                    },
+                    "url": "/fr/contact"
+                },
+                {
+                    "title": {
+                        "fr": "[À VALIDER] Carte 2",
+                        "en": "[À VALIDER] Card 2"
+                    }
+                }
+            ]
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111106",
+        "type": "dynamic_list",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Dernières actualités",
+                "en": "[À VALIDER] Latest news"
+            },
+            "source": "articles",
+            "limit": 3
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111107",
+        "type": "services_grid",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Démarches",
+                "en": "[À VALIDER] Services"
+            },
+            "audience": "all",
+            "limit": 4
+        },
+        "settings": {
+            "background": "light"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111108",
+        "type": "key_figures",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Chiffres clés",
+                "en": "[À VALIDER] Key figures"
+            },
+            "limit": 4
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111109",
+        "type": "quote",
+        "version": 1,
+        "data": {
+            "text": {
+                "fr": "[À VALIDER] Citation",
+                "en": "[À VALIDER] Quote"
+            },
+            "author": "[À VALIDER] Auteur",
+            "role": {
+                "fr": "[À VALIDER] Fonction",
+                "en": "[À VALIDER] Role"
+            }
+        },
+        "settings": {
+            "background": "night"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111110",
+        "type": "video",
+        "version": 1,
+        "data": {
+            "youtubeId": "dQw4w9WgXcQ",
+            "title": {
+                "fr": "[À VALIDER] Vidéo",
+                "en": "[À VALIDER] Video"
+            },
+            "description": {
+                "fr": "[À VALIDER] Description",
+                "en": "[À VALIDER] Description"
+            }
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111111",
+        "type": "faq",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Questions",
+                "en": "[À VALIDER] Questions"
+            },
+            "items": [
+                {
+                    "question": {
+                        "fr": "[À VALIDER] Question ?",
+                        "en": "[À VALIDER] Question?"
+                    },
+                    "answer": {
+                        "fr": "[À VALIDER] <p>Réponse.</p>",
+                        "en": "[À VALIDER] <p>Answer.</p>"
+                    }
+                }
+            ]
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111112",
+        "type": "call_to_action",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Agir",
+                "en": "[À VALIDER] Act"
+            },
+            "text": {
+                "fr": "[À VALIDER] Texte",
+                "en": "[À VALIDER] Text"
+            },
+            "label": {
+                "fr": "[À VALIDER] Cliquer",
+                "en": "[À VALIDER] Click"
+            },
+            "url": "/fr/contact",
+            "style": "primary"
+        },
+        "settings": {
+            "background": "night"
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111113",
+        "type": "contacts",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Contacts",
+                "en": "[À VALIDER] Contacts"
+            },
+            "items": [
+                {
+                    "name": "[À VALIDER] Nom",
+                    "role": {
+                        "fr": "[À VALIDER] Fonction",
+                        "en": "[À VALIDER] Role"
+                    },
+                    "email": "contact@example.org"
+                }
+            ]
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111114",
+        "type": "tabs",
+        "version": 1,
+        "data": {
+            "items": [
+                {
+                    "label": {
+                        "fr": "[À VALIDER] Onglet 1",
+                        "en": "[À VALIDER] Tab 1"
+                    },
+                    "body": {
+                        "fr": "[À VALIDER] <p>Un.</p>",
+                        "en": "[À VALIDER] <p>One.</p>"
+                    }
+                },
+                {
+                    "label": {
+                        "fr": "[À VALIDER] Onglet 2",
+                        "en": "[À VALIDER] Tab 2"
+                    },
+                    "body": {
+                        "fr": "[À VALIDER] <p>Deux.</p>",
+                        "en": "[À VALIDER] <p>Two.</p>"
+                    }
+                }
+            ]
+        },
+        "settings": {
+            "visibility": [
+                "desktop"
+            ]
+        }
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111115",
+        "type": "separator",
+        "version": 1,
+        "data": {
+            "style": "line"
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111116",
+        "type": "embed",
+        "version": 1,
+        "data": {
+            "url": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+            "title": {
+                "fr": "[À VALIDER] Intégration",
+                "en": "[À VALIDER] Embed"
+            },
+            "height": 360
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111121",
+        "type": "home_hero",
+        "version": 1,
+        "data": {
+            "kicker": {
+                "fr": "[À VALIDER] Surtitre",
+                "en": "[À VALIDER] Kicker"
+            },
+            "title": {
+                "fr": "[À VALIDER] Ouverture",
+                "en": "[À VALIDER] Opening"
+            },
+            "lead": {
+                "fr": "[À VALIDER] Chapô",
+                "en": "[À VALIDER] Lead"
+            },
+            "image": null,
+            "imageAlt": {
+                "fr": null,
+                "en": null
+            },
+            "search": true,
+            "links": [
+                {
+                    "label": {
+                        "fr": "[À VALIDER] Lien",
+                        "en": "[À VALIDER] Link"
+                    },
+                    "url": {
+                        "fr": "/fr/documents",
+                        "en": "/en/documents"
+                    }
+                }
+            ]
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111122",
+        "type": "official_notice",
+        "version": 1,
+        "data": {},
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111123",
+        "type": "featured_releases",
+        "version": 1,
+        "data": {
+            "releases": 3
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111124",
+        "type": "consultation_highlight",
+        "version": 1,
+        "data": {},
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111125",
+        "type": "newsletter",
+        "version": 1,
+        "data": {
+            "text": {
+                "fr": "[À VALIDER] Texte",
+                "en": "[À VALIDER] Text"
+            },
+            "consent": {
+                "fr": null,
+                "en": null
+            }
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111126",
+        "type": "subpages",
+        "version": 1,
+        "data": {
+            "title": {
+                "fr": "[À VALIDER] Sous-pages",
+                "en": "[À VALIDER] Subpages"
+            },
+            "columns": 3
+        },
+        "settings": []
+    },
+    {
+        "id": "11111111-1111-4111-8111-111111111127",
+        "type": "global_block",
+        "version": 1,
+        "data": {
+            "block": "__GLOBAL__"
+        },
+        "settings": []
+    }
+]

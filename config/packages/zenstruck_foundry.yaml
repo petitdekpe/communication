@@ -1,0 +1,16 @@
+when@dev: &dev
+    # Configuration complète : https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#full-default-bundle-configuration
+    zenstruck_foundry:
+        persistence:
+            # Un seul flush par appel de PersistentObjectFactory::create()
+            flush_once: true
+
+when@test:
+    zenstruck_foundry:
+        persistence:
+            flush_once: true
+        orm:
+            reset:
+                # La base de test est reconstruite en jouant les migrations : chaque lancement des tests
+                # vérifie qu'elles passent sur MariaDB.
+                mode: migrate

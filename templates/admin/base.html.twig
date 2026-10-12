@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-pt-24">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="turbo-cache-control" content="no-preview">
+        <title>{% block title %}{{ 'admin.title'|trans }}{% endblock %} | {{ 'admin.site'|trans }}</title>
+        <link rel="preload" href="{{ asset('fonts/montserrat-latin-400-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="{{ asset('fonts/montserrat-latin-700-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+        {% block javascripts %}{% block importmap %}{{ importmap('app') }}{% endblock %}{% endblock %}
+    </head>
+    <body class="bg-mist text-ink">
+        {% block body %}
+            {# Liens d'évitement : premier élément atteint au clavier. #}
+            <nav aria-label="{{ 'admin.skip.label'|trans }}" class="sr-only focus-within:not-sr-only focus-within:fixed focus-within:left-2 focus-within:top-2 focus-within:z-50 focus-within:flex focus-within:gap-2 focus-within:rounded-card focus-within:bg-white focus-within:p-2 focus-within:shadow-raised">
+                <a href="#contenu" data-turbo="false" class="btn btn-primary btn-sm">{{ 'admin.skip.content'|trans }}</a>
+                <a href="#menu-principal" data-turbo="false" class="btn btn-outline btn-sm">{{ 'admin.skip.menu'|trans }}</a>
+            </nav>
+
+            <div class="group flex min-h-dvh" data-controller="sidebar" data-collapsed="false">
+                {# ---- Barre latérale (bleu nuit), repliable --------------------------------------------- #}
+                {# Petit écran : un rail d'icônes réserve la place, et la barre déployée passe par-dessus le contenu. #}
+                <div class="hidden w-[4.75rem] shrink-0 max-lg:block" aria-hidden="true"></div>
+                <aside id="barre-laterale" class="surface-dark top-0 flex h-dvh w-72 shrink-0 flex-col overflow-y-auto overflow-x-hidden group-data-[collapsed=true]:w-[4.75rem] max-lg:fixed max-lg:left-0 max-lg:z-40 max-lg:shadow-raised lg:sticky" aria-label="{{ 'admin.sidebar.label'|trans }}">
+                    <div class="flex items-center gap-3 px-4 py-4">
+                        <a href="{{ path('app_admin_dashboard') }}" class="flex min-w-0 flex-1 flex-col items-start gap-2 group-data-[collapsed=true]:items-center" data-turbo-action="advance">
+                            <span class="shrink-0 rounded-lg bg-white px-2 py-1 group-data-[collapsed=true]:hidden"><img src="{{ asset('images/logo/logo-ministere.png') }}" alt="{{ 'identity.logo_alt'|trans }}" width="600" height="160" class="h-9 w-auto"></span>
+                            <span class="hidden shrink-0 group-data-[collapsed=true]:inline" aria-hidden="true">{{ ux_icon('ri:government-line', {class: 'size-7'}) }}</span>
+                            <span class="min-w-0 text-small font-bold leading-tight group-data-[collapsed=true]:sr-only">{{ 'admin.site'|trans }}</span>
+                        </a>
+                    </div>
+                    <div class="px-4 pb-2">
+                        <button type="button" class="btn btn-sm w-full justify-start border-white/40 text-white hover:bg-white/10 group-data-[collapsed=true]:justify-center"
+                                data-sidebar-target="toggle" data-action="sidebar#toggle" aria-controls="menu-principal" aria-expanded="true">
+                            {{ ux_icon('ri:menu-fold-line', {class: 'size-5 group-data-[collapsed=true]:hidden'}) }}
+                            {{ ux_icon('ri:menu-unfold-line', {class: 'hidden size-5 group-data-[collapsed=true]:block'}) }}
+                            <span class="group-data-[collapsed=true]:sr-only">{{ 'admin.sidebar.toggle'|trans }}</span>
+                        </button>
+                    </div>
+
+                    <nav id="menu-principal" aria-label="{{ 'admin.menu.label'|trans }}" class="flex-1 px-3 py-2" tabindex="-1">
+                        <ul class="grid gap-1" role="list">
+                            <li>{{ _self.link(path('app_admin_dashboard'), 'admin.menu.dashboard', 'ri:dashboard-line', app.request.pathInfo == path('app_admin_dashboard')) }}</li>
+                        </ul>
+                        {% for group in admin_menu() %}
+                            <section class="mt-5" aria-labelledby="menu-{{ group.id }}">
+                                <h2 id="menu-{{ group.id }}" class="type-caption px-3 text-white/75 group-data-[collapsed=true]:sr-only">{{ group.label|trans }}</h2>
+                                <ul class="mt-2 grid gap-1" role="list">
+                                    {% for item in group.items %}
+                                        <li>{{ _self.link(item.url, item.label, item.icon, item.active) }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        {% endfor %}
+                    </nav>
+                </aside>
+
+                <div class="flex min-w-0 flex-1 flex-col overflow-x-clip">
+                    {# ---- Barre supérieure ---------------------------------------------------------------- #}
+                    <header class="sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-ink-muted/20 bg-white px-4 py-3 lg:px-8">
+                        <form action="{{ path('app_admin_search') }}" method="get" role="search" aria-label="{{ 'admin.search.label'|trans }}" class="flex min-w-48 flex-1 items-center gap-2">
+                            <label for="admin-recherche" class="sr-only">{{ 'admin.search.label'|trans }}</label>
+                            <input id="admin-recherche" name="q" type="search" maxlength="100" autocomplete="off" placeholder="{{ 'admin.search.placeholder'|trans }}"
+                                   class="min-h-10 min-w-0 flex-1 rounded-pill border border-ink-muted bg-white px-4 text-ink">
+                            <button type="submit" class="btn btn-primary btn-icon">
+                                {{ ux_icon('ri:search-line', {class: 'size-5'}) }}
+                                <span class="sr-only">{{ 'search.submit'|trans }}</span>
+                            </button>
+                        </form>
+
+                        {# Langue de travail : détermine l'onglet ouvert par défaut et la langue des titres des listes. #}
+                        <form action="{{ path('app_admin_locale') }}" method="post" class="flex items-center gap-1" role="group" aria-label="{{ 'admin.locale.label'|trans }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('admin_locale') }}">
+                            <input type="hidden" name="redirect" value="{{ app.request.pathInfo ~ (app.request.queryString ? '?' ~ app.request.queryString : '') }}">
+                            {% for code in ['fr', 'en'] %}
+                                <button type="submit" name="locale" value="{{ code }}" lang="{{ code }}" aria-pressed="{{ app.request.locale == code ? 'true' : 'false' }}"
+                                        class="btn btn-sm {{ app.request.locale == code ? 'btn-primary' : 'btn-outline' }}">
+                                    <span aria-hidden="true">{{ code|upper }}</span><span class="sr-only">{{ ('language.' ~ code)|trans }}</span>
+                                </button>
+                            {% endfor %}
+                        </form>
+
+                        <details class="relative">
+                            <summary class="btn btn-outline cursor-pointer list-none">
+                                {{ ux_icon('ri:account-circle-line', {class: 'size-5'}) }}
+                                <span class="max-w-40 truncate">{{ app.user.name }}</span>
+                                {{ ux_icon('ri:arrow-down-s-line', {class: 'size-4'}) }}
+                            </summary>
+                            <div class="absolute right-0 mt-2 w-64 rounded-card bg-white p-4 shadow-raised ring-1 ring-ink-muted/20">
+                                <p class="font-semibold text-ink">{{ app.user.name }}</p>
+                                <p class="break-all text-small text-ink-muted">{{ app.user.userIdentifier }}</p>
+                                <ul class="mt-2 flex flex-wrap gap-1" role="list">
+                                    {% for role in app.user.roles|filter(r => r != 'ROLE_USER') %}
+                                        <li><span class="badge bg-white text-primary ring-1 ring-primary ring-inset">{{ ('admin.role.' ~ role)|trans }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                                <a href="{{ path('app_admin_logout') }}" class="btn btn-outline mt-4 w-full">
+                                    {{ ux_icon('ri:logout-box-r-line', {class: 'size-5'}) }}
+                                    {{ 'admin.logout'|trans }}
+                                </a>
+                            </div>
+                        </details>
+                    </header>
+
+                    <main id="contenu" tabindex="-1" class="flex-1 px-4 py-8 lg:px-8">
+                        {% block content %}{% endblock %}
+                    </main>
+                </div>
+            </div>
+
+            <twig:Admin:Flash />
+        {% endblock %}
+    </body>
+</html>
+
+{% macro link(url, label, icon, active) %}
+    <a href="{{ url }}" title="{{ label|trans }}"{% if active %} aria-current="page"{% endif %}
+       class="flex items-center gap-3 rounded-pill px-3 py-2 text-small font-semibold {{ active ? 'bg-white text-primary' : 'text-white hover:bg-white/10' }} group-data-[collapsed=true]:justify-center">
+        {{ ux_icon(icon, {class: 'size-5 shrink-0'}) }}
+        <span class="group-data-[collapsed=true]:sr-only">{{ label|trans }}</span>
+    </a>
+{% endmacro %}

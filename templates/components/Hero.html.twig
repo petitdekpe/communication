@@ -1,0 +1,38 @@
+<section{{ attributes.defaults({class: 'bg-cream'}) }}>
+    <div class="container-site grid grid-cols-1 items-center gap-8 py-12 lg:grid-cols-2 lg:gap-12 lg:py-20">
+        <div class="min-w-0 {{ image ? '' : 'lg:col-span-2' }}">
+            {% if kicker %}
+                <p class="type-caption flex items-center gap-2 text-primary">
+                    <span class="h-1 w-6 bg-flag-green" aria-hidden="true"></span>
+                    {{ kicker }}
+                </p>
+            {% endif %}
+            <h{{ headingLevel }} class="type-display mt-3 text-primary">{{ title }}</h{{ headingLevel }}>
+            {% if lead %}
+                <p class="mt-4 max-w-prose text-body text-ink lg:text-h3 lg:font-normal">{{ lead }}</p>
+            {% endif %}
+
+            {% if primaryLabel or secondaryLabel %}
+                <div class="mt-8 flex flex-wrap gap-3">
+                    {% if primaryLabel %}
+                        <twig:Button :label="primaryLabel" :href="primaryHref" size="lg" icon="ri:arrow-right-line" iconPosition="end" />
+                    {% endif %}
+                    {% if secondaryLabel %}
+                        <twig:Button :label="secondaryLabel" :href="secondaryHref" variant="secondary" size="lg" />
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {# Contenu libre passé entre les balises (<twig:Hero …>…</twig:Hero>) : recherche, accès directs… #}
+            {% block content %}{% endblock %}
+        </div>
+
+        {% if image %}
+            <div class="aspect-[4/3] overflow-hidden rounded-card bg-mist shadow-raised">
+                <img src="{{ image starts with 'http' or image starts with '/' ? image : asset(image) }}"
+                     alt="{{ imageAlt }}" width="960" height="720"
+                     class="size-full object-cover">
+            </div>
+        {% endif %}
+    </div>
+</section>

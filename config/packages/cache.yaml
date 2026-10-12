@@ -1,0 +1,41 @@
+framework:
+    cache:
+        # Unique name of your app: used to compute stable namespaces for cache keys.
+        #prefix_seed: your_vendor_name/app_name
+
+        # The "app" cache stores to the filesystem by default.
+        # The data in this cache should persist between deploys.
+        # Other options include:
+
+        # Redis
+        #app: cache.adapter.redis
+        #default_redis_provider: redis://localhost
+
+        # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
+        #app: cache.adapter.apcu
+
+        # Namespaced pools use the above "app" backend by default
+        pools:
+            # Menus du site résolus par App\Menu\MenuProvider (vidé à chaque enregistrement de l'éditeur de menus).
+            cache.menu: ~
+            # HTML complet des pages publiées (visiteurs sans session), invalidé par étiquettes à chaque publication.
+            cache.page_html:
+                tags: true
+                default_lifetime: 3600
+            # Blocs dynamiques (listes, démarches, chiffres clés…) : 5 minutes, invalidés par étiquettes à la publication.
+            cache.page_blocks:
+                tags: true
+                default_lifetime: 300
+
+when@test:
+    framework:
+        cache:
+            pools:
+                # En mémoire dans les tests : rien ne survit d'un test à l'autre.
+                cache.menu:
+                    adapter: cache.adapter.array
+                # Pas de cache HTML partagé entre tests (PAGE_CACHE=0 sauf dans PageCacheTest, qui le vide avant et après) :
+                # un pool en mémoire serait de toute façon vidé à chaque requête par le service de remise à zéro du noyau.
+                cache.page_blocks:
+                    adapter: cache.adapter.array
+                    tags: true

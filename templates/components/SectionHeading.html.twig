@@ -1,0 +1,18 @@
+<div{{ attributes.defaults({class: 'flex flex-wrap items-end justify-between gap-x-6 gap-y-3'}) }}>
+    <div class="min-w-0">
+        {% if kicker %}
+            <p class="type-caption flex items-center gap-2 text-ink-muted">
+                <span class="h-1 w-6 bg-flag-green" aria-hidden="true"></span>
+                {{ kicker }}
+            </p>
+        {% endif %}
+        <h{{ headingLevel }}{% if id %} id="{{ id }}"{% endif %} class="type-h2 mt-2 text-primary">{{ title }}</h{{ headingLevel }}>
+    </div>
+
+    {% if href %}
+        <a href="{{ href }}" class="inline-flex items-center gap-1 text-small font-semibold text-primary underline underline-offset-4 hover:no-underline">
+            {{ linkLabel ?? 'ui.see_all'|trans }}<span class="sr-only"> : {{ title }}</span>
+            {{ ux_icon('ri:arrow-right-line', {class: 'size-4'}) }}
+        </a>
+    {% endif %}
+</div>

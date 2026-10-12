@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'newsletter.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'newsletter.title'|trans}]" />
+        <div class="mt-8 max-w-3xl">
+            <h1 class="type-h1 text-primary">{{ 'newsletter.title'|trans }}</h1>
+            <p class="mt-3 text-ink-muted">{{ 'newsletter.intro'|trans }}</p>
+
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-turbo': 'false', 'data-controller': 'form-errors'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+                {{ form_row(form.email) }}
+                {{ form_row(form.website) }}
+                {{ form_rest(form) }}
+                <div><twig:Button type="submit" :label="'home.newsletter.submit'|trans" size="lg" /></div>
+            {{ form_end(form, {render_rest: false}) }}
+            <p class="mt-4 text-small text-ink-muted">{{ 'newsletter.double_opt_in'|trans }}</p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    <link rel="canonical" href="{{ article_url(article, true) }}">
+    <script type="application/ld+json">{{ schema_news_article(article) }}</script>
+{% endblock %}
+
+{% block content %}
+    {% set cover = article.coverImage %}
+    {% set page_url = article_url(article, true) %}
+
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'news.title'|trans, href: path('app_news_index')},
+            {label: translation.title},
+        ]" />
+
+        <twig:TranslationFallbackNotice :translatable="article" class="mt-6 max-w-3xl" />
+
+        {# lang : langue réelle du texte affiché (fr en cas de repli sur une page /en). #}
+        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
+            <header>
+                <div class="flex flex-wrap items-center gap-3">
+                    <twig:Badge :value="article.type.category" />
+                    {% if article.publishedAt %}
+                        <time datetime="{{ article.publishedAt|date('Y-m-d') }}" class="text-small text-ink-muted">{{ article.publishedAt|format_date('long', locale: app.locale) }}</time>
+                    {% endif %}
+                </div>
+                <h1 class="type-display mt-4 text-primary">{{ translation.title }}</h1>
+                {% if translation.excerpt %}
+                    <p class="mt-6 text-h3 font-normal text-ink">{{ translation.excerpt }}</p>
+                {% endif %}
+            </header>
+
+            {% if cover %}
+                <figure class="mt-8">
+                    <img src="{{ media_url(cover) }}" alt="{{ media_alt(cover) }}"
+                         width="{{ cover.width ?? 1280 }}" height="{{ cover.height ?? 720 }}"
+                         class="w-full rounded-card bg-mist object-cover">
+                    {% set caption = cover.translate(app.locale).caption %}
+                    {% if caption or cover.credit %}
+                        <figcaption class="mt-2 text-small text-ink-muted">
+                            {{ caption }}
+                            {% if cover.credit %}<span class="whitespace-nowrap">{{ 'article.credit'|trans }} {{ cover.credit }}</span>{% endif %}
+                        </figcaption>
+                    {% endif %}
+                </figure>
+            {% endif %}
+
+            {% if translation.body %}
+                <div class="prose-article mt-8">{{ translation.body|sanitize_html('app.article_body') }}</div>
+            {% endif %}
+        </article>
+
+        {% if attachments is not empty %}
+            <section class="mt-12 max-w-3xl" aria-labelledby="pieces-jointes">
+                <h2 id="pieces-jointes" class="type-h3 text-primary">{{ 'article.attachments'|trans }}</h2>
+                <div class="mt-4 border-t border-ink-muted/20">
+                    {% for document in attachments %}
+                        {% set file = document.file %}
+                        <twig:DocumentRow
+                            :title="document.translate(app.locale).title ?? ''"
+                            :href="media_url(file)"
+                            :fileType="enum_file_type(file.mimeType)"
+                            :size="file.size ?? 0"
+                            :date="document.documentDate ?? document.publishedAt" />
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if article.gallery and article.gallery.items is not empty %}
+            <section class="mt-12" aria-labelledby="galerie">
+                <h2 id="galerie" class="type-h3 text-primary">{{ article.gallery.translate(app.locale).title ?? ('article.gallery'|trans) }}</h2>
+                <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
+                    {% for item in article.gallery.items %}
+                        {% set media = item.media %}
+                        {% set media_caption = media.translate(app.locale).caption %}
+                        <li>
+                            <figure>
+                                <img src="{{ media_url(media) }}" alt="{{ media_alt(media) }}" loading="lazy"
+                                     width="{{ media.width ?? 640 }}" height="{{ media.height ?? 360 }}"
+                                     class="aspect-video w-full rounded-card bg-mist object-cover">
+                                {% if media_caption or media.credit %}
+                                    <figcaption class="mt-2 text-small text-ink-muted">{{ media_caption }}{% if media.credit %} {{ 'article.credit'|trans }} {{ media.credit }}{% endif %}</figcaption>
+                                {% endif %}
+                            </figure>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        {# Partage : simples liens, aucun script ni traceur tiers. #}
+        <section class="mt-12 max-w-3xl" aria-labelledby="partager">
+            <h2 id="partager" class="type-h3 text-primary">{{ 'article.share.title'|trans }}</h2>
+            <ul class="mt-4 flex flex-wrap gap-3" role="list">
+                {% set encoded_url = page_url|url_encode %}
+                {% set encoded_title = translation.title|url_encode %}
+                {% for network in [
+                    {key: 'facebook', icon: 'ri:facebook-fill', href: 'https://www.facebook.com/sharer/sharer.php?u=' ~ encoded_url},
+                    {key: 'x', icon: 'ri:twitter-x-line', href: 'https://twitter.com/intent/tweet?url=' ~ encoded_url ~ '&text=' ~ encoded_title},
+                    {key: 'linkedin', icon: 'ri:linkedin-fill', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' ~ encoded_url},
+                    {key: 'whatsapp', icon: 'ri:whatsapp-line', href: 'https://wa.me/?text=' ~ encoded_title ~ '%20' ~ encoded_url},
+                    {key: 'email', icon: 'ri:mail-line', href: 'mailto:?subject=' ~ encoded_title ~ '&body=' ~ encoded_url},
+                ] %}
+                    <li>
+                        <a href="{{ network.href }}" class="btn btn-outline btn-sm" rel="noopener noreferrer"{% if network.key != 'email' %} target="_blank"{% endif %}>
+                            {{ ux_icon(network.icon, {class: 'size-4'}) }}
+                            {{ ('article.share.' ~ network.key)|trans }}
+                            {% if network.key != 'email' %}<span class="sr-only"> ({{ 'footer.external_site'|trans }})</span>{% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    {% if related is not empty %}
+        <section class="bg-mist py-12" aria-labelledby="articles-lies">
+            <div class="container-site">
+                <twig:SectionHeading id="articles-lies" :title="'article.related'|trans" />
+                <div class="mt-8 grid gap-6 md:grid-cols-3">
+                    {% for item in related %}
+                        <twig:ArticleTeaser :article="item" />
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{#
+    Ligne du tableau (rendue par DataTable et par les Turbo Streams qui la remplacent après une action).
+    Variables : row, columns, selectable, table.
+#}
+<tr id="row-{{ table }}-{{ row.id }}">
+    {% if selectable %}
+        <td class="w-10 px-4 py-3">
+            <input type="checkbox" name="ids[]" value="{{ row.id }}" form="bulk-{{ table }}" class="size-5 accent-primary"
+                   data-table-select-target="row" data-action="table-select#update" aria-label="{{ 'admin.table.select_row'|trans({id: row.id}) }}">
+        </td>
+    {% endif %}
+    {% for column in columns %}
+        {% set cell = row.cells[column.key] %}
+        {% if loop.first %}<th scope="row" class="px-4 py-3 text-left font-semibold">{% else %}<td class="px-4 py-3 text-small text-ink">{% endif %}
+            {% if cell.type == 'status' %}
+                <twig:Admin:StatusBadge kind="publication" :status="cell.value" />
+            {% elseif cell.type == 'request-status' %}
+                <twig:Admin:StatusBadge kind="request" :status="cell.value" />
+            {% elseif cell.type == 'bool' %}
+                <span class="inline-flex items-center gap-1">
+                    {{ ux_icon(cell.value ? 'ri:checkbox-circle-fill' : 'ri:close-circle-line', {class: 'size-5 ' ~ (cell.value ? 'text-flag-green' : 'text-ink-muted')}) }}
+                    {{ (cell.value ? 'ui.yes' : 'ui.no')|trans }}
+                </span>
+            {% elseif cell.type == 'date' %}
+                {% if cell.value %}<time datetime="{{ cell.value|date('Y-m-d') }}">{{ cell.value|format_date('medium', locale: app.locale) }}</time>{% else %}<span class="text-ink-muted">–</span>{% endif %}
+            {% elseif cell.type == 'datetime' %}
+                {% if cell.value %}<time datetime="{{ cell.value|date('c') }}">{{ cell.value|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time>{% else %}<span class="text-ink-muted">–</span>{% endif %}
+            {% elseif cell.type == 'enum' %}
+                {{ cell.label|trans }}
+            {% elseif cell.type == 'roles' %}
+                <ul class="flex flex-wrap gap-1" role="list">{% for label in cell.labels %}<li><span class="badge bg-white text-primary ring-1 ring-primary ring-inset">{{ label|trans }}</span></li>{% endfor %}</ul>
+            {% elseif cell.type == 'title' and cell.href %}
+                <a href="{{ cell.href }}" class="text-primary underline underline-offset-4 hover:no-underline"{% if cell.lang %} lang="{{ cell.lang }}"{% endif %}>{{ cell.value ?: ('ui.not_specified'|trans) }}</a>
+            {% else %}
+                <span{% if cell.lang|default(null) %} lang="{{ cell.lang }}"{% endif %}>{{ cell.value is null or cell.value == '' ? '–' : cell.value }}</span>
+            {% endif %}
+        {% if loop.first %}</th>{% else %}</td>{% endif %}
+    {% endfor %}
+    <td class="px-4 py-3">
+        <ul class="flex flex-wrap justify-end gap-2" role="list">
+            {% for action in row.actions %}
+                <li>
+                    {% if action.method == 'get' %}
+                        <a href="{{ action.url }}" class="btn btn-outline btn-sm">{{ action.label|trans }}<span class="sr-only"> : {{ row.title }}</span></a>
+                    {% else %}
+                        {% set form_id = 'action-' ~ table ~ '-' ~ row.id ~ '-' ~ action.name %}
+                        <form id="{{ form_id }}" method="post" action="{{ action.url }}">
+                            <input type="hidden" name="_token" value="{{ action.token }}">
+                            {% if action.confirm %}
+                                <button type="button" class="btn btn-sm {{ action.danger ? 'btn-outline text-flag-red border-flag-red' : 'btn-outline' }}"
+                                        data-action="confirm-dialog#ask" data-confirm-dialog-form-param="{{ form_id }}"
+                                        data-confirm-dialog-message-param="{{ ('admin.confirm.' ~ action.name)|trans({title: row.title}) }}">{{ action.label|trans }}<span class="sr-only"> : {{ row.title }}</span></button>
+                            {% else %}
+                                <button type="submit" class="btn btn-outline btn-sm">{{ action.label|trans }}<span class="sr-only"> : {{ row.title }}</span></button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </td>
+</tr>

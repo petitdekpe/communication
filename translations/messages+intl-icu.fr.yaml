@@ -1,0 +1,1290 @@
+site:
+    name: 'Ministère de la Communication, chargé des Médias'
+    country: 'République du Bénin'
+
+a11y:
+    skip_links_label: 'Accès rapide'
+    skip_to_content: 'Aller au contenu'
+    skip_to_search: 'Aller à la recherche'
+
+identity:
+    logo_alt: 'Ministère de la Communication, République du Bénin'
+    ministry: 'Ministère de la Communication'
+    portfolio: 'Chargé des Médias'
+
+language:
+    nav_label: 'Choix de la langue'
+    fr: 'Français'
+    en: 'English'
+
+utility:
+    official_portal: 'Portail officiel du Gouvernement'
+    nav_label: 'Accès directs'
+    helpline: 'Assistance : {value}'
+
+nav:
+    main_label: 'Menu principal'
+    menu: 'Menu'
+    close: 'Fermer'
+
+menu:
+    ministry:
+        label: 'Le ministère'
+        overview: 'Présentation'
+        missions: 'Missions et attributions'
+        organisation: 'Organisation'
+        agencies: 'Structures sous tutelle'
+    services:
+        label: 'Services et démarches'
+        all: 'Toutes les démarches'
+        journalists: 'Journalistes'
+        media: 'Médias'
+        companies: 'Entreprises'
+        citizens: 'Citoyens'
+    news:
+        label: 'Actualités'
+        all: 'Toutes les actualités'
+        press_releases: 'Communiqués'
+        agenda: 'Agenda'
+        consultations: 'Consultations'
+    documents:
+        label: 'Documents'
+    projects:
+        label: 'Projets et réformes'
+    data:
+        label: 'Données'
+        key_figures: 'Chiffres clés'
+        open_data: 'Données ouvertes'
+    contact:
+        label: 'Contact'
+    utility:
+        press: 'Espace presse'
+        open_data: 'Données ouvertes'
+        agenda: 'Agenda'
+    footer:
+        resources: 'Ressources'
+    social:
+        facebook: 'Facebook'
+        x: 'X (anciennement Twitter)'
+        youtube: 'YouTube'
+        linkedin: 'LinkedIn'
+    institutional:
+        gouv: 'gouv.bj'
+        presidence: 'presidence.bj'
+        service_public: 'service-public.bj'
+    legal:
+        notice: 'Mentions légales'
+        accessibility: 'Accessibilité'
+        sitemap: 'Plan du site'
+
+search:
+    open: 'Rechercher'
+    dialog_title: 'Rechercher sur le portail'
+    label: 'Que recherchez-vous ?'
+    submit: 'Rechercher'
+    close: 'Fermer la recherche'
+    shortcut_hint: 'Raccourci : Ctrl + K (Cmd + K sur Mac). Échap pour fermer.'
+    page_title: 'Recherche'
+    results_for: 'Résultats pour « {query} »'
+    hint: 'Saisissez un mot ou une expression pour rechercher dans les actualités, documents, démarches, événements et pages.'
+    too_short: 'Saisissez au moins 2 caractères.'
+    results_count: '{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}'
+    groups_nav: 'Types de résultats'
+    empty:
+        title: 'Aucun résultat'
+        message: 'Essayez avec un autre mot ou une orthographe différente.'
+    type:
+        article: 'Actualités et communiqués'
+        document: 'Documents officiels'
+        service: 'Démarches'
+        event: 'Événements'
+        page: 'Pages'
+
+footer:
+    contact_title: 'Coordonnées'
+    address: 'Adresse : {value}'
+    phone: 'Téléphone : {value}'
+    email: 'Courriel : {value}'
+    social_title: 'Suivez-nous'
+    institutional_label: 'Sites institutionnels'
+    external_site: '(site externe)'
+    legal_label: 'Informations légales'
+    copyright: '© République du Bénin {year}'
+
+home:
+    hero:
+        kicker: 'Portail institutionnel officiel'
+        read: "Lire l'article"
+    search:
+        label: 'Rechercher une démarche, un texte, une actualité'
+        submit: 'Rechercher'
+    quick_links:
+        title: 'Accès directs'
+        press_accreditation: 'Accréditation presse'
+        official_texts: 'Textes officiels'
+        tnt: 'TNT'
+        sector_data: 'Données sectorielles'
+    featured:
+        title: 'À la une'
+    press_releases:
+        title: 'Communiqués récents'
+        see_all: 'Tous les communiqués'
+    services:
+        kicker: 'Démarches'
+        title: 'Services prioritaires'
+        see_all: 'Voir toutes les démarches'
+    news:
+        kicker: 'Le ministère informe'
+        title: 'Actualités'
+        see_all: 'Toutes les actualités'
+    documents:
+        title: 'Documents officiels'
+        see_all: 'Tous les documents'
+        empty: 'Aucun document publié pour le moment.'
+    agenda:
+        title: 'Agenda'
+        see_all: "Tout l'agenda"
+        empty: 'Aucun événement à venir pour le moment.'
+    stats:
+        kicker: 'Données'
+        title: 'Chiffres clés'
+        see_all: 'Toutes les données'
+    consultation:
+        kicker: 'Consultations citoyennes'
+        participate: 'Participer'
+        see: 'Voir la consultation'
+        all: 'Toutes les consultations'
+    press:
+        kicker: 'Journalistes et médias'
+        title: 'Espace presse'
+        see_all: "Accéder à l'espace presse"
+        open: 'Accéder'
+        cards:
+            accreditation:
+                title: 'Accréditation presse'
+                text: "Déposez votre demande d'accréditation en ligne et suivez son traitement."
+            media_library:
+                title: 'Médiathèque'
+                text: 'Les photos et les vidéos du ministère.'
+            press_releases:
+                title: 'Communiqués'
+                text: 'Les communiqués officiels du ministère.'
+    newsletter:
+        title: "Lettre d'information"
+        label: 'Votre adresse électronique'
+        hint: 'Format attendu : nom@domaine.bj'
+        submit: "S'abonner"
+        default_text: "Recevez par courriel les informations du ministère."
+        default_consent: "Votre adresse n'est utilisée que pour l'envoi de la lettre ; vous pouvez vous désinscrire en un clic."
+
+category:
+    actualite: 'Actualité'
+    communique: 'Communiqué'
+    dossier: 'Dossier'
+    annonce: 'Annonce'
+    avis-officiel: 'Avis officiel'
+
+audience:
+    journalistes: 'Journalistes'
+    medias: 'Médias'
+    entreprises: 'Entreprises'
+    citoyens: 'Citoyens'
+
+badge:
+    audience_prefix: 'Public :'
+
+file_type:
+    pdf: 'PDF'
+    word: 'Word'
+    excel: 'Excel'
+    zip: 'ZIP'
+    other: 'Fichier'
+
+file_size:
+    byte: '{size, plural, one {# octet} other {# octets}}'
+    kb: '{size, number, ::.#} Ko'
+    mb: '{size, number, ::.#} Mo'
+    gb: '{size, number, ::.#} Go'
+
+ui:
+    see_all: 'Voir tout'
+    download: 'Télécharger'
+    not_specified: 'Non précisé'
+    'yes': 'Oui'
+    'no': 'Non'
+
+service:
+    cost: 'Coût'
+    delay: 'Délai'
+    online: 'En ligne'
+    see: 'Voir la démarche'
+
+agenda:
+    title: 'Agenda'
+    location: 'Lieu :'
+    venue: 'Lieu'
+    subscribe: 'S''abonner au calendrier (iCal)'
+    add_to_calendar: 'Ajouter à mon calendrier (.ics)'
+    back: 'Retour à l''agenda'
+    timezone_note: 'Horaires indiqués à l''heure du Bénin (UTC+1).'
+    results_count: '{count, plural, =0 {Aucun événement} one {# événement} other {# événements}}'
+    view:
+        label: 'Mode d''affichage'
+        list: 'Liste'
+        month: 'Mois'
+    when:
+        label: 'Période'
+        upcoming: 'À venir'
+        past: 'Passés'
+    filter:
+        type: 'Type d''événement'
+        all: 'Tous'
+        submit: 'Filtrer'
+        reset: 'Réinitialiser'
+    empty:
+        title: 'Aucun événement'
+        message: 'Aucun événement ne correspond à ces critères.'
+    month:
+        nav: 'Navigation entre les mois'
+        previous: 'Mois précédent'
+        next: 'Mois suivant'
+        caption: 'Agenda de {month}'
+        empty:
+            title: 'Aucun événement ce mois-ci'
+            message: 'Aucun événement ne correspond à ces critères pour ce mois.'
+
+documents:
+    title: 'Documents officiels'
+    intro: 'Lois, décrets, arrêtés, rapports, stratégies et formulaires.'
+    signed_on: 'Signé le'
+    reference: 'Réf. :'
+    file_language: 'Langue du fichier :'
+    downloads: '{count, plural, =0 {Aucun téléchargement} one {# téléchargement} other {# téléchargements}}'
+    results_count: '{count, plural, =0 {Aucun document} one {# document} other {# documents}}'
+    keywords_ignored: 'Les mots de moins de 3 lettres ne sont pas pris en compte dans la recherche.'
+    search:
+        label: 'Rechercher un document'
+    filter:
+        keywords: 'Mots-clés'
+        keywords_hint: 'Recherche dans le titre et le résumé.'
+        type: 'Type de document'
+        all: 'Tous'
+        sort: 'Tri par date'
+        sort_newest: 'Du plus récent au plus ancien'
+        sort_oldest: 'Du plus ancien au plus récent'
+        from: 'Signé à partir du'
+        to: 'Signé jusqu''au'
+        submit: 'Rechercher'
+        reset: 'Réinitialiser'
+    empty:
+        title: 'Aucun résultat'
+        message: 'Aucun document ne correspond à ces critères.'
+
+document_type:
+    law: 'Loi'
+    decree: 'Décret'
+    order: 'Arrêté'
+    report: 'Rapport'
+    strategy: 'Stratégie'
+    form: 'Formulaire'
+
+event_type:
+    press_briefing: 'Point de presse'
+    workshop: 'Atelier'
+    summit: 'Sommet'
+    conference: 'Conférence'
+    ceremony: 'Cérémonie'
+    other: 'Autre'
+stat:
+    value_pending: '[À VALIDER]'
+    source: 'Source :'
+    updated: 'Mise à jour :'
+
+notice:
+    default_title: 'Avis officiel'
+    more: 'En savoir plus'
+    dismiss: 'Masquer cet avis'
+
+breadcrumb:
+    home: 'Accueil'
+    label: 'Fil d''Ariane'
+
+pagination:
+    label: 'Pagination'
+    page: 'Page'
+    previous: 'Précédente'
+    next: 'Suivante'
+
+translation_fallback:
+    notice: 'Contenu disponible en français uniquement.'
+
+news:
+    title: 'Actualités'
+    rss: 'Flux RSS'
+    feed_description: 'Les dernières actualités du ministère.'
+    results_count: '{count, plural, =0 {Aucun article} one {# article} other {# articles}}'
+    download_pdf: 'Télécharger le PDF'
+    filter:
+        type: 'Type'
+        category: 'Rubrique'
+        year: 'Année'
+        all: 'Tous'
+        submit: 'Filtrer'
+        reset: 'Réinitialiser'
+    empty:
+        title: 'Aucun résultat'
+        message: 'Aucun article ne correspond à ces filtres.'
+
+press_releases:
+    title: 'Communiqués'
+
+article:
+    credit: 'Crédit :'
+    attachments: 'Pièces jointes'
+    gallery: 'Galerie'
+    related: 'À lire aussi'
+    share:
+        title: 'Partager'
+        facebook: 'Facebook'
+        x: 'X'
+        linkedin: 'LinkedIn'
+        whatsapp: 'WhatsApp'
+        email: 'Courriel'
+
+services:
+    title: 'Démarches'
+    intro: 'Les démarches pour les journalistes, les médias, les entreprises et les citoyens.'
+    results_count: '{count, plural, =0 {Aucune démarche} one {# démarche} other {# démarches}}'
+    filter:
+        label: 'Filtrer les démarches par public'
+        all: 'Tous les publics'
+    empty:
+        title: 'Aucune démarche'
+        message: 'Aucune démarche ne correspond à ce public pour le moment.'
+    summary:
+        title: 'En bref'
+    steps:
+        title: 'Les étapes'
+        step: 'Étape {number}'
+    documents:
+        title: 'Pièces à fournir'
+        hint: 'Cochez les pièces au fur et à mesure. La liste peut être imprimée.'
+        print: 'Imprimer la liste'
+        none: "Aucune pièce particulière n'est demandée."
+    legal:
+        title: 'Base légale'
+    contact:
+        title: 'Contact'
+    action:
+        apply: 'Faire la demande en ligne'
+        external: 'Accéder au service en ligne'
+        track: 'Suivre ma demande'
+
+request:
+    title: 'Demande en ligne'
+    intro: "Remplissez le formulaire ci-dessous. À l'envoi, vous recevrez un numéro de suivi et un accusé de réception par courriel."
+    required_hint: "Les champs marqués d'un astérisque (*) sont obligatoires."
+    submit: 'Envoyer ma demande'
+    cancel: 'Annuler'
+    section:
+        details: 'Votre demande'
+        contact: 'Contact'
+        attachments: 'Pièces jointes'
+        consent: 'Données personnelles'
+    field:
+        email: 'Adresse électronique'
+        email_help: "L'accusé de réception et le suivi de la demande utilisent cette adresse."
+        attachments: 'Pièces justificatives'
+        attachments_help: 'Fichiers PDF ou JPG, 5 Mo au maximum chacun, 5 fichiers au maximum.'
+        consent: "J'accepte que le Ministère de la Communication, chargé des Médias, traite mes données personnelles pour instruire ma demande, dans le respect des règles de l'Autorité de protection des données personnelles (APDP)."
+    accreditation:
+        last_name: 'Nom'
+        first_name: 'Prénoms'
+        phone: 'Téléphone (facultatif)'
+        media_outlet: 'Organe de presse'
+        job_title: 'Fonction'
+        event_name: 'Événement visé'
+        event_name_help: "Nom de l'événement pour lequel vous demandez l'accréditation."
+    honeypot:
+        label: 'Ne pas remplir ce champ'
+    error:
+        summary_title: 'Le formulaire contient des erreurs'
+        too_many: 'Trop de tentatives. Veuillez patienter avant de réessayer.'
+        too_large: "Le formulaire n'a pas pu être reçu : les fichiers sont probablement trop volumineux. Réduisez leur poids et réessayez."
+    done:
+        title: 'Demande envoyée'
+        number_label: 'Votre numéro de suivi :'
+        keep: 'Conservez ce numéro : il vous sera demandé, avec votre adresse électronique, pour suivre votre demande.'
+        email: 'Un accusé de réception vous a été envoyé par courriel.'
+        tracking_hint: "Ce numéro ne figure jamais dans l'adresse de la page : il se saisit dans le formulaire de suivi."
+        track: 'Suivre ma demande'
+        back: 'Retour aux démarches'
+    mail:
+        subject: 'Accusé de réception de votre demande {number}'
+        title: 'Nous avons bien reçu votre demande'
+        intro: 'Votre demande « {service} » a été enregistrée.'
+        how_to_track: "Pour suivre son avancement, rendez-vous sur la page de suivi et saisissez ce numéro avec l'adresse électronique utilisée pour la demande :"
+        ignore: "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message."
+    status_mail:
+        subject: 'Mise à jour de votre demande {number}'
+        title: 'Le statut de votre demande a changé'
+        intro: 'Le traitement de votre demande « {service} » a progressé.'
+        new_status: 'Nouveau statut :'
+
+tracking:
+    title: "Suivi d'une demande"
+    intro: "Saisissez le numéro de suivi reçu à l'envoi de votre demande et l'adresse électronique utilisée."
+    submit: 'Consulter le statut'
+    field:
+        number: 'Numéro de suivi'
+        number_help: 'Format : MCM-2026-XXXXXXXX.'
+        email: 'Adresse électronique'
+        email_help: "L'adresse utilisée pour la demande."
+    error:
+        not_found: 'Aucune demande ne correspond à ces informations. Vérifiez le numéro et l''adresse saisis.'
+    result:
+        title: 'Votre demande'
+        number: 'Numéro de suivi'
+        service: 'Démarche'
+        status: 'Statut'
+        submitted: 'Déposée le'
+        updated: 'Dernière mise à jour'
+    status:
+        received: 'Reçue'
+        in_review: "En cours d'examen"
+        approved: 'Acceptée'
+        rejected: 'Refusée'
+    status_help:
+        received: "Votre demande a bien été reçue. Elle n'a pas encore été examinée."
+        in_review: "Votre demande est en cours d'examen."
+        approved: 'Votre demande a été acceptée.'
+        rejected: "Votre demande n'a pas été retenue."
+
+data:
+    title: 'Données et chiffres clés'
+    intro: 'Les chiffres clés du secteur, avec leur source et leur date de mise à jour.'
+    export: 'Exporter en CSV'
+    export_format: 'fichier CSV, encodage UTF-8'
+    results_count: '{count, plural, =0 {Aucun chiffre} one {# chiffre} other {# chiffres}}'
+    caption: 'Chiffres clés : libellé, valeur, source et date de mise à jour'
+    empty:
+        title: 'Aucun chiffre publié'
+        message: "Aucun chiffre clé n'est publié pour le moment."
+    column:
+        label: 'Indicateur'
+        value: 'Valeur'
+        source: 'Source'
+        updated: 'Mise à jour'
+
+media_library:
+    title: 'Médiathèque'
+    intro: 'Les galeries photo et les vidéos du ministère.'
+    photos: 'Galeries photo'
+    videos: 'Vidéos'
+    videos_privacy: "Les vidéos sont hébergées par YouTube et ne sont chargées qu'au clic : aucun cookie n'est déposé avant."
+    play: 'Lire la vidéo'
+    watch_on_youtube: 'Regarder sur YouTube'
+    empty_photos:
+        title: 'Aucune galerie'
+        message: "Aucune galerie photo n'est publiée pour le moment."
+    empty_videos:
+        title: 'Aucune vidéo'
+        message: "Aucune vidéo n'est publiée pour le moment."
+    viewer:
+        open: "Agrandir l'image"
+        close: 'Fermer la visionneuse'
+        previous: 'Précédente'
+        next: 'Suivante'
+        counter: 'Image {current} sur {total}'
+
+consultation:
+    title: 'Consultations citoyennes'
+    intro: 'Donnez votre avis sur les projets du ministère.'
+    empty:
+        title: 'Aucune consultation'
+        message: "Aucune consultation n'est publiée pour le moment."
+    state:
+        open: 'Ouverte'
+        upcoming: 'À venir'
+        closed: 'Clôturée'
+    period: 'Du {from} au {to}'
+    opens: 'Ouverture'
+    closes: 'Clôture'
+    documents: 'Documents de la consultation'
+    results:
+        title: 'Résultats de la consultation'
+        available: 'Les résultats de cette consultation sont publiés.'
+        see: 'Lire les résultats'
+    contribute:
+        title: 'Contribuer'
+        intro: 'Remplissez le formulaire pour déposer votre contribution.'
+        submit: 'Envoyer ma contribution'
+        upcoming: "La consultation n'est pas encore ouverte : les contributions seront possibles à partir de la date d'ouverture."
+        closed: 'La consultation est clôturée : les contributions ne sont plus acceptées.'
+        thanks: 'Merci, votre contribution a bien été enregistrée.'
+    field:
+        name: 'Nom'
+        organization: 'Organisation (facultatif)'
+        text: 'Votre contribution'
+        text_help: '10 000 caractères au maximum.'
+        file: 'Fichier joint (facultatif)'
+        file_help: 'Fichier PDF ou JPG, 5 Mo au maximum.'
+        consent: "J'accepte que mes données personnelles (nom, organisation, texte et fichier) soient traitées pour l'analyse de cette consultation."
+
+newsletter:
+    title: "Lettre d'information"
+    intro: "Recevez par courriel les informations du ministère."
+    double_opt_in: "Après votre inscription, un message vous demandera de confirmer votre adresse : l'abonnement n'est actif qu'après cette confirmation."
+    back: "Retour à l'accueil"
+    subscribed:
+        title: 'Vérifiez votre messagerie'
+        message: "Si cette adresse peut être inscrite, un message de confirmation vient de lui être envoyé. Cliquez sur le lien qu'il contient pour activer l'abonnement."
+    confirmed:
+        title: 'Abonnement confirmé'
+        message: "Merci, votre adresse est inscrite à la lettre d'information. Chaque message contient un lien de désinscription."
+    unsubscribed:
+        title: 'Désinscription effectuée'
+        message: "Votre adresse est désinscrite : vous ne recevrez plus la lettre d'information."
+    invalid:
+        title: 'Lien invalide'
+        message: "Ce lien n'est pas valide ou a expiré."
+    mail:
+        subject: "Confirmez votre inscription à la lettre d'information"
+        title: 'Confirmez votre inscription'
+        intro: "Une inscription à la lettre d'information a été demandée avec cette adresse. Pour l'activer, confirmez-la :"
+        confirm: "Confirmer mon inscription"
+        ignore: "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message : sans confirmation, aucune lettre ne vous sera envoyée."
+        unsubscribe: 'Me désinscrire'
+
+admin:
+    site: 'Administration du portail MCM'
+    title: 'Administration'
+    logout: 'Se déconnecter'
+    translate_only: "Votre rôle vous permet de modifier uniquement les champs anglais ; le reste du contenu est affiché en lecture seule."
+    skip:
+        label: 'Accès rapide'
+        content: 'Aller au contenu'
+        menu: 'Aller au menu'
+    sidebar:
+        label: "Barre latérale de l'administration"
+        toggle: 'Replier le menu'
+    menu:
+        label: "Menu d'administration"
+        dashboard: 'Tableau de bord'
+    group:
+        contents: 'Contenus'
+        services: 'Services'
+        media: 'Médias'
+        requests: 'Demandes reçues'
+        structure: 'Structure du site'
+        users: 'Utilisateurs'
+    resource:
+        articles: 'Actualités et communiqués'
+        documents: 'Documents officiels'
+        events: 'Événements'
+        key_figures: 'Chiffres clés'
+        consultations: 'Consultations'
+        services: 'Démarches'
+        galleries: 'Galeries photo'
+        videos: 'Vidéos'
+        requests: 'Demandes et accréditations'
+        contributions: 'Contributions aux consultations'
+        subscribers: "Abonnés à la lettre d'information"
+        pages: 'Pages'
+        menus: 'Menus'
+        categories: 'Rubriques'
+        settings: 'Paramètres du site'
+        users: 'Utilisateurs'
+        audit: "Journal d'audit"
+        translations: 'Traductions'
+    role:
+        ROLE_SUPER_ADMIN: 'Super administrateur'
+        ROLE_ADMIN: 'Administrateur'
+        ROLE_REVIEWER: 'Relecteur'
+        ROLE_EDITOR: 'Éditeur'
+        ROLE_TRANSLATOR: 'Traducteur'
+        ROLE_PRESS: 'Presse'
+        ROLE_USER: 'Utilisateur'
+    status:
+        new: 'Nouveau'
+        publication:
+            draft: 'Brouillon'
+            in_review: 'En relecture'
+            published: 'Publié'
+            archived: 'Archivé'
+        request:
+            received: 'Reçue'
+            in_review: "En cours d'examen"
+            approved: 'Acceptée'
+            rejected: 'Refusée'
+    enum:
+        article_type:
+            actualite: 'Actualité'
+            communique: 'Communiqué'
+            dossier: 'Dossier'
+            avis-officiel: 'Avis officiel'
+        subscription_status:
+            pending: 'En attente de confirmation'
+            confirmed: 'Confirmé'
+            unsubscribed: 'Désinscrit'
+    column:
+        title: 'Titre'
+        type: 'Type'
+        status: 'Statut'
+        published: 'Publié le'
+        updated: 'Modifié le'
+        reference: 'Référence'
+        document_date: 'Date du document'
+        starts: 'Début'
+        value: 'Valeur'
+        data_date: 'Date des données'
+        opens: 'Ouverture'
+        closes: 'Clôture'
+        audience: 'Public'
+        online: 'En ligne'
+        youtube: 'Identifiant YouTube'
+        tracking_number: 'Numéro de suivi'
+        service: 'Démarche'
+        received: 'Reçue le'
+        name: 'Nom'
+        organization: 'Organisation'
+        consultation: 'Consultation'
+        email: 'Courriel'
+        language: 'Langue'
+        subscribed: 'Inscrit le'
+        menu: 'Menu'
+        position: 'Ordre'
+        roles: 'Rôles'
+        active: 'Actif'
+        last_access: 'Dernier accès'
+    action:
+        new: 'Nouveau'
+        edit: 'Modifier'
+        translate: 'Traduire'
+        open: 'Ouvrir'
+        save: 'Enregistrer'
+        submit: 'Soumettre à la relecture'
+        publish: 'Publier'
+        reject: 'Renvoyer en brouillon'
+        unpublish: 'Dépublier'
+        archive: 'Archiver'
+        restore: 'Restaurer'
+        delete: 'Supprimer'
+    confirm:
+        title: 'Confirmer'
+        default: 'Voulez-vous continuer ?'
+        cancel: 'Annuler'
+        confirm: 'Confirmer'
+        delete: 'Supprimer « {title} » définitivement ? Cette action est irréversible.'
+        reset_2fa: "Réinitialiser la double authentification de « {title} » ? L'utilisateur devra enrôler à nouveau son application à sa prochaine connexion."
+    flash:
+        created: 'Contenu créé.'
+        saved: 'Modifications enregistrées.'
+        deleted: 'Contenu supprimé.'
+        submit: 'Contenu soumis à la relecture.'
+        publish: 'Contenu publié.'
+        reject: 'Contenu renvoyé en brouillon.'
+        unpublish: 'Contenu dépublié.'
+        archive: 'Contenu archivé.'
+        restore: 'Contenu restauré.'
+        bulk_done: 'Action appliquée aux contenus sélectionnés.'
+        bulk_none: "Aucun contenu sélectionné n'a pu être modifié."
+        bulk_skipped: "Certains contenus n'ont pas été modifiés : action impossible dans leur état actuel ou droits insuffisants."
+        status_updated: 'Statut de la demande mis à jour.'
+        user_created: "Compte créé : une invitation a été envoyée par courriel."
+        invite_failed: "Le compte est créé, mais l'invitation n'a pas pu être envoyée. L'utilisateur peut utiliser « Mot de passe oublié »."
+        2fa_reset: 'Double authentification réinitialisée.'
+    toast:
+        close: 'Fermer la notification'
+    table:
+        count: '{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}'
+        empty: 'Aucun résultat'
+        empty_hint: 'Modifiez les filtres ou créez un nouvel élément.'
+        actions: 'Actions'
+        select_all: 'Tout sélectionner'
+        select_row: 'Sélectionner la ligne {id}'
+        selected: '{count} sélectionné(s)'
+        selected_template: '{count} sélectionné(s)'
+        bulk_label: 'Actions groupées'
+        bulk_action: 'Action groupée'
+        apply: 'Appliquer'
+    filter:
+        label: 'Filtres de la liste'
+        search: 'Recherche'
+        all: 'Tous'
+        submit: 'Filtrer'
+        reset: 'Réinitialiser'
+    pagination:
+        label: 'Pagination'
+        page: 'Page'
+        previous: 'Précédente'
+        next: 'Suivante'
+        summary: 'Résultats {from} à {to} sur {total}'
+    locale:
+        label: 'Langue de travail'
+    locale_tabs:
+        label: 'Langues du contenu'
+        complete: 'complet'
+        incomplete: 'incomplet'
+    search:
+        label: "Rechercher dans l'administration"
+        placeholder: 'Rechercher un contenu, une demande…'
+        title: "Recherche dans l'administration"
+        hint: 'Saisissez au moins 2 caractères.'
+        none: 'Aucun résultat pour « {query} ».'
+        see_all: 'Voir les {count} résultats'
+    dashboard:
+        title: 'Bonjour {name}'
+        shortcuts: 'Raccourcis'
+        to_review: 'Contenus à relire'
+        to_review_empty: "Aucun contenu n'attend de relecture."
+        requests: 'Demandes en attente'
+        requests_empty: "Aucune demande en attente."
+        translations: 'Traductions anglaises manquantes'
+        translations_empty: 'Tous les contenus ont une version anglaise.'
+        publications: 'Dernières publications'
+        publications_empty: "Aucune publication enregistrée pour l'instant."
+    shortcut:
+        press_release: 'Nouveau communiqué'
+        news: 'Nouvelle actualité'
+        document: 'Nouveau document'
+    article:
+        new: 'Nouvel article'
+        edit: "Modifier l'article"
+    document:
+        new: 'Nouveau document'
+        edit: 'Modifier le document'
+    section:
+        details: 'Informations générales'
+        file: 'Fichier'
+        account: 'Compte'
+        roles: 'Rôles'
+        security: 'Sécurité'
+    field:
+        title: 'Titre'
+        excerpt: 'Chapô'
+        summary: 'Résumé'
+        body: 'Texte'
+        body_help: 'HTML éditorial : il est assaini avant affichage sur le site.'
+        type: 'Type'
+        category: 'Rubrique'
+        no_category: 'Aucune rubrique'
+        featured: 'À la une'
+        cover_image: 'Image de couverture'
+        cover_image_help: "Affichée sur la carte de l'article et à la une de l'accueil. Le texte alternatif se renseigne à l'envoi de l'image."
+        reference: 'Référence'
+        reference_help: 'Numéro officiel du texte.'
+        document_date: 'Date de signature'
+        file_language: 'Langue du fichier'
+        file: 'Fichier'
+        file_help: 'PDF, Word, Excel ou ZIP, 20 Mo au maximum.'
+        current_file: 'Fichier actuel :'
+        name: 'Nom complet'
+        email: 'Adresse électronique'
+        roles: 'Rôles'
+        roles_help: "Un rôle supérieur inclut les droits des rôles qu'il contient."
+        active: 'Compte actif'
+        password: 'Mot de passe'
+        new_password: 'Nouveau mot de passe'
+        new_password_help: '12 caractères au minimum.'
+        repeat_password: 'Confirmer le mot de passe'
+    user:
+        new: 'Nouvel utilisateur'
+        edit: "Modifier l'utilisateur"
+        self_locked: "Vous ne pouvez pas modifier vos propres rôles ni désactiver votre propre compte."
+        invite_hint: "Une invitation est envoyée par courriel : l'utilisateur y choisit son mot de passe, puis enrôle son application de double authentification."
+        2fa_status: 'Double authentification : {status}'
+        2fa_on: 'activée'
+        2fa_off: 'non enrôlée'
+        reset_2fa: 'Réinitialiser la double authentification'
+        never: 'Jamais'
+        email_taken: 'Cette adresse est déjà utilisée par un autre compte.'
+    login:
+        title: "Connexion à l'administration"
+        submit: 'Se connecter'
+        forgot: 'Mot de passe oublié ?'
+        error: 'Identifiants invalides.'
+    forgot:
+        title: 'Mot de passe oublié'
+        intro: "Saisissez l'adresse de votre compte : si elle existe, un lien de réinitialisation vous sera envoyé."
+        submit: 'Envoyer le lien'
+        back: 'Retour à la connexion'
+        sent_title: 'Vérifiez votre messagerie'
+        sent: "Si un compte correspond à cette adresse, un lien de réinitialisation vient d'être envoyé. Il est valable {hours, plural, one {# heure} other {# heures}}."
+    reset:
+        title: 'Choisir un nouveau mot de passe'
+        submit: 'Enregistrer le mot de passe'
+        invalid: 'Ce lien de réinitialisation est invalide ou a expiré. Demandez-en un nouveau.'
+        done: 'Mot de passe modifié. Vous pouvez vous connecter.'
+        mail:
+            subject: 'Réinitialisation de votre mot de passe'
+            title: 'Réinitialisation de votre mot de passe'
+            intro: "Un lien pour choisir un nouveau mot de passe est valable une heure. Si vous êtes à l'origine de la demande, cliquez sur le bouton."
+            cta: 'Choisir un mot de passe'
+            ignore: "Si vous n'avez rien demandé, ignorez ce message : votre mot de passe actuel reste valable."
+    invite:
+        subject: "Votre compte d'administration du portail MCM"
+    2fa:
+        title: 'Vérification en deux étapes'
+        intro: "Saisissez le code à 6 chiffres affiché par votre application d'authentification."
+        code: 'Code à 6 chiffres'
+        submit: 'Vérifier'
+        cancel: 'Annuler et se déconnecter'
+        invalid_code: 'Code invalide ou expiré.'
+        setup_title: 'Activer la double authentification'
+        setup_intro: "La double authentification est obligatoire pour accéder à l'administration."
+        step_app: "Installez une application d'authentification (FreeOTP, Aegis, Google Authenticator, etc.) sur votre téléphone."
+        step_key: "Ajoutez un compte avec cette clé (type « basé sur le temps », 6 chiffres, 30 secondes) :"
+        open_app: "Ouvrir dans l'application"
+        step_code: "Saisissez le code affiché pour vérifier l'enrôlement."
+        setup_submit: 'Activer'
+        enabled: 'Double authentification activée.'
+    password:
+        too_short: 'Le mot de passe doit contenir au moins 12 caractères.'
+        compromised: 'Ce mot de passe figure dans une fuite de données connue : choisissez-en un autre.'
+        mismatch: 'Les deux mots de passe ne correspondent pas.'
+    error:
+        too_long: 'Ce champ est trop long.'
+        file_required: 'Choisissez un fichier.'
+        document_type: 'Format de fichier non accepté (PDF, Word, Excel ou ZIP).'
+        role_required: 'Choisissez au moins un rôle.'
+        https_url: "Saisissez une adresse complète commençant par https://."
+        notice_link: "Saisissez une adresse commençant par https:// ou un chemin du site commençant par /."
+        notice_dates: "La date de fin doit être postérieure à la date de début."
+    request:
+        title: 'Demande {number}'
+        data: 'Données de la demande'
+        consented: 'Consentement donné le'
+        attachments: 'Pièces jointes'
+        no_attachments: 'Aucune pièce jointe.'
+        received_on: 'Reçue le'
+        change_status: 'Changer le statut'
+        status_mail_hint: "Le demandeur reçoit un e-mail à chaque changement de statut."
+        internal_note: 'Commentaire interne'
+        internal_note_help: "Visible du service presse seulement : jamais communiqué au demandeur."
+        field:
+            lastName: 'Nom'
+            firstName: 'Prénoms'
+            phone: 'Téléphone'
+            mediaOutlet: 'Organe de presse'
+            jobTitle: 'Fonction'
+            eventName: 'Événement visé'
+    audit:
+        when: 'Date'
+        actor: 'Auteur'
+        action_label: 'Action'
+        entity: 'Contenu'
+        changes: 'Modifications'
+        fields: '{count, plural, one {# champ} other {# champs}}'
+        field: 'Champ'
+        before: 'Avant'
+        after: 'Après'
+        from: 'Du'
+        to: 'Au'
+        empty: "Aucune entrée dans le journal."
+        action:
+            create: 'Création'
+            update: 'Modification'
+            submit: 'Soumission'
+            publish: 'Publication'
+            unpublish: 'Dépublication'
+            archive: 'Archivage'
+            delete: 'Suppression'
+    contribution:
+        title: 'Contribution de {name}'
+        data: 'Contributeur'
+        text: 'Contribution'
+    export:
+        title: 'Exporter en CSV'
+        from: 'Du'
+        to: 'Au'
+        submit: "Exporter la période"
+        help: "Laissez une date vide pour ne pas borner la période. Les dates sont celles de réception, bornes comprises. Le fichier contient des données personnelles : conservez-le avec les précautions d'usage."
+    settings:
+        intro: "Coordonnées, réseaux sociaux, avis officiel, suivi d'audience et durées de conservation. Une valeur vide n'est pas affichée sur le site (les coordonnées s'affichent comme [À VALIDER])."
+        section:
+            contact: 'Coordonnées'
+            contact_help: "Affichées dans le pied de page de toutes les pages."
+            social: 'Réseaux sociaux'
+            social_help: 'Adresses complètes (https://…) des comptes officiels du ministère.'
+            notice: 'Bandeau d''avis officiel'
+            notice_help: "Affiché sur la page d'accueil, dans la langue du visiteur (le français sert de repli)."
+            analytics: "Suivi d'audience"
+            analytics_help: "Réservé au super administrateur : ce code s'exécute chez tous les visiteurs."
+            retention: 'Conservation des données personnelles'
+            retention_help: "Durées en mois, après lesquelles la purge automatique nocturne supprime les données. Une durée vide désactive la purge de la catégorie. [À VALIDER] par le délégué à la protection des données (APDP)."
+        address: 'Adresse'
+        phone: 'Téléphone'
+        email: 'Courriel'
+        support_phone: "Numéro d'assistance"
+        support_phone_help: "Affiché dans la barre supérieure du site."
+        facebook: 'Facebook'
+        x: 'X'
+        youtube: 'YouTube'
+        linkedin: 'LinkedIn'
+        notice_fr: "Texte de l'avis (français)"
+        notice_en: "Texte de l'avis (anglais)"
+        notice_help: "Laissez le texte français vide pour retirer l'avis."
+        notice_link: "Lien de l'avis"
+        notice_link_help: "Adresse complète (https://…) ou chemin du site (/fr/…). Facultatif."
+        notice_starts: "Afficher à partir du"
+        notice_ends: "Afficher jusqu'au"
+        analytics: 'Code de suivi'
+        analytics_help: "Code fourni par l'outil de mesure d'audience, tel quel. Vide = aucun suivi."
+        retention_requests: 'Demandes et accréditations traitées (mois)'
+        retention_help: "Les demandes reçues ou en cours d'examen ne sont jamais purgées. Les mois comptent depuis la dernière modification."
+        retention_contributions: 'Contributions aux consultations (mois)'
+        retention_subscribers: "Inscrits à la lettre : désinscrits ou jamais confirmés (mois)"
+    menus:
+        intro: "Le menu enregistré ici remplace aussitôt le menu du site, sans déploiement. Tant qu'un menu est vide, le site affiche son menu par défaut."
+        nav: 'Menus du site'
+        name:
+            main: "En-tête (menu principal)"
+            utility: 'Accès directs (barre supérieure)'
+            footer: 'Pied de page (colonnes)'
+        type:
+            page: 'Page'
+            article: 'Actualité ou communiqué'
+            service: 'Démarche'
+        add: 'Ajouter une entrée'
+        new: 'Nouvelle entrée de menu'
+        edit: "Modifier l'entrée de menu"
+        group: 'Groupe sans lien'
+        empty: 'Ce menu est vide'
+        empty_hint: "Le site affiche le menu par défaut. Ajoutez une entrée, ou partez des entrées par défaut pour les modifier."
+        import: 'Reprendre les entrées par défaut'
+        keyboard_hint: "Glissez-déposez les entrées par la poignée, ou utilisez les boutons Monter, Descendre, Indenter et Désindenter. Chaque changement est enregistré aussitôt."
+        up: 'Monter : {label}'
+        down: 'Descendre : {label}'
+        indent: 'Placer dans le groupe précédent : {label}'
+        outdent: 'Sortir du groupe : {label}'
+        saved: 'Ordre du menu enregistré.'
+        save_error: "L'ordre du menu n'a pas pu être enregistré. Rechargez la page et réessayez."
+        confirm_delete: "Supprimer l'entrée « {label} » ?"
+        confirm_delete_children: "Supprimer l'entrée « {label} » et toutes les entrées de son groupe ?"
+        target_missing: 'Contenu supprimé'
+        label_fr: 'Libellé (français)'
+        label_en: 'Libellé (anglais)'
+        label_en_help: "Facultatif : sans libellé anglais, le libellé français s'affiche."
+        link_type: 'Destination'
+        link:
+            none: 'Aucun lien (groupe de liens)'
+            content: 'Un contenu du site'
+            url: 'Une adresse externe'
+            path: 'Un chemin du site, par langue'
+        url: 'Adresse externe'
+        path_fr: 'Chemin en français'
+        path_en: 'Chemin en anglais'
+        path_help: 'Chemin commençant par une barre oblique, par exemple /fr/contact.'
+        parent: 'Groupe'
+        no_parent: 'Aucun (premier niveau)'
+        section:
+            labels: 'Libellés'
+            link: 'Destination'
+            link_help: "Choisissez un seul type de destination. Un contenu non publié disparaît du menu jusqu'à sa publication."
+        search_label: 'Rechercher une page, une actualité ou une démarche'
+        search_count: '{count} résultat(s)'
+        search_empty: 'Aucun résultat'
+        selected: 'Contenu choisi :'
+        flash:
+            created: 'Entrée de menu créée.'
+            deleted: 'Entrée de menu supprimée.'
+            imported: 'Entrées par défaut reprises.'
+        error:
+            target_required: 'Recherchez et choisissez un contenu.'
+            url_invalid: "Saisissez une adresse complète commençant par https:// ou http://."
+            path_invalid: 'Saisissez un chemin commençant par une seule barre oblique, sans espace.'
+    translations:
+        intro: "Contenus publiés sans version anglaise. Exportez-les en XLIFF pour un traducteur ou un outil de gestion de traduction, puis importez le fichier traduit : les modifications s'affichent pour validation avant d'être enregistrées."
+        export_title: 'Export XLIFF'
+        export_help: "Français vers anglais, un fichier par lot. Les champs structurés d'une démarche (étapes, pièces à fournir) ne sont pas inclus."
+        export_all: 'Exporter tous les contenus sans version anglaise'
+        export_one: 'Exporter'
+        import_title: 'Import XLIFF'
+        import_help: "Le fichier est analysé d'abord : rien n'est enregistré avant votre validation."
+        import_file: 'Fichier XLIFF (.xlf)'
+        import_preview: 'Afficher l''aperçu'
+        missing_title: "Contenus publiés sans version anglaise"
+        none: 'Aucun contenu à traduire'
+        none_hint: 'Tous les contenus publiés ont une version anglaise.'
+        count: '{count, plural, one {# contenu} other {# contenus}}'
+        truncated: '{shown} contenus affichés sur {total}.'
+        preview_title: "Aperçu de l'import"
+        preview_summary: '{applicable} modification(s) applicable(s) sur {total} ligne(s).'
+        ok: 'Prête à être appliquée'
+        apply: 'Appliquer {count, plural, one {# modification} other {# modifications}}'
+        col:
+            content: 'Contenu'
+            field: 'Champ'
+            current: 'Anglais actuel'
+            proposed: 'Anglais proposé'
+            result: 'Résultat'
+        error:
+            file: "Fichier absent, illisible ou trop volumineux (2 Mo au plus)."
+            invalid: "Ce fichier n'est pas un XLIFF 1.2 valide."
+            too_large: 'Fichier trop volumineux (2 Mo au plus).'
+            empty: 'Aucune traduction à importer dans ce fichier.'
+            expired: "L'aperçu a expiré : importez de nouveau le fichier."
+            forbidden: 'Vous ne pouvez pas modifier ce contenu.'
+            too_long: 'Texte trop long pour ce champ.'
+            required: "Champ obligatoire manquant (le titre doit être traduit avec le reste)."
+        flash:
+            imported: 'Traductions importées.'
+            nothing: "Aucune modification n'a été appliquée."
+
+preview:
+    banner: 'Aperçu non publié : ce contenu n''est pas visible du public.'
+
+workflow:
+    title: 'Publication'
+    scheduled_for: 'Publication programmée le {date}'
+    unschedule: 'Annuler la programmation'
+    lock:
+        warning: '{name} modifie déjà ce contenu (verrou actif jusqu''à {time} sans activité). Vos modifications pourraient écraser les siennes.'
+        warning_short: '{name} modifie déjà ce contenu. Vos modifications pourraient écraser les siennes.'
+    reason:
+        label: 'Motif du refus'
+        help: 'Le motif est obligatoire. Il est transmis à l''auteur par e-mail.'
+        submit: 'Confirmer le refus'
+    schedule:
+        label: 'Programmer la publication le (facultatif)'
+        help: 'Laissez vide pour publier tout de suite. Le contenu restera en relecture jusqu''à cette date, puis sera publié automatiquement.'
+    preview:
+        title: 'Aperçu avant publication'
+        help: 'Lien signé, valable 24 heures. Toute personne qui le détient peut voir ce brouillon.'
+        open:
+            fr: 'Ouvrir l''aperçu en français'
+            en: 'Ouvrir l''aperçu en anglais'
+        url:
+            fr: 'Adresse de l''aperçu en français'
+            en: 'Adresse de l''aperçu en anglais'
+    versions:
+        link: '{count, plural, =0 {Aucune version enregistrée} one {Voir la version enregistrée} other {Voir les # versions enregistrées}}'
+        title: 'Versions'
+        empty: 'Aucune version enregistrée pour ce contenu.'
+        compare: 'Comparer'
+        left: 'Version de gauche'
+        right: 'Version de droite'
+        option: 'Version {number}, {date}, {author}'
+        list: 'Historique des versions'
+        number: 'Version {number}'
+        restored_from: '(restauration de la version {number})'
+        restore: 'Restaurer la version {number}'
+        diff_title: 'Différences entre la version {a} et la version {b}'
+        legend: 'Les passages supprimés sont barrés, les passages ajoutés sont soulignés.'
+        identical: 'Ces deux versions sont identiques.'
+    history:
+        title: 'Historique des transitions'
+        empty: 'Aucune transition enregistrée.'
+        by: 'par {who}'
+        system: 'le planificateur'
+        reason: 'Motif :'
+        transition:
+            submit: 'Soumis à la relecture'
+            publish: 'Publié'
+            reject: 'Refusé'
+            unpublish: 'Dépublié'
+            archive: 'Archivé'
+            restore: 'Restauré'
+            schedule: 'Publication programmée'
+            unschedule: 'Programmation annulée'
+    flash:
+        scheduled: 'Publication programmée.'
+        unscheduled: 'Programmation annulée.'
+        restored: 'Version restaurée.'
+    error:
+        reason_required: 'Le motif du refus est obligatoire.'
+        invalid: 'Action impossible : date invalide ou état du contenu incompatible.'
+    email:
+        open: 'Ouvrir le contenu'
+        submitted:
+            subject: 'À relire : {title}'
+            title: 'Un contenu attend votre relecture'
+            intro: 'Le contenu « {title} » vient d''être soumis à la relecture.'
+        published:
+            subject: 'Publié : {title}'
+            title: 'Votre contenu est publié'
+            intro: 'Le contenu « {title} » est publié.'
+        rejected:
+            subject: 'Refusé : {title}'
+            title: 'Votre contenu a été refusé'
+            intro: 'Le contenu « {title} » a été renvoyé en brouillon par le relecteur.'
+
+sitemap:
+    title: 'Plan du site'
+    intro: 'Toutes les rubriques et pages du portail, en un seul endroit.'
+    sections: 'Rubriques du portail'
+    pages: 'Pages'
+    empty: 'Aucune page publiée pour le moment.'
+    section:
+        services: 'Services et démarches'
+        news: 'Actualités'
+        press_releases: 'Communiqués'
+        documents: 'Documents officiels'
+        agenda: 'Agenda'
+        data: 'Chiffres clés et données'
+        consultations: 'Consultations citoyennes'
+        media_library: 'Médiathèque'
+
+page_editor:
+    title: 'Éditeur de page'
+    open_builder: "Ouvrir l'éditeur de page"
+    publication: 'Publication, historique des transitions et verrou'
+    properties:
+        new: 'Nouvelle page'
+        edit: 'Propriétés de la page'
+        new_help: "Choisissez un modèle et donnez un titre en français (et en anglais si vous le souhaitez). La page s'ouvre ensuite dans l'éditeur pour y ajouter des blocs."
+    field:
+        template: 'Modèle de page'
+        meta_title: 'Titre pour les moteurs de recherche'
+        meta_title_help: '70 caractères au plus. Laissez vide pour reprendre le titre de la page.'
+        meta_description: 'Description pour les moteurs de recherche'
+        meta_description_help: '300 caractères au plus.'
+    toolbar:
+        label: "Barre d'outils de l'éditeur"
+        undo: 'Annuler'
+        redo: 'Rétablir'
+        save: 'Enregistrer'
+        submit: 'Soumettre à relecture'
+        properties: 'Propriétés'
+        versions: 'Versions'
+    status:
+        dirty: 'Modifications non enregistrées'
+        saved: 'Brouillon enregistré à {time}'
+        clean: 'Aucune modification'
+    blocks:
+        title: '{count, plural, =0 {Blocs} one {# bloc} other {# blocs}}'
+        add: 'Ajouter un bloc'
+        help: "Glissez un bloc par sa poignée pour le déplacer, ou utilisez les boutons Monter et Descendre."
+        empty: "Cette page n'a pas encore de bloc. Utilisez « Ajouter un bloc »."
+        untitled: '(sans texte)'
+        hidden: 'Masqué'
+        incomplete: 'Incomplet'
+    block:
+        move_up: 'Monter le bloc « {label} »'
+        move_down: 'Descendre le bloc « {label} »'
+        duplicate: 'Dupliquer le bloc « {label} »'
+        hide: 'Masquer le bloc « {label} »'
+        show: 'Afficher le bloc « {label} »'
+        delete: 'Supprimer le bloc « {label} »'
+        delete_confirm: 'Supprimer le bloc « {label} » ? Le bouton Annuler permet de le récupérer.'
+    panel:
+        title: 'Bloc sélectionné'
+        empty: "Sélectionnez un bloc dans la liste, ou cliquez dessus dans l'aperçu, pour le modifier."
+        close: 'Fermer le formulaire du bloc'
+        problems: 'À compléter avant la relecture :'
+        section_label: 'Section du formulaire'
+        locale_label: 'Langue des champs'
+        tab:
+            content: 'Contenu'
+            appearance: 'Apparence'
+    preview:
+        title: 'Aperçu'
+        hint: "Rendu réel du site avec votre brouillon. Cliquez sur un bloc pour le sélectionner."
+        frame_title: 'Aperçu de la page'
+        device_label: "Taille d'affichage"
+        locale_label: "Langue de l'aperçu"
+        device:
+            desktop: 'Ordinateur'
+            tablet: 'Tablette'
+            mobile: 'Mobile'
+    palette:
+        title: 'Ajouter un bloc'
+        close: 'Fermer la liste des blocs'
+        search: 'Rechercher un bloc'
+        position: 'Position'
+        position_start: 'Au début de la page'
+        position_after: 'Après'
+        no_result: 'Aucun bloc ne correspond à cette recherche.'
+    category:
+        layout: 'Mise en page'
+        text: 'Texte'
+        media: 'Images et vidéos'
+        navigation: 'Navigation et liens'
+        data: 'Contenus du site'
+        embed: 'Intégrations'
+    block_help:
+        hero: "Grand bandeau d'ouverture avec titre, chapô, image et bouton."
+        rich_text: 'Paragraphes, titres, listes et liens.'
+        image: 'Une image avec sa légende.'
+        image_text: 'Une image à côté d''un texte.'
+        card_grid: 'Cartes cliquables en 2, 3 ou 4 colonnes.'
+        dynamic_list: 'Derniers contenus publiés (actualités, communiqués, documents, événements).'
+        services_grid: 'Démarches publiées, par public.'
+        key_figures: 'Chiffres clés sourcés.'
+        quote: 'Citation avec son auteur.'
+        video: 'Vidéo YouTube chargée au clic.'
+        faq: 'Questions fréquentes dépliables.'
+        call_to_action: 'Message court avec un bouton.'
+        contacts: 'Personnes ou services à contacter.'
+        tabs: 'Contenus répartis en onglets.'
+        separator: 'Filet ou espace entre deux blocs.'
+        embed: "Contenu d'un site autorisé (réservé aux administrateurs)."
+    media:
+        title: 'Choisir un média'
+        close: 'Fermer le sélecteur de médias'
+        none: 'Aucun média choisi'
+        choose: 'Choisir un média'
+        change: 'Changer de média'
+        remove: 'Retirer'
+        search: 'Rechercher une image'
+        search_submit: 'Rechercher'
+        empty: "La médiathèque ne contient pas encore d'image. Envoyez-en une ci-dessous."
+        no_result: 'Aucune image ne correspond à cette recherche.'
+        more: "Afficher d'autres images"
+        upload_title: 'Envoyer une nouvelle image'
+        file: 'Fichier image'
+        file_help: 'JPEG, PNG, WebP ou GIF, 5 Mo au plus.'
+        alt_fr: 'Texte alternatif en français'
+        alt_en: 'Texte alternatif en anglais (facultatif)'
+        upload_submit: 'Envoyer et choisir'
+        error:
+            file: "Choisissez un fichier image."
+            alt: "Le texte alternatif en français est obligatoire : il décrit l'image aux personnes qui ne la voient pas."
+    item:
+        add: 'Ajouter un élément'
+        remove: "Retirer l'élément"
+    setting:
+        background: 'Fond'
+        background_choice:
+            white: 'Blanc'
+            light: 'Gris très clair'
+            cream: 'Crème'
+            night: 'Bleu nuit'
+        width: 'Largeur'
+        width_choice:
+            content: 'Colonne de lecture'
+            wide: 'Largeur du site'
+            full: 'Pleine largeur'
+        spacing: 'Espacement vertical'
+        spacing_choice:
+            none: 'Aucun'
+            s: 'Petit'
+            m: 'Moyen'
+            l: 'Grand'
+        anchor: 'Ancre'
+        anchor_help: 'Facultatif. Lettres minuscules, chiffres et tirets (ex. « contacts »), pour un lien vers ce bloc.'
+        visibility: 'Affichage'
+        visibility_help: 'Au moins un appareil.'
+        visibility_choice:
+            desktop: 'Ordinateur et tablette'
+            mobile: 'Mobile'
+    notice:
+        added: 'Bloc ajouté.'
+        moved: 'Bloc déplacé.'
+        duplicated: 'Bloc dupliqué.'
+        hidden: 'Bloc masqué.'
+        shown: 'Bloc affiché.'
+        removed: 'Bloc supprimé.'
+        reloaded: "Brouillon de l'autre personne chargé."
+        draft_saved: 'Brouillon enregistré.'
+        saved: 'Page enregistrée : une version a été créée.'
+        invalid: "Certains blocs sont incomplets ou invalides. Rien n'a été enregistré dans la page."
+        conflict: "Quelqu'un d'autre a enregistré cette page. Choisissez la version à garder."
+        cannot_submit: 'Cette page ne peut pas être soumise à la relecture dans son état actuel.'
+    banner:
+        lock: '{name} modifie déjà cette page. Vos modifications pourraient écraser les siennes.'
+        conflict: '{name} a enregistré des modifications sur cette page depuis que vous l''avez ouverte.'
+        reload: 'Charger sa version (mes modifications non enregistrées seront perdues)'
+        keep_mine: 'Garder ma version'
+

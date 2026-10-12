@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'agenda.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    <link rel="alternate" type="text/calendar" title="{{ 'agenda.title'|trans }}" href="{{ path('app_agenda_feed') }}">
+{% endblock %}
+
+{% block content %}
+    {% set is_month = view == 'month' %}
+    {% set current = is_month ? month : listing %}
+    {# Filtres communs aux deux vues, conservés quand on change de vue ou de mois. #}
+    {% set type_params = current.type ? {type: current.type.value} : {} %}
+
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'agenda.title'|trans}]" />
+
+        <div class="mt-6 flex flex-wrap items-end justify-between gap-4">
+            <h1 class="type-h1 text-primary">{{ 'agenda.title'|trans }}</h1>
+            <a href="{{ path('app_agenda_feed') }}" class="inline-flex items-center gap-1 text-small font-semibold text-primary underline underline-offset-4 hover:no-underline">
+                {{ ux_icon('ri:calendar-line', {class: 'size-4'}) }}{{ 'agenda.subscribe'|trans }}
+            </a>
+        </div>
+        <p class="mt-3 max-w-3xl text-small text-ink-muted">{{ 'agenda.timezone_note'|trans }}</p>
+
+        <div class="mt-8 flex flex-wrap items-end justify-between gap-4 rounded-card bg-mist p-4 lg:p-6">
+            <nav aria-label="{{ 'agenda.view.label'|trans }}">
+                <ul class="flex gap-2">
+                    <li>
+                        <a href="{{ path('app_agenda', type_params) }}" class="btn btn-sm {{ is_month ? 'btn-outline' : 'btn-primary' }}"{% if not is_month %} aria-current="page"{% endif %}>
+                            {{ ux_icon('ri:list-check', {class: 'size-4'}) }}{{ 'agenda.view.list'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_agenda', type_params|merge({view: 'month'})) }}" class="btn btn-sm {{ is_month ? 'btn-primary' : 'btn-outline' }}"{% if is_month %} aria-current="page"{% endif %}>
+                            {{ ux_icon('ri:calendar-2-line', {class: 'size-4'}) }}{{ 'agenda.view.month'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <form action="{{ path('app_agenda') }}" method="get" class="flex flex-wrap items-end gap-3">
+                {% if is_month %}
+                    <input type="hidden" name="view" value="month">
+                    <input type="hidden" name="month" value="{{ month.key }}">
+                {% elseif not listing.upcoming %}
+                    <input type="hidden" name="when" value="past">
+                {% endif %}
+                <div>
+                    <label for="agenda-type" class="block text-small font-semibold text-ink">{{ 'agenda.filter.type'|trans }}</label>
+                    <select id="agenda-type" name="type" class="mt-1 min-h-11 rounded-pill border border-ink-muted bg-white px-4 text-ink">
+                        <option value="">{{ 'agenda.filter.all'|trans }}</option>
+                        {% for type in types %}
+                            <option value="{{ type.value }}"{{ current.type == type ? ' selected' }}>{{ type.labelKey|trans }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <twig:Button type="submit" :label="'agenda.filter.submit'|trans" size="md" />
+                {% if current.type %}
+                    <a href="{{ path('app_agenda', is_month ? {view: 'month', month: month.key} : (listing.upcoming ? {} : {when: 'past'})) }}" class="btn btn-ghost">{{ 'agenda.filter.reset'|trans }}</a>
+                {% endif %}
+            </form>
+        </div>
+
+        {% if is_month %}
+            {% set month_title = month.first|format_datetime(pattern: 'LLLL y', locale: app.locale, timezone: site_timezone)|capitalize %}
+            <div class="mt-8">
+                <nav aria-label="{{ 'agenda.month.nav'|trans }}" class="flex items-center justify-between gap-4">
+                    <a href="{{ path('app_agenda', type_params|merge({view: 'month', month: month.previous})) }}" rel="prev" class="btn btn-outline btn-sm">
+                        {{ ux_icon('ri:arrow-left-s-line', {class: 'size-4'}) }}{{ 'agenda.month.previous'|trans }}
+                    </a>
+                    <h2 class="type-h2 text-center text-primary" aria-live="polite">{{ month_title }}</h2>
+                    <a href="{{ path('app_agenda', type_params|merge({view: 'month', month: month.next})) }}" rel="next" class="btn btn-outline btn-sm">
+                        {{ 'agenda.month.next'|trans }}{{ ux_icon('ri:arrow-right-s-line', {class: 'size-4'}) }}
+                    </a>
+                </nav>
+
+                {# Grille (écrans larges) : un tableau, avec les jours en en-têtes de colonnes. #}
+                <table class="mt-6 hidden w-full table-fixed border-collapse md:table" data-agenda-grid>
+                    <caption class="sr-only">{{ 'agenda.month.caption'|trans({month: month_title}) }}</caption>
+                    <thead>
+                        <tr>
+                            {% for cell in month.weeks[0] %}
+                                <th scope="col" class="border border-ink-muted/20 bg-mist px-2 py-2 text-small font-semibold text-ink">
+                                    <span aria-hidden="true">{{ cell.date|format_datetime(pattern: 'EEE', locale: app.locale, timezone: site_timezone)|trim('.')|capitalize }}</span>
+                                    <span class="sr-only">{{ cell.date|format_datetime(pattern: 'EEEE', locale: app.locale, timezone: site_timezone) }}</span>
+                                </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in month.weeks %}
+                            <tr>
+                                {% for cell in week %}
+                                    <td class="h-28 border border-ink-muted/20 p-2 align-top {{ cell.inMonth ? 'bg-white' : 'bg-mist/60 text-ink-muted' }}">
+                                        <time datetime="{{ cell.date|date('Y-m-d', site_timezone) }}"
+                                              class="text-small font-semibold {{ cell.today ? 'inline-flex size-7 items-center justify-center rounded-pill bg-primary text-white' }}"
+                                              {% if cell.today %}aria-current="date"{% endif %}>{{ cell.date|date('j', site_timezone) }}</time>
+                                        {% if cell.events %}
+                                            <ul class="mt-1 space-y-1">
+                                                {% for event in cell.events %}
+                                                    {% set translation = event.translate(app.locale) %}
+                                                    <li>
+                                                        <a href="{{ path('app_event_show', {slug: translation.slug}) }}"
+                                                           class="block rounded bg-cream px-1.5 py-1 text-small font-semibold text-primary underline-offset-2 hover:underline"
+                                                           {% if translation.locale != app.locale %}lang="{{ translation.locale }}"{% endif %}>{{ translation.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {# Petits écrans : la grille est illisible, la liste des événements du mois la remplace. #}
+                <div class="mt-6 md:hidden">
+                    {% if month.events is empty %}
+                        <twig:EmptyState :title="'agenda.month.empty.title'|trans" :message="'agenda.month.empty.message'|trans" />
+                    {% else %}
+                        <ul class="space-y-6">
+                            {% for event in month.events %}
+                                {% set translation = event.translate(app.locale) %}
+                                <li{% if translation.locale != app.locale %} lang="{{ translation.locale }}"{% endif %}>
+                                    <twig:AgendaItem :date="event.startsAt" :title="translation.title ?? ''" :location="translation.location"
+                                                     :meta="event_meta(event)" :href="path('app_event_show', {slug: translation.slug})" :headingLevel="3" />
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="mt-8">
+                <nav aria-label="{{ 'agenda.when.label'|trans }}">
+                    <ul class="flex gap-2">
+                        <li><a href="{{ path('app_agenda', type_params) }}" class="btn btn-sm {{ listing.upcoming ? 'btn-primary' : 'btn-outline' }}"{% if listing.upcoming %} aria-current="page"{% endif %}>{{ 'agenda.when.upcoming'|trans }}</a></li>
+                        <li><a href="{{ path('app_agenda', type_params|merge({when: 'past'})) }}" class="btn btn-sm {{ listing.upcoming ? 'btn-outline' : 'btn-primary' }}"{% if not listing.upcoming %} aria-current="page"{% endif %}>{{ 'agenda.when.past'|trans }}</a></li>
+                    </ul>
+                </nav>
+
+                <p class="mt-6 text-small text-ink-muted" role="status">{{ 'agenda.results_count'|trans({count: listing.total}) }}</p>
+
+                {% if listing.events is empty %}
+                    <twig:EmptyState class="mt-6" :title="'agenda.empty.title'|trans" :message="'agenda.empty.message'|trans" />
+                {% else %}
+                    <ol class="mt-6 divide-y divide-ink-muted/20 border-y border-ink-muted/20">
+                        {% for event in listing.events %}
+                            {% set translation = event.translate(app.locale) %}
+                            <li class="py-6"{% if translation.locale != app.locale %} lang="{{ translation.locale }}"{% endif %}>
+                                <twig:AgendaItem :date="event.startsAt" :title="translation.title ?? ''" :location="translation.location"
+                                                 :meta="event_meta(event)" :href="path('app_event_show', {slug: translation.slug})" :headingLevel="2" />
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+
+                <twig:Pagination class="mt-8" :currentPage="listing.page" :totalPages="max(1, listing.totalPages)" route="app_agenda" :routeParams="listing.params" />
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'sitemap.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[{label: 'breadcrumb.home'|trans, href: path('app_home')}, {label: 'sitemap.title'|trans}]" />
+
+        <h1 class="type-display mt-8 text-primary">{{ 'sitemap.title'|trans }}</h1>
+        <p class="mt-4 max-w-prose text-ink">{{ 'sitemap.intro'|trans }}</p>
+
+        <div class="mt-10 grid gap-10 lg:grid-cols-2">
+            <section aria-labelledby="plan-rubriques">
+                <h2 id="plan-rubriques" class="type-h2 text-primary">{{ 'sitemap.sections'|trans }}</h2>
+                <ul class="mt-4 space-y-2">
+                    <li><a href="{{ path('app_home') }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'breadcrumb.home'|trans }}</a></li>
+                    {% for section in sections %}
+                        <li><a href="{{ section.url }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ ('sitemap.section.' ~ section.key)|trans }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section aria-labelledby="plan-pages">
+                <h2 id="plan-pages" class="type-h2 text-primary">{{ 'sitemap.pages'|trans }}</h2>
+                {% if pages is empty %}
+                    <p class="mt-4 text-ink-muted">{{ 'sitemap.empty'|trans }}</p>
+                {% else %}
+                    <ul class="mt-4 space-y-2">
+                        {% for page in pages %}
+                            <li style="margin-left: {{ page.depth * 1.5 }}rem"{% if page.lang %} lang="{{ page.lang }}"{% endif %}>
+                                <a href="{{ page.url }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ page.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    {% set state = open ? 'open' : (upcoming ? 'upcoming' : 'closed') %}
+    {% set results_available = consultation.resultsPublished and translation.results %}
+
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'consultation.title'|trans, href: path('app_consultations')},
+            {label: translation.title},
+        ]" />
+
+        <twig:TranslationFallbackNotice :translatable="consultation" class="mt-6 max-w-3xl" />
+
+        {% for message in app.flashes('contribution') %}
+            <div role="status" class="mt-6 max-w-3xl rounded-card border-l-4 border-flag-green bg-mist p-4 font-semibold text-ink">{{ message|trans }}</div>
+        {% endfor %}
+
+        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
+            <header>
+                <span class="badge {{ open ? 'bg-flag-green text-white' : 'bg-white text-primary ring-1 ring-primary ring-inset' }}">{{ ('consultation.state.' ~ state)|trans }}</span>
+                <h1 class="type-display mt-4 text-primary">{{ translation.title }}</h1>
+                {% if translation.summary %}<p class="mt-6 text-h3 font-normal text-ink">{{ translation.summary }}</p>{% endif %}
+                <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'consultation.opens'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ consultation.opensAt|date('c') }}">{{ consultation.opensAt|format_datetime('long', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'consultation.closes'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ consultation.closesAt|date('c') }}">{{ consultation.closesAt|format_datetime('long', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                </dl>
+            </header>
+
+            {% if translation.body %}
+                <div class="prose-article mt-8">{{ translation.body|sanitize_html('app.article_body') }}</div>
+            {% endif %}
+        </article>
+
+        {% if consultation.documents is not empty %}
+            <section class="mt-12 max-w-3xl" aria-labelledby="documents-consultation">
+                <h2 id="documents-consultation" class="type-h2 text-primary">{{ 'consultation.documents'|trans }}</h2>
+                <div class="mt-4 border-t border-ink-muted/20">
+                    {% for document in consultation.documents|filter(d => d.published and d.file) %}
+                        {% set document_translation = document.translate(app.locale) %}
+                        {% set file = document.file %}
+                        <div{% if document_translation.locale != app.locale %} lang="{{ document_translation.locale }}"{% endif %}>
+                            <twig:DocumentRow
+                                :title="document_translation.title ?? ''"
+                                :href="path('app_document_download', {id: document.id})"
+                                :fileType="enum_file_type(file.mimeType)"
+                                :size="file.size ?? 0"
+                                :date="document.documentDate ?? document.publishedAt" />
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if results_available %}
+            <section class="mt-12 max-w-3xl rounded-card border-t-4 border-flag-green bg-mist p-6" aria-labelledby="resultats">
+                <h2 id="resultats" class="type-h3 text-primary">{{ 'consultation.results.title'|trans }}</h2>
+                <p class="mt-2 text-ink">{{ 'consultation.results.available'|trans }}</p>
+                <p class="mt-4"><twig:Button :label="'consultation.results.see'|trans" :href="path('app_consultation_results', {slug: translation.slug})" icon="ri:arrow-right-line" iconPosition="end" /></p>
+            </section>
+        {% endif %}
+
+        <section class="mt-12 max-w-3xl" aria-labelledby="contribuer">
+            <h2 id="contribuer" class="type-h2 text-primary">{{ 'consultation.contribute.title'|trans }}</h2>
+            {% if form %}
+                <p class="mt-3 text-ink-muted">{{ 'consultation.contribute.intro'|trans }}</p>
+                <p class="mt-2 text-small text-ink-muted">{{ 'request.required_hint'|trans }}</p>
+                {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-6 grid gap-6', 'data-controller': 'form-errors'}}) }}
+                    {% include 'service/_form_errors.html.twig' with {form: form} only %}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.organization) }}
+                    {{ form_row(form.text) }}
+                    {{ form_row(form.file) }}
+                    {{ form_row(form.consent) }}
+                    {{ form_row(form.website) }}
+                    {{ form_rest(form) }}
+                    <div>
+                        <twig:Button type="submit" :label="'consultation.contribute.submit'|trans" size="lg" icon="ri:send-plane-line" iconPosition="end" />
+                    </div>
+                {{ form_end(form, {render_rest: false}) }}
+            {% elseif upcoming %}
+                <p class="mt-3 text-ink-muted">{{ 'consultation.contribute.upcoming'|trans }}</p>
+            {% else %}
+                <p class="mt-3 text-ink-muted">{{ 'consultation.contribute.closed'|trans }}</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

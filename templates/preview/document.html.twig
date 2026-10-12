@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    {% set file = document.file %}
+    <div class="container-site py-8 lg:py-12">
+        <h1 class="type-display text-primary" lang="{{ translation.locale }}">{{ translation.title }}</h1>
+        {% if translation.summary %}<p class="mt-6 max-w-3xl text-h3 font-normal text-ink" lang="{{ translation.locale }}">{{ translation.summary }}</p>{% endif %}
+        {% if file %}
+            <div class="mt-8 max-w-3xl border-t border-ink-muted/20">
+                <twig:DocumentRow
+                    :title="translation.title ?? ''"
+                    :href="media_url(file)"
+                    :fileType="enum_file_type(file.mimeType)"
+                    :size="file.size ?? 0"
+                    :date="document.documentDate ?? document.createdAt" />
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

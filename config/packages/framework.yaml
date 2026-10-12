@@ -1,0 +1,32 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Note that the session will be started ONLY if you read or write from it.
+    session: true
+
+    #esi: true
+    #fragments: true
+
+    # Corps riche des articles : HTML éditorial assaini à l'affichage (filtre Twig sanitize_html).
+    html_sanitizer:
+        sanitizers:
+            app.article_body:
+                allow_safe_elements: true
+                # Le titre de page est le seul <h1> : les h1 du corps sont aplatis en texte.
+                block_elements: ['h1']
+                allow_relative_links: true
+                allow_relative_medias: true
+                allowed_link_schemes: ['http', 'https', 'mailto', 'tel']
+                allowed_media_schemes: ['https']
+                force_https_urls: false
+                max_input_length: 200000
+                force_attributes:
+                    a:
+                        rel: 'noopener'
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

@@ -1,0 +1,27 @@
+{% extends 'admin/security/base.html.twig' %}
+
+{# Formulaire du code TOTP (rendu par scheb/2fa-bundle). Sans code valide, aucune page d'administration n'est accessible. #}
+{% block title %}{{ 'admin.2fa.title'|trans }}{% endblock %}
+
+{% block auth_content %}
+    <h1 class="type-h2 text-primary">{{ 'admin.2fa.title'|trans }}</h1>
+    <p class="mt-3 text-ink-muted">{{ 'admin.2fa.intro'|trans }}</p>
+
+    {% if authenticationError %}
+        <p role="alert" class="mt-4 rounded-card border-l-4 border-flag-red bg-white p-3 text-small font-semibold text-flag-red ring-1 ring-ink-muted/20">{{ 'admin.2fa.invalid_code'|trans }}</p>
+    {% endif %}
+
+    <form action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post" class="mt-6 grid gap-5" data-turbo="false">
+        <div class="grid gap-1">
+            <label for="_auth_code" class="text-small font-semibold text-ink">{{ 'admin.2fa.code'|trans }}</label>
+            <input id="_auth_code" name="{{ authCodeParameterName }}" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" required autofocus
+                   class="min-h-11 w-full rounded-pill border border-ink-muted bg-white px-4 text-center text-h3 tracking-widest text-ink">
+        </div>
+        {% if isCsrfProtectionEnabled %}
+            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+        {% endif %}
+        <button type="submit" class="btn btn-primary btn-lg">{{ 'admin.2fa.submit'|trans }}</button>
+    </form>
+
+    <p class="mt-6 text-small"><a href="{{ logoutPath }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.2fa.cancel'|trans }}</a></p>
+{% endblock %}

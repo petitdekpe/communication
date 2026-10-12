@@ -1,0 +1,65 @@
+{#
+    Tableau de données de l'administration : colonnes triables (tri dans l'URL), sélection multiple avec actions groupées,
+    actions par ligne (lien, bouton ou bouton avec confirmation), rendu des cellules par type.
+
+    columns : liste de {key, label, sort}  (sort : vrai si la colonne est triable)
+    rows    : liste de {id, cells: {key: {type, value, …}}, actions: [{name, label, method, url, token, confirm, message, danger}]}
+    bulk    : liste d'actions groupées {name, label} ; bulkUrl + bulkToken pour l'envoi (vide : pas de sélection)
+
+    <twig:Admin:DataTable id="articles" caption="…" :columns="…" :rows="…" route="…" :params="…" />
+#}
+{% props id, caption, columns, rows, sort = null, dir = 'asc', route, params = {}, query = {}, bulk = [], bulkUrl = null, bulkToken = null %}
+{% set selectable = bulk is not empty %}
+<div{{ attributes.defaults({class: 'overflow-hidden rounded-card ring-1 ring-ink-muted/15'}) }} data-controller="confirm-dialog table-select">
+    {% if selectable %}
+        {# Formulaire des actions groupées : les cases à cocher y sont rattachées par l'attribut form. #}
+        <form id="bulk-{{ id }}" method="post" action="{{ bulkUrl }}" class="flex flex-wrap items-center gap-3 border-b border-ink-muted/15 bg-mist px-4 py-3" aria-label="{{ 'admin.table.bulk_label'|trans }}">
+            <input type="hidden" name="_token" value="{{ bulkToken }}">
+            <p class="text-small font-semibold text-ink" role="status" aria-live="polite" data-table-select-target="count" data-template="{{ 'admin.table.selected_template'|trans({count: '{count}'}) }}">{{ 'admin.table.selected'|trans({count: 0}) }}</p>
+            <label for="bulk-action-{{ id }}" class="sr-only">{{ 'admin.table.bulk_action'|trans }}</label>
+            <select id="bulk-action-{{ id }}" name="transition" class="min-h-9 rounded-pill border border-ink-muted bg-white px-3 text-small text-ink" required>
+                <option value="">{{ 'admin.table.bulk_action'|trans }}</option>
+                {% for action in bulk %}<option value="{{ action.name }}">{{ action.label|trans }}</option>{% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm" data-table-select-target="submit" disabled>{{ 'admin.table.apply'|trans }}</button>
+        </form>
+    {% endif %}
+
+    <div class="relative overflow-x-auto">
+        <table class="w-full min-w-[40rem] border-collapse text-left">
+            <caption class="sr-only">{{ caption }}</caption>
+            <thead class="bg-mist text-small text-ink">
+                <tr>
+                    {% if selectable %}
+                        <th scope="col" class="w-10 px-4 py-3">
+                            <input type="checkbox" class="size-5 accent-primary" data-table-select-target="all" data-action="table-select#toggleAll" aria-label="{{ 'admin.table.select_all'|trans }}">
+                        </th>
+                    {% endif %}
+                    {% for column in columns %}
+                        {% set sorted = sort == column.key %}
+                        <th scope="col" class="px-4 py-3 font-semibold"{% if column.sort %} aria-sort="{{ sorted ? (dir == 'asc' ? 'ascending' : 'descending') : 'none' }}"{% endif %}>
+                            {% if column.sort %}
+                                <a href="{{ path(route, params|merge(query)|merge({sort: column.key, dir: (sorted and dir == 'asc') ? 'desc' : 'asc', page: 1})) }}" class="inline-flex items-center gap-1 text-primary underline-offset-4 hover:underline">
+                                    {{ column.label|trans }}
+                                    {{ ux_icon(sorted ? (dir == 'asc' ? 'ri:arrow-up-s-line' : 'ri:arrow-down-s-line') : 'ri:expand-up-down-line', {class: 'size-4'}) }}
+                                </a>
+                            {% else %}
+                                {{ column.label|trans }}
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                    <th scope="col" class="px-4 py-3 text-right font-semibold"><span class="sr-only">{{ 'admin.table.actions'|trans }}</span></th>
+                </tr>
+            </thead>
+            <tbody id="rows-{{ id }}" class="divide-y divide-ink-muted/15 bg-white">
+                {% for row in rows %}
+                    {% include 'admin/_row.html.twig' with {row: row, columns: columns, selectable: selectable, table: id} only %}
+                {% else %}
+                    <tr><td colspan="{{ columns|length + 2 }}" class="px-4 py-8 text-center text-ink-muted">{{ 'admin.table.empty'|trans }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <twig:Admin:ConfirmDialog />
+</div>

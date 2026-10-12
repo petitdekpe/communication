@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.resource.audit'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-7xl">
+        <h1 class="type-h1 text-primary">{{ 'admin.resource.audit'|trans }}</h1>
+        <p class="mt-2 text-small text-ink-muted" role="status">{{ 'admin.table.count'|trans({count: pager.nbResults}) }}</p>
+
+        <twig:Admin:FilterBar class="mt-6" :fields="fields" :values="app.request.query.all" :action="path('app_admin_audit')" />
+
+        <div class="mt-6">
+            {% if pager.nbResults == 0 %}
+                <twig:Admin:EmptyState :title="'admin.audit.empty'|trans" />
+            {% else %}
+                <div class="relative overflow-x-auto rounded-card ring-1 ring-ink-muted/15">
+                    <table class="w-full min-w-[48rem] border-collapse text-left">
+                        <caption class="sr-only">{{ 'admin.resource.audit'|trans }}</caption>
+                        <thead class="bg-mist text-small text-ink">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 font-semibold">{{ 'admin.audit.when'|trans }}</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">{{ 'admin.audit.actor'|trans }}</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">{{ 'admin.audit.action_label'|trans }}</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">{{ 'admin.audit.entity'|trans }}</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">{{ 'admin.audit.changes'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-ink-muted/15 bg-white text-small">
+                            {% for log in pager.currentPageResults %}
+                                <tr>
+                                    <th scope="row" class="whitespace-nowrap px-4 py-3 text-left font-normal"><time datetime="{{ log.occurredAt|date('c') }}">{{ log.occurredAt|format_datetime('medium', 'medium', locale: app.locale, timezone: site_timezone) }}</time></th>
+                                    <td class="px-4 py-3">{{ log.actor }}</td>
+                                    <td class="px-4 py-3"><span class="badge bg-white text-primary ring-1 ring-primary ring-inset">{{ ('admin.audit.action.' ~ log.action)|trans }}</span></td>
+                                    <td class="px-4 py-3">{{ log.entityClass }}{% if log.entityId %} #{{ log.entityId }}{% endif %}{% if log.label %}<br><span class="text-ink-muted">{{ log.label }}</span>{% endif %}</td>
+                                    <td class="px-4 py-3">
+                                        {% if log.changes is empty %}
+                                            <span class="text-ink-muted">–</span>
+                                        {% else %}
+                                            <details>
+                                                <summary class="cursor-pointer text-primary underline underline-offset-4">{{ 'admin.audit.fields'|trans({count: log.changes|length}) }}</summary>
+                                                <table class="mt-2 w-full border-collapse text-left">
+                                                    <caption class="sr-only">{{ 'admin.audit.changes'|trans }}</caption>
+                                                    <thead><tr><th scope="col" class="pr-3 font-semibold">{{ 'admin.audit.field'|trans }}</th><th scope="col" class="pr-3 font-semibold">{{ 'admin.audit.before'|trans }}</th><th scope="col" class="font-semibold">{{ 'admin.audit.after'|trans }}</th></tr></thead>
+                                                    <tbody>
+                                                        {% for field, change in log.changes %}
+                                                            <tr class="align-top">
+                                                                <th scope="row" class="pr-3 text-left font-mono font-normal">{{ field }}</th>
+                                                                <td class="break-words pr-3 text-ink-muted">{{ change[0] is null ? '∅' : (change[0] is iterable ? change[0]|json_encode : change[0]) }}</td>
+                                                                <td class="break-words text-ink">{{ change[1] is null ? '∅' : (change[1] is iterable ? change[1]|json_encode : change[1]) }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </details>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <twig:Admin:Pagination :pager="pager" route="app_admin_audit" :query="query" />
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

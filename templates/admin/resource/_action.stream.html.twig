@@ -1,0 +1,11 @@
+{# Réponse Turbo Stream d'une action : remplace la ligne (ou la retire après une suppression) et ajoute un toast. #}
+{% if row %}
+    <turbo-stream action="replace" target="row-{{ resource.id }}-{{ rowId }}">
+        <template>{% include 'admin/_row.html.twig' with {row: row, columns: columns|map(c => {key: c.key, label: c.label, sort: c.sort is defined and c.sort}), selectable: bulk is not empty, table: resource.id} only %}</template>
+    </turbo-stream>
+{% else %}
+    <turbo-stream action="remove" target="row-{{ resource.id }}-{{ rowId }}"></turbo-stream>
+{% endif %}
+<turbo-stream action="append" target="toasts">
+    <template>{% include 'admin/_toast.html.twig' with {type: 'success', message: message} only %}</template>
+</turbo-stream>

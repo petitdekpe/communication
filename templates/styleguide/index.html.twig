@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+
+{#
+    Styleguide (dev uniquement) : chaque Twig Component dans toutes ses variantes.
+    Les contenus sont des EXEMPLES FICTIFS de mise en page : aucun n'est destiné à la publication.
+#}
+
+{% block title %}Styleguide | {{ 'site.name'|trans }}{% endblock %}
+
+{% set components = ['Button', 'Badge', 'SectionHeading', 'ArticleCard', 'ServiceCard', 'DocumentRow', 'AgendaItem', 'StatCard', 'OfficialNotice', 'Breadcrumb', 'Pagination', 'EmptyState', 'Hero'] %}
+
+{% macro variant(label) %}
+    <p class="mb-3 font-mono text-small text-ink-muted">{{ label }}</p>
+{% endmacro %}
+
+{% block content %}
+    {% import _self as sg %}
+
+    <div class="container-site py-12">
+        <p class="type-caption text-ink-muted">Environnement de développement</p>
+        <h1 class="mt-2">Styleguide des composants</h1>
+        <p class="mt-4 max-w-prose text-ink-muted">
+            Chaque Twig Component du portail, dans toutes ses variantes. Les textes, dates et chiffres ci-dessous sont des exemples fictifs.
+        </p>
+
+        <nav aria-label="Composants" class="mt-8">
+            <ul class="flex flex-wrap gap-2">
+                {% for name in components %}
+                    <li><a href="#{{ name|lower }}" class="btn btn-outline btn-sm">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container-site space-y-20 pb-24">
+
+        {# ---- Button ------------------------------------------------------- #}
+        <section aria-labelledby="button">
+            <twig:SectionHeading id="button" kicker="Composant" title="Button" />
+            <div class="mt-8 space-y-8">
+                {% for variant in ['primary', 'secondary', 'accent', 'ghost'] %}
+                    <div>
+                        {{ sg.variant('variant="' ~ variant ~ '" · size sm / md / lg · icône · lien') }}
+                        <div class="flex flex-wrap items-center gap-3">
+                            <twig:Button :variant="variant" size="sm" label="Petit bouton" />
+                            <twig:Button :variant="variant" label="Bouton moyen" />
+                            <twig:Button :variant="variant" size="lg" label="Grand bouton" />
+                            <twig:Button :variant="variant" label="Avec icône" icon="ri:download-2-line" />
+                            <twig:Button :variant="variant" label="Lien avec icône" icon="ri:arrow-right-line" iconPosition="end" href="#button" />
+                            <twig:Button :variant="variant" label="Rechercher" icon="ri:search-line" iconOnly />
+                        </div>
+                    </div>
+                {% endfor %}
+                <div>
+                    {{ sg.variant('type="submit" · disabled') }}
+                    <div class="flex flex-wrap items-center gap-3">
+                        <twig:Button label="Envoyer" type="submit" />
+                        <twig:Button label="Indisponible" disabled />
+                        <twig:Button label="Indisponible" variant="secondary" disabled />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# ---- Badge -------------------------------------------------------- #}
+        <section aria-labelledby="badge">
+            <twig:SectionHeading id="badge" kicker="Composant" title="Badge" />
+            <div class="mt-8 space-y-6">
+                <div>
+                    {{ sg.variant('Catégories : communique, dossier, annonce, avis-officiel') }}
+                    <div class="flex flex-wrap gap-3">
+                        {% for value in ['communique', 'dossier', 'annonce', 'avis-officiel'] %}
+                            <twig:Badge :value="value" />
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    {{ sg.variant('Publics : journalistes, entreprises, citoyens') }}
+                    <div class="flex flex-wrap gap-3">
+                        {% for value in ['journalistes', 'entreprises', 'citoyens'] %}
+                            <twig:Badge :value="value" />
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# ---- SectionHeading ------------------------------------------------- #}
+        <section aria-labelledby="sectionheading">
+            <twig:SectionHeading id="sectionheading" kicker="Composant" title="SectionHeading" />
+            <div class="mt-8 space-y-10 rounded-card bg-mist p-6 lg:p-8">
+                <div>
+                    {{ sg.variant('kicker + title + href (« Voir tout »)') }}
+                    <twig:SectionHeading kicker="Actualités" title="Titre de section d'exemple" href="#sectionheading" :headingLevel="3" />
+                </div>
+                <div>
+                    {{ sg.variant('linkLabel personnalisé') }}
+                    <twig:SectionHeading kicker="Documents" title="Autre titre d'exemple" href="#sectionheading" linkLabel="Tous les documents" :headingLevel="3" />
+                </div>
+                <div>
+                    {{ sg.variant('title seul') }}
+                    <twig:SectionHeading title="Titre sans surtitre ni lien" :headingLevel="3" />
+                </div>
+            </div>
+        </section>
+
+        {# ---- ArticleCard ---------------------------------------------------- #}
+        <section aria-labelledby="articlecard">
+            <twig:SectionHeading id="articlecard" kicker="Composant" title="ArticleCard" />
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {% for category in ['communique', 'dossier', 'annonce', 'avis-officiel'] %}
+                    <twig:ArticleCard
+                        :category="category"
+                        title="Titre d'actualité fictif pour la mise en page, sur deux lignes"
+                        href="#articlecard"
+                        date="2026-09-28"
+                        excerpt="Chapô d'exemple : deux ou trois lignes qui résument le contenu de l'article, coupées au-delà de trois lignes pour garder des cartes de même hauteur."
+                        image="images/styleguide/exemple-16x9.svg"
+                        imageAlt="" />
+                {% endfor %}
+                <div>
+                    {{ sg.variant('sans image, sans catégorie, sans chapô') }}
+                    <twig:ArticleCard title="Carte minimale" href="#articlecard" date="2026-10-01" />
+                </div>
+            </div>
+        </section>
+
+        {# ---- ServiceCard ---------------------------------------------------- #}
+        <section aria-labelledby="servicecard">
+            <twig:SectionHeading id="servicecard" kicker="Composant" title="ServiceCard" />
+            <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <twig:ServiceCard audience="journalistes" title="Démarche fictive en ligne" summary="Résumé d'exemple de la démarche en une ou deux phrases." cost="[À VALIDER]" delay="[À VALIDER]" :online="true" href="#servicecard" />
+                <twig:ServiceCard audience="entreprises" title="Démarche fictive au guichet" summary="Résumé d'exemple d'une démarche qui se fait sur place." cost="[À VALIDER]" delay="[À VALIDER]" :online="false" href="#servicecard" />
+                <twig:ServiceCard audience="citoyens" title="Démarche sans coût ni délai renseignés" summary="Coût et délai absents : « Non précisé » s'affiche, aucune valeur n'est inventée." :online="true" href="#servicecard" />
+            </div>
+        </section>
+
+        {# ---- DocumentRow ---------------------------------------------------- #}
+        <section aria-labelledby="documentrow">
+            <twig:SectionHeading id="documentrow" kicker="Composant" title="DocumentRow" />
+            <div class="mt-8 border-t border-ink-muted/20">
+                <twig:DocumentRow title="Document PDF d'exemple" fileType="pdf" :size="1258291" date="2026-09-15" href="#documentrow" />
+                <twig:DocumentRow title="Document Word d'exemple" fileType="word" :size="48230" date="2026-08-02" href="#documentrow" />
+                <twig:DocumentRow title="Tableur d'exemple" fileType="excel" :size="2411724800" date="2026-07-21" href="#documentrow" />
+                <twig:DocumentRow title="Archive d'exemple" fileType="zip" :size="15728640" date="2026-06-30" href="#documentrow" />
+                <twig:DocumentRow title="Fichier texte d'exemple, très léger" fileType="other" :size="812" date="2026-06-01" href="#documentrow" />
+            </div>
+        </section>
+
+        {# ---- AgendaItem ----------------------------------------------------- #}
+        <section aria-labelledby="agendaitem">
+            <twig:SectionHeading id="agendaitem" kicker="Composant" title="AgendaItem" />
+            <div class="mt-8 grid gap-6 md:grid-cols-3">
+                <twig:AgendaItem date="2026-10-14" title="Événement fictif avec lieu et lien" location="Lieu d'exemple" href="#agendaitem" />
+                <twig:AgendaItem date="2026-11-03" title="Événement fictif sans lien" location="Lieu d'exemple" />
+                <twig:AgendaItem date="2026-12-21" title="Événement fictif sans lieu" href="#agendaitem" />
+            </div>
+        </section>
+
+        {# ---- StatCard ------------------------------------------------------- #}
+        <section aria-labelledby="statcard">
+            <twig:SectionHeading id="statcard" kicker="Composant" title="StatCard" />
+            <p class="mt-4 max-w-prose text-small text-ink-muted">Source et date de mise à jour sont obligatoires : sans elles, le composant lève une erreur.</p>
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <twig:StatCard :value="1250" label="Valeur entière fictive (formatée selon la langue)" source="Exemple fictif" updatedAt="2026-09-30" />
+                <twig:StatCard :value="72.5" unit="%" label="Pourcentage fictif avec unité" source="Exemple fictif avec lien" sourceUrl="#statcard" updatedAt="2026-06-30" />
+                <twig:StatCard value="[À VALIDER]" label="Valeur textuelle (chiffre à confirmer)" source="[À VALIDER]" updatedAt="2026-01-01" />
+            </div>
+        </section>
+
+        {# ---- OfficialNotice ------------------------------------------------- #}
+        <section aria-labelledby="officialnotice">
+            <twig:SectionHeading id="officialnotice" kicker="Composant" title="OfficialNotice" />
+            <p class="mt-4 max-w-prose text-small text-ink-muted">
+                La fermeture est mémorisée dans le localStorage (<code>mcm:avis:{id}</code>). Pour réafficher l'exemple :
+                <code class="break-all">localStorage.removeItem('mcm:avis:styleguide-exemple')</code>.
+            </p>
+            <div class="mt-8 space-y-6">
+                <div>
+                    {{ sg.variant('dismissible (défaut) + lien') }}
+                    <twig:OfficialNotice id="styleguide-exemple" message="Texte d'avis officiel fictif, affiché en bandeau." href="#officialnotice" />
+                </div>
+                <div>
+                    {{ sg.variant(':dismissible="false" · title personnalisé, sans lien') }}
+                    <twig:OfficialNotice id="styleguide-permanent" title="Information" message="Avis fictif non fermable." :dismissible="false" />
+                </div>
+            </div>
+        </section>
+
+        {# ---- Breadcrumb ----------------------------------------------------- #}
+        <section aria-labelledby="breadcrumb">
+            <twig:SectionHeading id="breadcrumb" kicker="Composant" title="Breadcrumb" />
+            <div class="mt-8 space-y-6">
+                <div>
+                    {{ sg.variant('2 niveaux') }}
+                    <twig:Breadcrumb aria-label="Fil d'Ariane (exemple à 2 niveaux)" :items="[{label: 'Accueil', href: '#breadcrumb'}, {label: 'Page courante'}]" />
+                </div>
+                <div>
+                    {{ sg.variant('4 niveaux, retour à la ligne sur mobile') }}
+                    <twig:Breadcrumb aria-label="Fil d'Ariane (exemple à 4 niveaux)" :items="[{label: 'Accueil', href: '#breadcrumb'}, {label: 'Services et démarches', href: '#breadcrumb'}, {label: 'Journalistes', href: '#breadcrumb'}, {label: 'Titre de page fictif assez long'}]" />
+                </div>
+            </div>
+        </section>
+
+        {# ---- Pagination ----------------------------------------------------- #}
+        <section aria-labelledby="pagination">
+            <twig:SectionHeading id="pagination" kicker="Composant" title="Pagination" />
+            <div class="mt-8 space-y-6">
+                {% for case in [[1, 5], [3, 5], [6, 12], [12, 12]] %}
+                    <div>
+                        {{ sg.variant('page ' ~ case[0] ~ ' sur ' ~ case[1]) }}
+                        <twig:Pagination aria-label="Pagination (exemple page {{ case[0] }} sur {{ case[1] }})" :currentPage="case[0]" :totalPages="case[1]" route="app_styleguide" :routeParams="{_locale: app.request.locale}" />
+                    </div>
+                {% endfor %}
+                <div>
+                    {{ sg.variant('page 1 sur 1 : rien n\'est rendu') }}
+                    <twig:Pagination :currentPage="1" :totalPages="1" route="app_styleguide" />
+                </div>
+            </div>
+        </section>
+
+        {# ---- EmptyState ----------------------------------------------------- #}
+        <section aria-labelledby="emptystate">
+            <twig:SectionHeading id="emptystate" kicker="Composant" title="EmptyState" />
+            <div class="mt-8 grid gap-6 md:grid-cols-2">
+                <twig:EmptyState title="Aucun résultat" message="Message d'exemple : aucun contenu ne correspond aux critères choisis." actionLabel="Réinitialiser les filtres" actionHref="#emptystate" :headingLevel="3" />
+                <twig:EmptyState title="Liste vide, sans action" icon="ri:file-text-line" :headingLevel="3" />
+            </div>
+        </section>
+
+        {# ---- Hero ------------------------------------------------------------ #}
+        <section aria-labelledby="hero">
+            <twig:SectionHeading id="hero" kicker="Composant" title="Hero" />
+        </section>
+    </div>
+
+    <div class="space-y-8 pb-24">
+        <div>
+            <div class="container-site">{{ sg.variant('complet : surtitre, chapô, image, deux boutons') }}</div>
+            <twig:Hero
+                kicker="Surtitre d'exemple"
+                title="Titre d'ouverture fictif"
+                lead="Chapô d'exemple qui présente la page en une ou deux phrases."
+                image="images/styleguide/exemple-4x3.svg"
+                imageAlt=""
+                primaryLabel="Action principale"
+                primaryHref="#hero"
+                secondaryLabel="Action secondaire"
+                secondaryHref="#hero"
+                :headingLevel="3" />
+        </div>
+        <div>
+            <div class="container-site">{{ sg.variant('minimal : titre et un bouton') }}</div>
+            <twig:Hero title="Titre d'ouverture seul" primaryLabel="Action principale" primaryHref="#hero" :headingLevel="3" />
+        </div>
+    </div>
+{% endblock %}

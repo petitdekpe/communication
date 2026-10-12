@@ -1,0 +1,16 @@
+<nav{{ attributes.defaults({'aria-label': 'breadcrumb.label'|trans}) }}>
+    <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-small">
+        {% for item in items %}
+            <li class="inline-flex items-center gap-2">
+                {% if not loop.first %}
+                    {{ ux_icon('ri:arrow-right-s-line', {class: 'size-4 shrink-0 text-ink-muted'}) }}
+                {% endif %}
+                {% if loop.last %}
+                    <span aria-current="page" class="font-semibold text-ink">{{ item.label }}</span>
+                {% else %}
+                    <a href="{{ item.href }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ item.label }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</nav>

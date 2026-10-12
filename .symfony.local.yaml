@@ -1,0 +1,4 @@
+# Lu par `symfony serve` (make dev) : lance le watcher Tailwind à côté du serveur web.
+workers:
+    tailwind:
+        cmd: ['symfony', 'console', 'tailwind:build', '--watch']

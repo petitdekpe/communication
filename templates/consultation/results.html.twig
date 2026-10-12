@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'consultation.results.title'|trans }} : {{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'consultation.title'|trans, href: path('app_consultations')},
+            {label: translation.title, href: path('app_consultation_show', {slug: translation.slug})},
+            {label: 'consultation.results.title'|trans},
+        ]" />
+
+        <twig:TranslationFallbackNotice :translatable="consultation" class="mt-6 max-w-3xl" />
+
+        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
+            <h1 class="type-display text-primary">{{ 'consultation.results.title'|trans }}</h1>
+            <p class="mt-4 text-h3 font-normal text-ink">{{ translation.title }}</p>
+            <div class="prose-article mt-8">{{ translation.results|sanitize_html('app.article_body') }}</div>
+        </article>
+    </div>
+{% endblock %}

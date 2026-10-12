@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'newsletter.unsubscribed.title'|trans }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <div class="max-w-3xl">
+            {% if done %}
+                <h1 class="type-h1 text-primary">{{ 'newsletter.unsubscribed.title'|trans }}</h1>
+                <p class="mt-4 text-ink" role="status">{{ 'newsletter.unsubscribed.message'|trans }}</p>
+            {% else %}
+                <h1 class="type-h1 text-primary">{{ 'newsletter.invalid.title'|trans }}</h1>
+                <p class="mt-4 text-ink" role="status">{{ 'newsletter.invalid.message'|trans }}</p>
+            {% endif %}
+            <p class="mt-8"><twig:Button :label="'newsletter.back'|trans" :href="path('app_home')" /></p>
+        </div>
+    </div>
+{% endblock %}

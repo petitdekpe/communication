@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container-site py-8 lg:py-12">
+        <twig:Breadcrumb :items="[
+            {label: 'breadcrumb.home'|trans, href: path('app_home')},
+            {label: 'agenda.title'|trans, href: path('app_agenda')},
+            {label: translation.title},
+        ]" />
+
+        <twig:TranslationFallbackNotice :translatable="event" class="mt-6 max-w-3xl" />
+
+        {# lang : langue réelle du texte affiché (fr en cas de repli sur une page /en). #}
+        <article lang="{{ translation.locale }}" class="mt-8 max-w-3xl">
+            <header>
+                <p class="text-small font-semibold text-ink-muted">{{ event.type.labelKey|trans }}</p>
+                <h1 class="type-display mt-2 text-primary">{{ translation.title }}</h1>
+            </header>
+
+            <dl class="mt-6 grid gap-4 rounded-card bg-mist p-6 sm:grid-cols-2">
+                <div>
+                    <dt class="text-small font-semibold text-ink">{{ 'agenda.when.label'|trans }}</dt>
+                    <dd class="mt-1 text-ink">
+                        <time datetime="{{ event.startsAt|date('c', site_timezone) }}">{{ event.startsAt|format_datetime('full', 'short', locale: app.locale, timezone: site_timezone) }}</time>
+                        {% if event.endsAt and event.endsAt > event.startsAt %}
+                            <br>→ <time datetime="{{ event.endsAt|date('c', site_timezone) }}">{{ event.endsAt|format_datetime('full', 'short', locale: app.locale, timezone: site_timezone) }}</time>
+                        {% endif %}
+                    </dd>
+                </div>
+                {% if translation.location %}
+                    <div>
+                        <dt class="text-small font-semibold text-ink">{{ 'agenda.venue'|trans }}</dt>
+                        <dd class="mt-1 text-ink">{{ translation.location }}</dd>
+                    </div>
+                {% endif %}
+            </dl>
+            <p class="mt-2 text-small text-ink-muted">{{ 'agenda.timezone_note'|trans }}</p>
+
+            {% if translation.description %}
+                <div class="mt-8 text-ink">{{ translation.description|nl2br }}</div>
+            {% endif %}
+
+            <div class="mt-8 flex flex-wrap gap-3">
+                <twig:Button :label="'agenda.add_to_calendar'|trans" :href="path('app_event_ics', {slug: translation.slug})" icon="ri:calendar-event-line" />
+                <twig:Button :label="'agenda.back'|trans" :href="path('app_agenda')" variant="secondary" />
+            </div>
+        </article>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set heading = item ? 'admin.menus.edit' : 'admin.menus.new' %}
+{% block title %}{{ heading|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-3xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_menu', {menu: menu}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.menus'|trans }} : {{ ('admin.menus.name.' ~ menu)|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ heading|trans }}</h1>
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-controller': 'form-errors link-type'}}) }}
+            {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+            <twig:Admin:FormSection :title="'admin.menus.section.labels'|trans">
+                {{ form_row(form.labelFr) }}
+                {{ form_row(form.labelEn) }}
+                {# « form.parent » désignerait la vue parente du formulaire : on passe par les enfants. #}
+                {% if form.children.parent is defined %}{{ form_row(form.children.parent) }}{% endif %}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.menus.section.link'|trans" :description="'admin.menus.section.link_help'|trans">
+                <div data-action="change->link-type#update">
+                    {{ form_row(form.linkType) }}
+                </div>
+
+                <div data-link-type-target="section" data-link-type="content" class="grid gap-3"
+                     data-controller="content-search"
+                     data-content-search-url-value="{{ path('app_admin_menu_search') }}"
+                     data-content-search-empty-value="{{ 'admin.menus.search_empty'|trans }}"
+                     data-content-search-count-value="{{ 'admin.menus.search_count'|trans({count: '{count}'}) }}">
+                    <label for="menu-content-search" class="text-small font-semibold text-ink">{{ 'admin.menus.search_label'|trans }}</label>
+                    <input id="menu-content-search" type="search" autocomplete="off" maxlength="100"
+                           class="min-h-11 rounded-pill border border-ink-muted bg-white px-4 text-ink"
+                           data-content-search-target="input" data-action="input->content-search#search keydown->content-search#submitGuard">
+                    <p class="sr-only" role="status" aria-live="polite" data-content-search-target="status"></p>
+                    <ul class="grid gap-1" role="list" data-content-search-target="results"></ul>
+                    <p class="text-small text-ink-muted">{{ 'admin.menus.selected'|trans }} <strong class="text-ink" data-content-search-target="selected">{{ targetLabel ?? '–' }}</strong></p>
+                    {{ form_widget(form.target, {attr: {'data-content-search-target': 'value'}}) }}
+                    {{ form_errors(form.target) }}
+                </div>
+
+                <div data-link-type-target="section" data-link-type="url">{{ form_row(form.url) }}</div>
+                <div data-link-type-target="section" data-link-type="path" class="grid gap-6">
+                    {{ form_row(form.pathFr) }}
+                    {{ form_row(form.pathEn) }}
+                </div>
+            </twig:Admin:FormSection>
+
+            {{ form_rest(form) }}
+            <div class="flex flex-wrap gap-3">
+                <button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button>
+                <a href="{{ path('app_admin_menu', {menu: menu}) }}" class="btn btn-outline btn-lg">{{ 'admin.confirm.cancel'|trans }}</a>
+            </div>
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+{% endblock %}

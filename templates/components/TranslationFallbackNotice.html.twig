@@ -1,0 +1,14 @@
+{#
+    Bandeau de repli : affiché quand le contenu n'existe pas dans la langue de la page et que la
+    version française est servie à la place. À placer juste avant le contenu (qui porte lang="fr").
+
+    <twig:TranslationFallbackNotice :translatable="article" />
+#}
+{% props translatable %}
+
+{% if translatable.isTranslationFallback(app.locale) %}
+    <div role="note" {{ attributes.defaults({class: 'flex items-start gap-3 rounded-card border-l-4 border-primary bg-mist px-4 py-3 text-small text-ink'}) }}>
+        {{ ux_icon('ri:information-line', {class: 'mt-0.5 size-5 shrink-0 text-primary'}) }}
+        <p>{{ 'translation_fallback.notice'|trans }}</p>
+    </div>
+{% endif %}

@@ -1,0 +1,91 @@
+/*
+ * Jetons de la charte graphique : SEULE source des couleurs, polices, rayons, ombres et espacements.
+ *
+ * Chaque variable déclarée ici est à la fois :
+ *  - une vraie variable CSS sur :root (option « static » : émise même si aucune classe ne l'utilise),
+ *    donc utilisable partout via var(--color-primary) ;
+ *  - un jeu de classes Tailwind, d'après son préfixe :
+ *      --color-*    -> bg-primary, text-ink, border-flag-green, ring-primary…
+ *      --font-*     -> font-sans, font-display
+ *      --text-*     -> text-display, text-h1 … text-caption (taille + interlignage)
+ *      --radius-*   -> rounded-card, rounded-pill
+ *      --shadow-*   -> shadow-card, shadow-raised
+ *      --spacing-*  -> px-gutter, h-filet, gap-gutter-lg…
+ *      --container-*-> max-w-site
+ *
+ * Les palettes, polices, tailles et ombres par défaut de Tailwind sont désactivées (« initial ») :
+ * une classe comme bg-blue-500 ou text-sm ne génère rien. Toute nouvelle couleur s'ajoute ICI.
+ *
+ * Contraste WCAG AA : jamais de texte blanc sur flag-yellow ou cream,
+ * jamais de texte flag-yellow sur blanc.
+ */
+@theme static {
+    /* ---- Couleurs ---------------------------------------------------- */
+    --color-*: initial;
+
+    --color-primary: #162233;        /* bleu nuit */
+    --color-primary-light: #1f2f47;  /* variante du bleu nuit */
+
+    --color-flag-green: #008751;
+    --color-flag-yellow: #fcd116;
+    --color-flag-red: #e8112d;
+
+    --color-white: #ffffff;
+    --color-cream: #ffedcf;          /* fond doux */
+    --color-mist: #f7f9fc;           /* gris très clair */
+
+    --color-ink: #1b1b1b;            /* texte principal */
+    --color-ink-muted: #475569;      /* texte secondaire */
+
+    /* ---- Polices ----------------------------------------------------- */
+    --font-*: initial;
+
+    --font-sans: "Montserrat", ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-display: "Baskervville", "Baskerville", Georgia, "Times New Roman", serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    /* ---- Échelle typographique (taille / interlignage) ------------------ */
+    --text-*: initial;
+
+    --text-display: 3rem;                 /* 48 px */
+    --text-display--line-height: 3.5rem;  /* 56 px */
+    --text-h1: 2.25rem;                   /* 36 px */
+    --text-h1--line-height: 2.75rem;      /* 44 px */
+    --text-h2: 1.75rem;                   /* 28 px */
+    --text-h2--line-height: 2.25rem;      /* 36 px */
+    --text-h3: 1.25rem;                   /* 20 px */
+    --text-h3--line-height: 1.75rem;      /* 28 px */
+    --text-body: 1rem;                    /* 16 px */
+    --text-body--line-height: 1.5rem;     /* 24 px */
+    --text-small: 0.875rem;               /* 14 px */
+    --text-small--line-height: 1.25rem;   /* 20 px */
+    --text-caption: 0.75rem;              /* 12 px */
+    --text-caption--line-height: 1rem;    /* 16 px */
+    --text-caption--letter-spacing: 0.08em;
+
+    /* ---- Rayons ------------------------------------------------------ */
+    --radius-card: 12px;
+    --radius-pill: 9999px;                /* boutons en pastille */
+
+    /* ---- Ombres (teintées du bleu nuit) ------------------------------- */
+    --shadow-*: initial;
+    --inset-shadow-*: initial;
+    --drop-shadow-*: initial;
+    --text-shadow-*: initial;
+
+    --shadow-card:
+        0 1px 2px color-mix(in srgb, var(--color-primary) 6%, transparent),
+        0 4px 12px color-mix(in srgb, var(--color-primary) 8%, transparent);
+    --shadow-raised:
+        0 2px 4px color-mix(in srgb, var(--color-primary) 8%, transparent),
+        0 12px 32px color-mix(in srgb, var(--color-primary) 14%, transparent);
+
+    /* ---- Espacements --------------------------------------------------- */
+    /* --spacing reste la base Tailwind (0.25rem = 4 px) : p-4 = 16 px, p-8 = 32 px… */
+    --spacing-gutter: 1rem;               /* gouttière mobile, 16 px */
+    --spacing-gutter-lg: 2rem;            /* gouttière desktop, 32 px */
+    --spacing-filet: 0.25rem;             /* épaisseur du filet tricolore, 4 px */
+
+    /* ---- Largeurs ------------------------------------------------------ */
+    --container-site: 80rem;              /* 1280 px */
+}

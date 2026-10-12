@@ -1,0 +1,13 @@
+{#
+    Zone des notifications : les messages flash de la requête, puis les toasts ajoutés par les Turbo Streams
+    (<turbo-stream action="append" target="toasts">). Région annoncée aux lecteurs d'écran, jamais retirée du DOM.
+#}
+<div id="toasts" role="status" aria-live="polite" aria-atomic="false"
+     class="pointer-events-none fixed bottom-4 right-4 z-50 grid w-[min(24rem,calc(100%-2rem))] gap-2"
+     data-controller="toasts">
+    {% for type in ['success', 'error', 'warning'] %}
+        {% for message in app.flashes(type) %}
+            {% include 'admin/_toast.html.twig' with {type: type, message: message} only %}
+        {% endfor %}
+    {% endfor %}
+</div>

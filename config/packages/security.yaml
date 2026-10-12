@@ -1,0 +1,81 @@
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    # Hiérarchie : chaque rôle hérite des droits des rôles qu'il contient.
+    #   SUPER_ADMIN : utilisateurs, paramètres + tout ce que fait ADMIN
+    #   ADMIN       : tout le contenu (y compris les demandes de presse et les traductions)
+    #   REVIEWER    : valide et publie (et peut tout ce que fait EDITOR)
+    #   EDITOR      : crée et soumet
+    #   TRANSLATOR  : champs anglais uniquement
+    #   PRESS       : accréditations et demandes
+    role_hierarchy:
+        ROLE_EDITOR: [ROLE_USER]
+        ROLE_TRANSLATOR: [ROLE_USER]
+        ROLE_PRESS: [ROLE_USER]
+        ROLE_REVIEWER: [ROLE_EDITOR]
+        ROLE_ADMIN: [ROLE_REVIEWER, ROLE_TRANSLATOR, ROLE_PRESS]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
+    firewalls:
+        dev:
+            # Ensure dev tools and static assets are always allowed
+            pattern: ^/(_profiler|_wdt|assets|build)/
+            security: false
+
+        # Administration : connexion par formulaire, puis double authentification TOTP (scheb/2fa-bundle).
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            form_login:
+                login_path: app_admin_login
+                check_path: app_admin_login
+                enable_csrf: true
+                username_parameter: email
+                password_parameter: password
+                default_target_path: app_admin_dashboard
+            logout:
+                path: app_admin_logout
+                target: app_admin_login
+            login_throttling:
+                max_attempts: 5
+            two_factor:
+                auth_form_path: 2fa_login
+                check_path: 2fa_login_check
+                enable_csrf: true
+                post_only: true
+                default_target_path: app_admin_dashboard
+
+        # Site public : aucune authentification.
+        main:
+            lazy: true
+
+    # Note: Only the *first* matching rule is applied
+    access_control:
+        - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/mot-de-passe-oublie, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/reinitialisation, roles: PUBLIC_ACCESS }
+        # Étape « code TOTP » : réservée à l'utilisateur dont le mot de passe est validé mais le code pas encore.
+        - { path: ^/admin/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        # Tout le reste de /admin exige un utilisateur complètement authentifié (2FA comprise : un jeton « 2FA en cours » n'a aucun rôle).
+        - { path: ^/admin, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            # Password hashers are resource-intensive by design to ensure security.
+            # In tests, it's safe to reduce their cost to improve performance.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

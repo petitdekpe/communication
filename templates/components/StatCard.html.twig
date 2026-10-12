@@ -1,0 +1,20 @@
+<figure{{ attributes.defaults({class: 'flex flex-col gap-2 rounded-card bg-white p-6 shadow-card'}) }}>
+    {# Nombre en grand ; valeur textuelle (« [À VALIDER] », « N. C. »…) un cran plus petit pour tenir sur une ligne. #}
+    <p class="font-display font-bold text-primary lining-nums {{ this.numeric ? 'text-display' : 'text-h2' }}">
+        {{- this.numeric ? value|format_number(locale: app.locale) : value -}}
+        {%- if unit %}<span class="text-h3"> {{ unit }}</span>{% endif -%}
+    </p>
+    <p class="font-semibold text-ink">{{ label }}</p>
+
+    <figcaption class="mt-auto border-t border-ink-muted/20 pt-3 text-small text-ink-muted">
+        <p>
+            {{ 'stat.source'|trans }}
+            {% if sourceUrl %}
+                <a href="{{ sourceUrl }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ source }}</a>
+            {% else %}
+                {{ source }}
+            {% endif %}
+        </p>
+        <p>{{ 'stat.updated'|trans }} <time datetime="{{ updatedAt|date('Y-m-d') }}">{{ updatedAt|format_date('long', locale: app.locale) }}</time></p>
+    </figcaption>
+</figure>

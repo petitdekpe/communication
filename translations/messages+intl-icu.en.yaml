@@ -1,0 +1,814 @@
+site:
+    name: 'Ministry of Communication, in charge of Media'
+    country: 'Republic of Benin'
+
+a11y:
+    skip_links_label: 'Quick access'
+    skip_to_content: 'Skip to content'
+    skip_to_search: 'Skip to search'
+
+identity:
+    logo_alt: 'Ministry of Communication, Republic of Benin'
+    ministry: 'Ministry of Communication'
+    portfolio: 'In charge of Media'
+
+language:
+    nav_label: 'Language'
+    fr: 'Français'
+    en: 'English'
+
+utility:
+    official_portal: 'Official Government portal'
+    nav_label: 'Quick links'
+    helpline: 'Helpline: {value}'
+
+nav:
+    main_label: 'Main menu'
+    menu: 'Menu'
+    close: 'Close'
+
+menu:
+    ministry:
+        label: 'The ministry'
+        overview: 'Overview'
+        missions: 'Missions and responsibilities'
+        organisation: 'Organisation'
+        agencies: 'Supervised bodies'
+    services:
+        label: 'Services and procedures'
+        all: 'All procedures'
+        journalists: 'Journalists'
+        media: 'Media outlets'
+        companies: 'Businesses'
+        citizens: 'Citizens'
+    news:
+        label: 'News'
+        all: 'All news'
+        press_releases: 'Press releases'
+        agenda: 'Agenda'
+        consultations: 'Consultations'
+    documents:
+        label: 'Documents'
+    projects:
+        label: 'Projects and reforms'
+    data:
+        label: 'Data'
+        key_figures: 'Key figures'
+        open_data: 'Open data'
+    contact:
+        label: 'Contact'
+    utility:
+        press: 'Press room'
+        open_data: 'Open data'
+        agenda: 'Agenda'
+    footer:
+        resources: 'Resources'
+    social:
+        facebook: 'Facebook'
+        x: 'X (formerly Twitter)'
+        youtube: 'YouTube'
+        linkedin: 'LinkedIn'
+    institutional:
+        gouv: 'gouv.bj'
+        presidence: 'presidence.bj'
+        service_public: 'service-public.bj'
+    legal:
+        notice: 'Legal notice'
+        accessibility: 'Accessibility'
+        sitemap: 'Sitemap'
+
+search:
+    open: 'Search'
+    dialog_title: 'Search the portal'
+    label: 'What are you looking for?'
+    submit: 'Search'
+    close: 'Close search'
+    shortcut_hint: 'Shortcut: Ctrl + K (Cmd + K on Mac). Press Esc to close.'
+    page_title: 'Search'
+    results_for: 'Results for “{query}”'
+    hint: 'Enter a word or phrase to search news, documents, procedures, events and pages.'
+    too_short: 'Enter at least 2 characters.'
+    results_count: '{count, plural, =0 {No results} one {# result} other {# results}}'
+    groups_nav: 'Result types'
+    empty:
+        title: 'No results'
+        message: 'Try another word or a different spelling.'
+    type:
+        article: 'News and press releases'
+        document: 'Official documents'
+        service: 'Procedures'
+        event: 'Events'
+        page: 'Pages'
+
+footer:
+    contact_title: 'Contact details'
+    address: 'Address: {value}'
+    phone: 'Phone: {value}'
+    email: 'Email: {value}'
+    social_title: 'Follow us'
+    institutional_label: 'Government websites'
+    external_site: '(external website)'
+    legal_label: 'Legal information'
+    copyright: '© Republic of Benin {year}'
+
+home:
+    hero:
+        kicker: 'Official government portal'
+        read: 'Read the article'
+    search:
+        label: 'Search for a procedure, an official text or news'
+        submit: 'Search'
+    quick_links:
+        title: 'Quick access'
+        press_accreditation: 'Press accreditation'
+        official_texts: 'Official texts'
+        tnt: 'Digital terrestrial TV'
+        sector_data: 'Sector data'
+    featured:
+        title: 'Top story'
+    press_releases:
+        title: 'Latest press releases'
+        see_all: 'All press releases'
+    services:
+        kicker: 'Procedures'
+        title: 'Priority services'
+        see_all: 'See all procedures'
+    news:
+        kicker: 'Ministry updates'
+        title: 'News'
+        see_all: 'All news'
+    documents:
+        title: 'Official documents'
+        see_all: 'All documents'
+        empty: 'No documents published yet.'
+    agenda:
+        title: 'Agenda'
+        see_all: 'Full agenda'
+        empty: 'No upcoming events yet.'
+    stats:
+        kicker: 'Data'
+        title: 'Key figures'
+        see_all: 'All data'
+    consultation:
+        kicker: 'Public consultations'
+        participate: 'Take part'
+        see: 'See the consultation'
+        all: 'All consultations'
+    press:
+        kicker: 'Journalists and media'
+        title: 'Press room'
+        see_all: 'Go to the press room'
+        open: 'Open'
+        cards:
+            accreditation:
+                title: 'Press accreditation'
+                text: 'Submit your accreditation request online and follow its processing.'
+            media_library:
+                title: 'Media library'
+                text: 'The ministry''s photos and videos.'
+            press_releases:
+                title: 'Press releases'
+                text: 'The ministry''s official press releases.'
+    newsletter:
+        title: 'Newsletter'
+        label: 'Your email address'
+        hint: 'Expected format: name@domain.bj'
+        submit: 'Subscribe'
+        default_text: 'Receive the ministry''s news by email.'
+        default_consent: 'Your address is only used to send the newsletter; you can unsubscribe in one click.'
+
+category:
+    actualite: 'News'
+    communique: 'Press release'
+    dossier: 'Feature'
+    annonce: 'Announcement'
+    avis-officiel: 'Official notice'
+
+audience:
+    journalistes: 'Journalists'
+    medias: 'Media outlets'
+    entreprises: 'Businesses'
+    citoyens: 'Citizens'
+
+badge:
+    audience_prefix: 'Audience:'
+
+file_type:
+    pdf: 'PDF'
+    word: 'Word'
+    excel: 'Excel'
+    zip: 'ZIP'
+    other: 'File'
+
+file_size:
+    byte: '{size, plural, one {# byte} other {# bytes}}'
+    kb: '{size, number, ::.#} KB'
+    mb: '{size, number, ::.#} MB'
+    gb: '{size, number, ::.#} GB'
+
+ui:
+    see_all: 'See all'
+    download: 'Download'
+    not_specified: 'Not specified'
+    'yes': 'Yes'
+    'no': 'No'
+
+service:
+    cost: 'Cost'
+    delay: 'Processing time'
+    online: 'Online'
+    see: 'View procedure'
+
+agenda:
+    title: 'Events'
+    location: 'Venue:'
+    venue: 'Venue'
+    subscribe: 'Subscribe to the calendar (iCal)'
+    add_to_calendar: 'Add to my calendar (.ics)'
+    back: 'Back to events'
+    timezone_note: 'Times are shown in Benin time (UTC+1).'
+    results_count: '{count, plural, =0 {No events} one {# event} other {# events}}'
+    view:
+        label: 'Display mode'
+        list: 'List'
+        month: 'Month'
+    when:
+        label: 'Period'
+        upcoming: 'Upcoming'
+        past: 'Past'
+    filter:
+        type: 'Event type'
+        all: 'All'
+        submit: 'Filter'
+        reset: 'Reset'
+    empty:
+        title: 'No events'
+        message: 'No event matches these criteria.'
+    month:
+        nav: 'Month navigation'
+        previous: 'Previous month'
+        next: 'Next month'
+        caption: 'Events in {month}'
+        empty:
+            title: 'No events this month'
+            message: 'No event matches these criteria this month.'
+
+documents:
+    title: 'Official documents'
+    intro: 'Laws, decrees, orders, reports, strategies and forms.'
+    signed_on: 'Signed on'
+    reference: 'Ref.:'
+    file_language: 'File language:'
+    downloads: '{count, plural, =0 {No downloads} one {# download} other {# downloads}}'
+    results_count: '{count, plural, =0 {No documents} one {# document} other {# documents}}'
+    keywords_ignored: 'Words shorter than 3 letters are ignored by the search.'
+    search:
+        label: 'Search for a document'
+    filter:
+        keywords: 'Keywords'
+        keywords_hint: 'Searches the title and the summary.'
+        type: 'Document type'
+        all: 'All'
+        sort: 'Sort by date'
+        sort_newest: 'Newest first'
+        sort_oldest: 'Oldest first'
+        from: 'Signed from'
+        to: 'Signed until'
+        submit: 'Search'
+        reset: 'Reset'
+    empty:
+        title: 'No results'
+        message: 'No document matches these criteria.'
+
+document_type:
+    law: 'Law'
+    decree: 'Decree'
+    order: 'Order'
+    report: 'Report'
+    strategy: 'Strategy'
+    form: 'Form'
+
+event_type:
+    press_briefing: 'Press briefing'
+    workshop: 'Workshop'
+    summit: 'Summit'
+    conference: 'Conference'
+    ceremony: 'Ceremony'
+    other: 'Other'
+stat:
+    value_pending: '[À VALIDER]'
+    source: 'Source:'
+    updated: 'Updated:'
+
+notice:
+    default_title: 'Official notice'
+    more: 'Learn more'
+    dismiss: 'Hide this notice'
+
+breadcrumb:
+    home: 'Home'
+    label: 'Breadcrumb'
+
+pagination:
+    label: 'Pagination'
+    page: 'Page'
+    previous: 'Previous'
+    next: 'Next'
+
+translation_fallback:
+    notice: 'Content available in French only.'
+
+news:
+    title: 'News'
+    rss: 'RSS feed'
+    feed_description: 'Latest news from the ministry.'
+    results_count: '{count, plural, =0 {No articles} one {# article} other {# articles}}'
+    download_pdf: 'Download PDF'
+    filter:
+        type: 'Type'
+        category: 'Section'
+        year: 'Year'
+        all: 'All'
+        submit: 'Filter'
+        reset: 'Reset'
+    empty:
+        title: 'No results'
+        message: 'No article matches these filters.'
+
+press_releases:
+    title: 'Press releases'
+
+article:
+    credit: 'Credit:'
+    attachments: 'Attachments'
+    gallery: 'Gallery'
+    related: 'Related reading'
+    share:
+        title: 'Share'
+        facebook: 'Facebook'
+        x: 'X'
+        linkedin: 'LinkedIn'
+        whatsapp: 'WhatsApp'
+        email: 'Email'
+
+services:
+    title: 'Procedures'
+    intro: 'Procedures for journalists, media outlets, businesses and citizens.'
+    results_count: '{count, plural, =0 {No procedures} one {# procedure} other {# procedures}}'
+    filter:
+        label: 'Filter procedures by audience'
+        all: 'All audiences'
+    empty:
+        title: 'No procedures'
+        message: 'No procedure matches this audience yet.'
+    summary:
+        title: 'At a glance'
+    steps:
+        title: 'Steps'
+        step: 'Step {number}'
+    documents:
+        title: 'Required documents'
+        hint: 'Tick the documents as you gather them. The list can be printed.'
+        print: 'Print the list'
+        none: 'No particular document is required.'
+    legal:
+        title: 'Legal basis'
+    contact:
+        title: 'Contact'
+    action:
+        apply: 'Apply online'
+        external: 'Go to the online service'
+        track: 'Track my request'
+
+request:
+    title: 'Online request'
+    intro: 'Fill in the form below. Once sent, you will receive a tracking number and an acknowledgment by email.'
+    required_hint: 'Fields marked with an asterisk (*) are required.'
+    submit: 'Send my request'
+    cancel: 'Cancel'
+    section:
+        details: 'Your request'
+        contact: 'Contact'
+        attachments: 'Attachments'
+        consent: 'Personal data'
+    field:
+        email: 'Email address'
+        email_help: 'The acknowledgment and the tracking of your request use this address.'
+        attachments: 'Supporting documents'
+        attachments_help: 'PDF or JPG files, 5 MB maximum each, 5 files maximum.'
+        consent: 'I agree that the Ministry of Communication, in charge of Media, processes my personal data to handle my request, in line with the rules of the Personal Data Protection Authority (APDP).'
+    accreditation:
+        last_name: 'Last name'
+        first_name: 'First names'
+        phone: 'Phone (optional)'
+        media_outlet: 'Media outlet'
+        job_title: 'Job title'
+        event_name: 'Event concerned'
+        event_name_help: 'Name of the event for which you request accreditation.'
+    honeypot:
+        label: 'Do not fill in this field'
+    error:
+        summary_title: 'The form contains errors'
+        too_many: 'Too many attempts. Please wait before trying again.'
+        too_large: 'The form could not be received: the files are probably too large. Reduce their size and try again.'
+    done:
+        title: 'Request sent'
+        number_label: 'Your tracking number:'
+        keep: 'Keep this number: you will need it, with your email address, to track your request.'
+        email: 'An acknowledgment has been sent to you by email.'
+        tracking_hint: 'This number never appears in the page address: you enter it in the tracking form.'
+        track: 'Track my request'
+        back: 'Back to procedures'
+    mail:
+        subject: 'Acknowledgment of your request {number}'
+        title: 'We have received your request'
+        intro: 'Your request “{service}” has been recorded.'
+        how_to_track: 'To follow its progress, go to the tracking page and enter this number with the email address used for the request:'
+        ignore: 'If you did not make this request, please ignore this message.'
+    status_mail:
+        subject: 'Update on your request {number}'
+        title: 'The status of your request has changed'
+        intro: 'Your request “{service}” has moved forward.'
+        new_status: 'New status:'
+
+tracking:
+    title: 'Track a request'
+    intro: 'Enter the tracking number you received when you sent your request and the email address you used.'
+    submit: 'Check the status'
+    field:
+        number: 'Tracking number'
+        number_help: 'Format: MCM-2026-XXXXXXXX.'
+        email: 'Email address'
+        email_help: 'The address used for the request.'
+    error:
+        not_found: 'No request matches this information. Check the number and the address you entered.'
+    result:
+        title: 'Your request'
+        number: 'Tracking number'
+        service: 'Procedure'
+        status: 'Status'
+        submitted: 'Sent on'
+        updated: 'Last updated'
+    status:
+        received: 'Received'
+        in_review: 'Under review'
+        approved: 'Approved'
+        rejected: 'Rejected'
+    status_help:
+        received: 'Your request has been received. It has not been reviewed yet.'
+        in_review: 'Your request is being reviewed.'
+        approved: 'Your request has been approved.'
+        rejected: 'Your request was not accepted.'
+
+data:
+    title: 'Data and key figures'
+    intro: 'Key figures of the sector, with their source and update date.'
+    export: 'Export as CSV'
+    export_format: 'CSV file, UTF-8 encoding'
+    results_count: '{count, plural, =0 {No figures} one {# figure} other {# figures}}'
+    caption: 'Key figures: label, value, source and update date'
+    empty:
+        title: 'No figures published'
+        message: 'No key figure is published yet.'
+    column:
+        label: 'Indicator'
+        value: 'Value'
+        source: 'Source'
+        updated: 'Updated'
+
+media_library:
+    title: 'Media library'
+    intro: 'The ministry''s photo galleries and videos.'
+    photos: 'Photo galleries'
+    videos: 'Videos'
+    videos_privacy: 'Videos are hosted by YouTube and only load when you click: no cookie is set before.'
+    play: 'Play the video'
+    watch_on_youtube: 'Watch on YouTube'
+    empty_photos:
+        title: 'No galleries'
+        message: 'No photo gallery is published yet.'
+    empty_videos:
+        title: 'No videos'
+        message: 'No video is published yet.'
+    viewer:
+        open: 'Enlarge the image'
+        close: 'Close the viewer'
+        previous: 'Previous'
+        next: 'Next'
+        counter: 'Image {current} of {total}'
+
+consultation:
+    title: 'Public consultations'
+    intro: 'Give your opinion on the ministry''s projects.'
+    empty:
+        title: 'No consultations'
+        message: 'No consultation is published yet.'
+    state:
+        open: 'Open'
+        upcoming: 'Upcoming'
+        closed: 'Closed'
+    period: 'From {from} to {to}'
+    opens: 'Opens'
+    closes: 'Closes'
+    documents: 'Consultation documents'
+    results:
+        title: 'Consultation results'
+        available: 'The results of this consultation are published.'
+        see: 'Read the results'
+    contribute:
+        title: 'Contribute'
+        intro: 'Fill in the form to submit your contribution.'
+        submit: 'Send my contribution'
+        upcoming: 'The consultation is not open yet: contributions will be possible from the opening date.'
+        closed: 'The consultation is closed: contributions are no longer accepted.'
+        thanks: 'Thank you, your contribution has been recorded.'
+    field:
+        name: 'Name'
+        organization: 'Organisation (optional)'
+        text: 'Your contribution'
+        text_help: '10,000 characters maximum.'
+        file: 'Attached file (optional)'
+        file_help: 'PDF or JPG file, 5 MB maximum.'
+        consent: 'I agree that my personal data (name, organisation, text and file) is processed to analyse this consultation.'
+
+newsletter:
+    title: 'Newsletter'
+    intro: 'Receive the ministry''s news by email.'
+    double_opt_in: 'After you sign up, a message will ask you to confirm your address: the subscription is only active after this confirmation.'
+    back: 'Back to the home page'
+    subscribed:
+        title: 'Check your inbox'
+        message: 'If this address can be subscribed, a confirmation message has just been sent to it. Click the link it contains to activate the subscription.'
+    confirmed:
+        title: 'Subscription confirmed'
+        message: 'Thank you, your address is subscribed to the newsletter. Every message contains an unsubscribe link.'
+    unsubscribed:
+        title: 'You have been unsubscribed'
+        message: 'Your address is unsubscribed: you will no longer receive the newsletter.'
+    invalid:
+        title: 'Invalid link'
+        message: 'This link is not valid or has expired.'
+    mail:
+        subject: 'Confirm your newsletter subscription'
+        title: 'Confirm your subscription'
+        intro: 'A newsletter subscription was requested with this address. To activate it, confirm it:'
+        confirm: 'Confirm my subscription'
+        ignore: 'If you did not make this request, ignore this message: without confirmation, no newsletter will be sent to you.'
+        unsubscribe: 'Unsubscribe'
+
+preview:
+    banner: 'Unpublished preview: this content is not visible to the public.'
+
+workflow:
+    title: 'Publication'
+    scheduled_for: 'Scheduled for publication on {date}'
+    unschedule: 'Cancel scheduling'
+    lock:
+        warning: '{name} is already editing this content (lock active until {time} without activity). Your changes may overwrite theirs.'
+        warning_short: '{name} is already editing this content. Your changes may overwrite theirs.'
+    reason:
+        label: 'Reason for rejection'
+        help: 'The reason is required. It is sent to the author by email.'
+        submit: 'Confirm rejection'
+    schedule:
+        label: 'Schedule publication on (optional)'
+        help: 'Leave empty to publish now. The content stays in review until that date, then is published automatically.'
+    preview:
+        title: 'Preview before publication'
+        help: 'Signed link, valid for 24 hours. Anyone holding it can see this draft.'
+        open:
+            fr: 'Open the French preview'
+            en: 'Open the English preview'
+        url:
+            fr: 'French preview address'
+            en: 'English preview address'
+    versions:
+        link: '{count, plural, =0 {No saved version} one {View the saved version} other {View the # saved versions}}'
+        title: 'Versions'
+        empty: 'No version saved for this content.'
+        compare: 'Compare'
+        left: 'Left version'
+        right: 'Right version'
+        option: 'Version {number}, {date}, {author}'
+        list: 'Version history'
+        number: 'Version {number}'
+        restored_from: '(restoration of version {number})'
+        restore: 'Restore version {number}'
+        diff_title: 'Differences between version {a} and version {b}'
+        legend: 'Removed passages are struck through, added passages are underlined.'
+        identical: 'These two versions are identical.'
+    history:
+        title: 'Transition history'
+        empty: 'No transition recorded.'
+        by: 'by {who}'
+        system: 'the scheduler'
+        reason: 'Reason:'
+        transition:
+            submit: 'Submitted for review'
+            publish: 'Published'
+            reject: 'Rejected'
+            unpublish: 'Unpublished'
+            archive: 'Archived'
+            restore: 'Restored'
+            schedule: 'Publication scheduled'
+            unschedule: 'Scheduling cancelled'
+    flash:
+        scheduled: 'Publication scheduled.'
+        unscheduled: 'Scheduling cancelled.'
+        restored: 'Version restored.'
+    error:
+        reason_required: 'The reason for rejection is required.'
+        invalid: 'Action not possible: invalid date or incompatible content state.'
+    email:
+        open: 'Open the content'
+        submitted:
+            subject: 'To review: {title}'
+            title: 'A content item awaits your review'
+            intro: 'The content "{title}" has just been submitted for review.'
+        published:
+            subject: 'Published: {title}'
+            title: 'Your content is published'
+            intro: 'The content "{title}" is published.'
+        rejected:
+            subject: 'Rejected: {title}'
+            title: 'Your content was rejected'
+            intro: 'The content "{title}" was sent back to draft by the reviewer.'
+
+sitemap:
+    title: 'Site map'
+    intro: 'All the sections and pages of the portal in one place.'
+    sections: 'Portal sections'
+    pages: 'Pages'
+    empty: 'No published page yet.'
+    section:
+        services: 'Services and procedures'
+        news: 'News'
+        press_releases: 'Press releases'
+        documents: 'Official documents'
+        agenda: 'Agenda'
+        data: 'Key figures and data'
+        consultations: 'Public consultations'
+        media_library: 'Media library'
+
+page_editor:
+    title: 'Page editor'
+    open_builder: 'Open the page editor'
+    publication: 'Publication, transition history and lock'
+    properties:
+        new: 'New page'
+        edit: 'Page properties'
+        new_help: 'Choose a template and enter a title in French (and in English if you wish). The page then opens in the editor so you can add blocks.'
+    field:
+        template: 'Page template'
+        meta_title: 'Search engine title'
+        meta_title_help: 'Up to 70 characters. Leave empty to use the page title.'
+        meta_description: 'Search engine description'
+        meta_description_help: 'Up to 300 characters.'
+    toolbar:
+        label: 'Editor toolbar'
+        undo: 'Undo'
+        redo: 'Redo'
+        save: 'Save'
+        submit: 'Submit for review'
+        properties: 'Properties'
+        versions: 'Versions'
+    status:
+        dirty: 'Unsaved changes'
+        saved: 'Draft saved at {time}'
+        clean: 'No changes'
+    blocks:
+        title: '{count, plural, =0 {Blocks} one {# block} other {# blocks}}'
+        add: 'Add a block'
+        help: 'Drag a block by its handle to move it, or use the Move up and Move down buttons.'
+        empty: 'This page has no blocks yet. Use "Add a block".'
+        untitled: '(no text)'
+        hidden: 'Hidden'
+        incomplete: 'Incomplete'
+    block:
+        move_up: 'Move block "{label}" up'
+        move_down: 'Move block "{label}" down'
+        duplicate: 'Duplicate block "{label}"'
+        hide: 'Hide block "{label}"'
+        show: 'Show block "{label}"'
+        delete: 'Delete block "{label}"'
+        delete_confirm: 'Delete block "{label}"? The Undo button brings it back.'
+    panel:
+        title: 'Selected block'
+        empty: 'Select a block in the list, or click it in the preview, to edit it.'
+        close: 'Close the block form'
+        problems: 'To complete before review:'
+        section_label: 'Form section'
+        locale_label: 'Field language'
+        tab:
+            content: 'Content'
+            appearance: 'Appearance'
+    preview:
+        title: 'Preview'
+        hint: 'Real rendering of the site with your draft. Click a block to select it.'
+        frame_title: 'Page preview'
+        device_label: 'Display size'
+        locale_label: 'Preview language'
+        device:
+            desktop: 'Desktop'
+            tablet: 'Tablet'
+            mobile: 'Mobile'
+    palette:
+        title: 'Add a block'
+        close: 'Close the block list'
+        search: 'Search for a block'
+        position: 'Position'
+        position_start: 'At the top of the page'
+        position_after: 'After'
+        no_result: 'No block matches this search.'
+    category:
+        layout: 'Layout'
+        text: 'Text'
+        media: 'Images and videos'
+        navigation: 'Navigation and links'
+        data: 'Site content'
+        embed: 'Embeds'
+    block_help:
+        hero: 'Large opening banner with title, lead, image and button.'
+        rich_text: 'Paragraphs, headings, lists and links.'
+        image: 'An image with its caption.'
+        image_text: 'An image next to a text.'
+        card_grid: 'Clickable cards in 2, 3 or 4 columns.'
+        dynamic_list: 'Latest published content (news, press releases, documents, events).'
+        services_grid: 'Published services, by audience.'
+        key_figures: 'Sourced key figures.'
+        quote: 'Quotation with its author.'
+        video: 'YouTube video loaded on click.'
+        faq: 'Expandable frequently asked questions.'
+        call_to_action: 'Short message with a button.'
+        contacts: 'People or offices to contact.'
+        tabs: 'Content split into tabs.'
+        separator: 'Rule or space between two blocks.'
+        embed: 'Content from an allowed site (administrators only).'
+    media:
+        title: 'Choose a media'
+        close: 'Close the media picker'
+        none: 'No media chosen'
+        choose: 'Choose a media'
+        change: 'Change media'
+        remove: 'Remove'
+        search: 'Search for an image'
+        search_submit: 'Search'
+        empty: 'The media library has no image yet. Upload one below.'
+        no_result: 'No image matches this search.'
+        more: 'Show more images'
+        upload_title: 'Upload a new image'
+        file: 'Image file'
+        file_help: 'JPEG, PNG, WebP or GIF, 5 MB at most.'
+        alt_fr: 'Alternative text in French'
+        alt_en: 'Alternative text in English (optional)'
+        upload_submit: 'Upload and choose'
+        error:
+            file: 'Choose an image file.'
+            alt: 'The French alternative text is required: it describes the image to people who cannot see it.'
+    item:
+        add: 'Add an item'
+        remove: 'Remove the item'
+    setting:
+        background: 'Background'
+        background_choice:
+            white: 'White'
+            light: 'Very light grey'
+            cream: 'Cream'
+            night: 'Night blue'
+        width: 'Width'
+        width_choice:
+            content: 'Reading column'
+            wide: 'Site width'
+            full: 'Full width'
+        spacing: 'Vertical spacing'
+        spacing_choice:
+            none: 'None'
+            s: 'Small'
+            m: 'Medium'
+            l: 'Large'
+        anchor: 'Anchor'
+        anchor_help: 'Optional. Lowercase letters, digits and hyphens (e.g. "contacts"), for a link to this block.'
+        visibility: 'Display'
+        visibility_help: 'At least one device.'
+        visibility_choice:
+            desktop: 'Desktop and tablet'
+            mobile: 'Mobile'
+    notice:
+        added: 'Block added.'
+        moved: 'Block moved.'
+        duplicated: 'Block duplicated.'
+        hidden: 'Block hidden.'
+        shown: 'Block shown.'
+        removed: 'Block deleted.'
+        reloaded: "The other person's draft was loaded."
+        draft_saved: 'Draft saved.'
+        saved: 'Page saved: a version was created.'
+        invalid: 'Some blocks are incomplete or invalid. Nothing was saved to the page.'
+        conflict: 'Someone else saved this page. Choose which version to keep.'
+        cannot_submit: 'This page cannot be submitted for review in its current state.'
+    banner:
+        lock: '{name} is already editing this page. Your changes could overwrite theirs.'
+        conflict: '{name} saved changes to this page since you opened it.'
+        reload: 'Load their version (my unsaved changes will be lost)'
+        keep_mine: 'Keep my version'
+
