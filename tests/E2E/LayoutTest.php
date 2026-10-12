@@ -115,9 +115,6 @@ final class LayoutTest extends PantherTestCase
                     .map((b) => b.getBoundingClientRect()).filter((r) => r.width > 0);
                 return actions.every((r) => r.left >= identity.right);
                 JS), 'Le bloc identité ne chevauche pas les boutons');
-            self::assertTrue($client->executeScript(
-                'const p = document.querySelector("[data-test=portail-officiel]"); return p.scrollWidth <= p.clientWidth;'
-            ), 'Mention « Portail officiel » non tronquée');
 
             $logoHeight = $client->executeScript('return document.querySelector("header img").getBoundingClientRect().height;');
             self::assertEquals($isDesktop ? 48 : 40, $logoHeight, 'Hauteur du logo');

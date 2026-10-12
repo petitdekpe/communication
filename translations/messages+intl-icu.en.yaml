@@ -18,7 +18,6 @@ language:
     en: 'English'
 
 utility:
-    official_portal: 'Official Government portal'
     nav_label: 'Quick links'
     helpline: 'Helpline: {value}'
 

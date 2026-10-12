@@ -26,7 +26,7 @@ final class ContactMessageController extends AbstractController
     #[Route('/admin/messages-contact/{id}', name: 'app_admin_contact_message_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(int $id): Response
     {
-        $resource = $this->resources->get('contact_messages') ?? throw $this->createNotFoundException();
+        $resource = $this->resources->get('contact-messages') ?? throw $this->createNotFoundException();
         $this->denyAccessUnlessGranted(Permission::RESOURCE_VIEW, $resource);
 
         $message = $this->entityManager->find(ContactMessage::class, $id) ?? throw $this->createNotFoundException();
