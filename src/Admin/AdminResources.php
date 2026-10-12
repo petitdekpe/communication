@@ -128,7 +128,7 @@ final class AdminResources
                 ['key' => 'status', 'label' => 'admin.column.status', 'path' => 'status', 'type' => 'request-status', 'sort' => 'e.status'],
                 ['key' => 'createdAt', 'label' => 'admin.column.received', 'path' => 'createdAt', 'type' => 'datetime', 'sort' => 'e.createdAt'],
             ], searchFields: ['trackingNumber', 'email'], defaultSort: 'e.createdAt', showRoute: 'app_admin_request_show', exportable: true),
-            new AdminResource('contact_messages', 'requests', 'admin.resource.contact_messages', 'ri:mail-line', ContactMessage::class, 'ROLE_PRESS', [
+            new AdminResource('contact-messages', 'requests', 'admin.resource.contact_messages', 'ri:mail-line', ContactMessage::class, 'ROLE_PRESS', [
                 ['key' => 'name', 'label' => 'admin.column.name', 'path' => 'name', 'type' => 'text', 'sort' => 'e.name'],
                 ['key' => 'subject', 'label' => 'admin.column.subject', 'path' => 'subject', 'type' => 'text', 'sort' => 'e.subject'],
                 ['key' => 'email', 'label' => 'admin.column.email', 'path' => 'email', 'type' => 'text', 'sort' => 'e.email'],
