@@ -31,9 +31,14 @@ menu:
     ministry:
         label: 'Le ministère'
         overview: 'Présentation'
+        minister: 'La Ministre'
         missions: 'Missions et attributions'
         organisation: 'Organisation'
-        agencies: 'Structures sous tutelle'
+        agencies: 'Organismes sous tutelle'
+    action:
+        label: 'Notre action'
+        actions: 'Nos actions'
+        fields: "Domaines d'intervention"
     services:
         label: 'Services et démarches'
         all: 'Toutes les démarches'
@@ -47,10 +52,21 @@ menu:
         press_releases: 'Communiqués'
         agenda: 'Agenda'
         consultations: 'Consultations'
+    press:
+        label: 'Espace médias'
+        accreditation: 'Accréditations'
+    media_library:
+        label: 'Médiathèque'
+    resources:
+        label: 'Ressources'
+    understand:
+        label: 'Comprendre les médias'
+    professionals:
+        label: 'Espace professionnels'
     documents:
-        label: 'Documents'
+        label: 'Documentation'
     projects:
-        label: 'Projets et réformes'
+        label: 'Programmes et projets'
     data:
         label: 'Données'
         key_figures: 'Chiffres clés'
@@ -58,22 +74,27 @@ menu:
     contact:
         label: 'Contact'
     utility:
-        press: 'Espace presse'
+        press: 'Espace médias'
         open_data: 'Données ouvertes'
         agenda: 'Agenda'
     footer:
         resources: 'Ressources'
+        media: 'Médias et professionnels'
+        services: 'Services'
     social:
         facebook: 'Facebook'
         x: 'X (anciennement Twitter)'
         youtube: 'YouTube'
         linkedin: 'LinkedIn'
     institutional:
-        gouv: 'gouv.bj'
-        presidence: 'presidence.bj'
-        service_public: 'service-public.bj'
+        gouv: 'Gouvernement du Bénin'
+        presidence: 'Présidence de la République'
+        sgg: 'Secrétariat général du Gouvernement'
+        bodies: 'Structures et organismes du secteur'
     legal:
         notice: 'Mentions légales'
+        privacy: 'Politique de confidentialité'
+        cookies: 'Politique relative aux cookies'
         accessibility: 'Accessibilité'
         sitemap: 'Plan du site'
 
@@ -111,10 +132,17 @@ footer:
     legal_label: 'Informations légales'
     copyright: '© République du Bénin {year}'
 
+page:
+    consult: 'Consulter'
+    minister:
+        photo_alt: 'Portrait de Madame Aurélie Adam Soulé Zoumarou, Ministre de la Communication, en charge des Médias'
+
 home:
     hero:
         kicker: 'Portail institutionnel officiel'
         read: "Lire l'article"
+        discover: 'Découvrir le Ministère'
+        projects: 'Voir nos projets'
     search:
         label: 'Rechercher une démarche, un texte, une actualité'
         submit: 'Rechercher'
@@ -124,6 +152,75 @@ home:
         official_texts: 'Textes officiels'
         tnt: 'TNT'
         sector_data: 'Données sectorielles'
+    cap:
+        kicker: 'Notre cap'
+        title: 'Accompagner la transformation du secteur'
+        p1: 'Le Bénin dispose d’un secteur des médias et de la communication en pleine évolution.'
+        p2: 'Presse, radio, télévision, médias en ligne, audiovisuel, production de contenus, communication publique et nouveaux usages numériques composent aujourd’hui un environnement professionnel de plus en plus diversifié.'
+        p3: 'Notre rôle est d’accompagner cette évolution, de contribuer à la structuration du secteur et de créer les conditions nécessaires à son développement.'
+        p4: 'Cela passe notamment par la qualité et la fiabilité de l’information, le renforcement des compétences, l’évolution du cadre réglementaire, la transformation numérique, le développement des contenus en langues locales et l’accompagnement des nouveaux métiers.'
+        cta: 'Découvrir nos priorités'
+    priorities:
+        kicker: 'Nos priorités'
+        title: 'Les priorités qui orientent notre action'
+        outro: 'Ces orientations rejoignent les ambitions du programme 2026-2033 pour les médias : des médias fiables, des contenus qui valorisent le Bénin, la transformation de l’audiovisuel public, la formation, l’éducation aux médias et le développement de la création de contenus.'
+        item: 'Priorité {number}'
+        items:
+            1:
+                title: 'Qualité et fiabilité de l’information'
+                text: 'Renforcer les conditions d’une information professionnelle, vérifiée, contextualisée et accessible.'
+            2:
+                title: 'Professionnalisation des acteurs'
+                text: 'Développer les compétences et accompagner l’évolution des métiers du journalisme, de la presse, de l’audiovisuel et de la communication.'
+            3:
+                title: 'Médias de service public'
+                text: 'Accompagner la transformation des médias de service public, de leurs contenus, de leurs outils et de leurs modes de diffusion.'
+            4:
+                title: 'Éducation aux médias et à l’information'
+                text: 'Donner aux citoyens, particulièrement aux jeunes, les moyens de mieux comprendre les médias, les contenus qu’ils consultent et les informations qui circulent.'
+            5:
+                title: 'Contenus et langues locales'
+                text: 'Favoriser le développement de contenus qui prennent en compte la diversité linguistique et culturelle du Bénin.'
+            6:
+                title: 'Transformation numérique'
+                text: 'Adapter les infrastructures, les pratiques professionnelles et les modes de production et de diffusion aux nouveaux usages.'
+            7:
+                title: 'Création numérique'
+                text: 'Accompagner l’émergence de nouvelles activités liées à la création et à la production de contenus numériques.'
+            8:
+                title: 'Communication publique'
+                text: 'Contribuer à une communication publique accessible, structurée et adaptée aux attentes des citoyens.'
+    projects:
+        kicker: 'Nos projets'
+        title: 'Des projets pour faire évoluer le secteur'
+        intro: 'Le Ministère traduit ses priorités en programmes et projets concrets. Parmi les projets conduits ou préparés figurent notamment :'
+        cta: 'Découvrir tous les projets'
+        items:
+            1: 'le Registre numérique des médias béninois'
+            2: 'le renforcement du cadre institutionnel et de la gouvernance administrative et financière des radios rurales et communautaires'
+            3: 'la cartographie des communautés de médias sociaux en langues locales'
+            4: 'le renforcement des capacités en anglais des journalistes'
+            5: 'la préparation de la Conférence régionale 2027 sur la radiodiffusion numérique terrestre (RNT)'
+            6: 'l’évolution du cadre législatif et réglementaire de la communication et des médias'
+            7: 'l’acquisition de contenus pour les médias de service public'
+            8: 'l’hébergement et le stockage des contenus des chaînes digitales sur le Data Center national'
+            9: 'la production audiovisuelle en langues locales dans le cadre de la communication gouvernementale'
+            10: 'les ateliers thématiques avec les acteurs des médias'
+    understand:
+        kicker: 'Comprendre les médias'
+        title: 'Mieux comprendre les médias'
+        text: 'Les médias évoluent. Les formats changent, les plateformes se multiplient et de nouveaux acteurs apparaissent. Cet espace propose des contenus simples pour mieux comprendre le fonctionnement des médias, le travail journalistique, les nouveaux usages numériques et les bonnes pratiques face à l’information.'
+        cta: 'Accéder à l’espace pédagogique'
+    library:
+        kicker: 'Médiathèque'
+        title: 'Images, vidéos et archives'
+        text: 'Retrouvez les photographies, vidéos, podcasts, interviews et archives du Ministère.'
+        cta: 'Voir la médiathèque'
+    paths:
+        ministry: 'le-ministere'
+        projects: 'programmes-et-projets'
+        understand: 'comprendre-les-medias'
+        media_room: 'espace-medias'
     featured:
         title: 'À la une'
     press_releases:
@@ -135,11 +232,13 @@ home:
         see_all: 'Voir toutes les démarches'
     news:
         kicker: 'Le ministère informe'
-        title: 'Actualités'
+        title: 'À la une'
+        lead: 'Retrouvez les principales activités du Ministère, les décisions et initiatives, les rencontres avec les acteurs du secteur, les avancées des projets ainsi que les informations utiles aux professionnels et aux citoyens.'
         see_all: 'Toutes les actualités'
     documents:
-        title: 'Documents officiels'
-        see_all: 'Tous les documents'
+        title: 'Les ressources du Ministère'
+        lead: 'Lois, décrets, arrêtés, rapports, études, guides, référentiels et publications.'
+        see_all: 'Consulter la documentation'
         empty: 'Aucun document publié pour le moment.'
     agenda:
         title: 'Agenda'
@@ -156,8 +255,9 @@ home:
         all: 'Toutes les consultations'
     press:
         kicker: 'Journalistes et médias'
-        title: 'Espace presse'
-        see_all: "Accéder à l'espace presse"
+        title: 'Espace médias'
+        lead: 'Communiqués, dossiers de presse, discours, agenda, ressources photographiques et audiovisuelles : retrouvez les informations nécessaires à la couverture des activités du Ministère.'
+        see_all: "Accéder à l'espace médias"
         open: 'Accéder'
         cards:
             accreditation:
@@ -531,6 +631,21 @@ consultation:
         file_help: 'Fichier PDF ou JPG, 5 Mo au maximum.'
         consent: "J'accepte que mes données personnelles (nom, organisation, texte et fichier) soient traitées pour l'analyse de cette consultation."
 
+contact:
+    title: 'Nous contacter'
+    form:
+        title: 'Votre demande'
+        intro: "Une question, une demande d'information, une sollicitation professionnelle ? Écrivez-nous : votre message est transmis aux services du Ministère."
+        submit: 'Envoyer ma demande'
+    field:
+        name: 'Nom et prénom'
+        email: 'Adresse électronique'
+        phone: 'Téléphone'
+        subject: 'Objet'
+        message: 'Message'
+        consent: "J'accepte que les informations saisies soient utilisées pour traiter ma demande."
+    thanks: 'Merci, votre demande a bien été envoyée. Les services du Ministère y répondront.'
+
 newsletter:
     title: "Lettre d'information"
     intro: "Recevez par courriel les informations du ministère."
@@ -589,6 +704,7 @@ admin:
         videos: 'Vidéos'
         requests: 'Demandes et accréditations'
         contributions: 'Contributions aux consultations'
+        contact_messages: 'Messages de contact'
         subscribers: "Abonnés à la lettre d'information"
         pages: 'Pages'
         menus: 'Menus'
@@ -628,6 +744,8 @@ admin:
             confirmed: 'Confirmé'
             unsubscribed: 'Désinscrit'
     column:
+        subject: 'Objet'
+        phone: 'Téléphone'
         title: 'Titre'
         type: 'Type'
         status: 'Statut'
@@ -890,6 +1008,10 @@ admin:
             unpublish: 'Dépublication'
             archive: 'Archivage'
             delete: 'Suppression'
+    contact_message:
+        title: 'Message de {name}'
+        data: 'Expéditeur'
+        text: 'Message'
     contribution:
         title: 'Contribution de {name}'
         data: 'Contributeur'

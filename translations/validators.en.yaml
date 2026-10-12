@@ -11,6 +11,10 @@ request:
         file_type: 'The file “{{ name }}” is not accepted: only PDF and JPG files are allowed.'
         consent_required: 'You must agree to the processing of your personal data to send the request.'
         rejected: 'Submission refused.'
+contact:
+    error:
+        message_short: 'Your message is too short: write at least 10 characters.'
+        message_long: 'Your message is too long: 5,000 characters at most.'
 tracking:
     error:
         number_required: 'Enter your tracking number.'

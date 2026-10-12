@@ -54,8 +54,10 @@
                         <li>
                             <a href="{{ site.href }}" class="inline-flex items-center gap-1 text-small font-semibold text-white underline-offset-4 hover:underline">
                                 {{ site.label|trans }}
-                                {{ ux_icon('ri:arrow-right-up-line', {class: 'size-4'}) }}
-                                <span class="sr-only">{{ 'footer.external_site'|trans }}</span>
+                                {% if site.external %}
+                                    {{ ux_icon('ri:arrow-right-up-line', {class: 'size-4'}) }}
+                                    <span class="sr-only">{{ 'footer.external_site'|trans }}</span>
+                                {% endif %}
                             </a>
                         </li>
                     {% endfor %}

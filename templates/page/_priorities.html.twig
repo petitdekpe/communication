@@ -1,0 +1,18 @@
+<section id="nos-priorites" class="mt-10 scroll-mt-24" aria-labelledby="titre-priorites">
+    <div>
+        <twig:SectionHeading id="titre-priorites" :kicker="'home.priorities.kicker'|trans" :title="'home.priorities.title'|trans" />
+        <ol class="mt-8 grid gap-4 md:grid-cols-2">
+            {% for number in 1..8 %}
+                <li class="flex gap-4 rounded-card bg-white p-5 shadow-card ring-1 ring-ink-muted/15">
+                    <span class="flex size-10 shrink-0 items-center justify-center rounded-pill bg-primary font-bold text-white" aria-hidden="true">{{ number }}</span>
+                    <div>
+                        <h3 class="font-semibold text-primary"><span class="sr-only">{{ 'home.priorities.item'|trans({number: number}) }} : </span>{{ ('home.priorities.items.' ~ number ~ '.title')|trans }}</h3>
+                        <p class="mt-1 text-small text-ink-muted">{{ ('home.priorities.items.' ~ number ~ '.text')|trans }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+        <p class="mt-6 max-w-3xl text-ink">{{ 'home.priorities.outro'|trans }}</p>
+    </div>
+</section>
+

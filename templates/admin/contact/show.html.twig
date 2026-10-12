@@ -1,0 +1,43 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.contact_message.title'|trans({name: message.name}) }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-4xl">
+        <nav aria-label="{{ 'breadcrumb.label'|trans }}" class="text-small">
+            <a href="{{ path('app_admin_resource_list', {resource: 'contact_messages'}) }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ 'admin.resource.contact_messages'|trans }}</a>
+        </nav>
+        <h1 class="type-h1 mt-3 text-primary">{{ message.subject }}</h1>
+
+        <div class="mt-8 grid gap-6">
+            <twig:Admin:FormSection :title="'admin.contact_message.data'|trans">
+                <dl class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.name'|trans }}</dt>
+                        <dd class="font-semibold text-ink">{{ message.name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.email'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><a href="mailto:{{ message.email }}" class="text-primary underline underline-offset-4 hover:no-underline">{{ message.email }}</a></dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.phone'|trans }}</dt>
+                        <dd class="font-semibold text-ink">{{ message.phone ?: '–' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.column.received'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ message.createdAt|date('c') }}">{{ message.createdAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                    <div>
+                        <dt class="text-small text-ink-muted">{{ 'admin.request.consented'|trans }}</dt>
+                        <dd class="font-semibold text-ink"><time datetime="{{ message.consentedAt|date('c') }}">{{ message.consentedAt|format_datetime('medium', 'short', locale: app.locale, timezone: site_timezone) }}</time></dd>
+                    </div>
+                </dl>
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.contact_message.text'|trans">
+                <p class="whitespace-pre-line break-words text-ink">{{ message.message }}</p>
+            </twig:Admin:FormSection>
+        </div>
+    </div>
+{% endblock %}

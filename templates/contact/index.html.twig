@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ translation.metaTitle ?: translation.title }} | {{ 'site.name'|trans }}{% endblock %}
+
+{% block head_extra %}
+    {% if translation.metaDescription %}<meta name="description" content="{{ translation.metaDescription }}">{% endif %}
+{% endblock %}
+
+{% block content %}
+    {% set body = translation.body ? translation.body|sanitize_html('app.article_body')|body_sections : null %}
+
+    <div class="container-site py-8 lg:py-12">
+        {% if breadcrumb is not empty %}<twig:Breadcrumb :items="breadcrumb" />{% endif %}
+
+        <twig:TranslationFallbackNotice :translatable="page" class="mt-6 max-w-3xl" />
+
+        {% for message in app.flashes('contact') %}
+            <div role="status" class="mt-6 max-w-3xl rounded-card border-l-4 border-flag-green bg-mist p-4 font-semibold text-ink">{{ message|trans }}</div>
+        {% endfor %}
+
+        <article lang="{{ translation.locale }}" class="mt-8">
+            <h1 class="type-display max-w-3xl text-primary">{{ translation.title }}</h1>
+            {% if body %}
+                {% if body.intro %}
+                    <div class="prose-article mt-8 max-w-3xl text-lg">{{ body.intro|raw }}</div>
+                {% endif %}
+                {# Coordonnées : cartes sans bordure. #}
+                <div class="mt-10 grid gap-6 lg:grid-cols-2">
+                    {% for section in body.sections %}
+                        <section class="prose-article prose-card rounded-card bg-mist p-6 lg:p-8">
+                            {{ section|raw }}
+                        </section>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </article>
+
+        <section class="mt-12 max-w-3xl" aria-labelledby="formulaire-contact">
+            <h2 id="formulaire-contact" class="type-h2 text-primary">{{ 'contact.form.title'|trans }}</h2>
+            <p class="mt-3 text-ink-muted">{{ 'contact.form.intro'|trans }}</p>
+            <p class="mt-2 text-small text-ink-muted">{{ 'request.required_hint'|trans }}</p>
+            {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-6 grid gap-6', 'data-turbo': 'false', 'data-controller': 'form-errors'}}) }}
+                {% include 'service/_form_errors.html.twig' with {form: form} only %}
+                {{ form_row(form.name) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.phone) }}
+                {{ form_row(form.subject) }}
+                {{ form_row(form.message) }}
+                {{ form_row(form.consent) }}
+                {{ form_row(form.website) }}
+                {{ form_rest(form) }}
+                <div>
+                    <twig:Button type="submit" :label="'contact.form.submit'|trans" size="lg" icon="ri:send-plane-line" iconPosition="end" />
+                </div>
+            {{ form_end(form, {render_rest: false}) }}
+        </section>
+    </div>
+{% endblock %}
