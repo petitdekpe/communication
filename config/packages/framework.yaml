@@ -25,6 +25,20 @@ framework:
                     a:
                         rel: 'noopener'
 
+            # Textes courts de l'accueil (titre, chapô, lettre d'information) : gras, italique, retour à la ligne, liens.
+            app.home_text:
+                allow_elements:
+                    strong: []
+                    em: []
+                    br: []
+                    a: ['href']
+                allow_relative_links: true
+                allowed_link_schemes: ['http', 'https', 'mailto', 'tel']
+                force_attributes:
+                    a:
+                        rel: 'noopener'
+                max_input_length: 2000
+
 when@test:
     framework:
         test: true

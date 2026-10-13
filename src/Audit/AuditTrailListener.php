@@ -8,7 +8,6 @@ use App\Entity\Category;
 use App\Entity\Contract\PublishableInterface;
 use App\Entity\Contract\TranslationInterface;
 use App\Entity\Media;
-use App\Entity\MenuItem;
 use App\Entity\ServiceRequest;
 use App\Entity\Setting;
 use App\Entity\Tag;
@@ -150,7 +149,6 @@ final class AuditTrailListener
         return $subject instanceof PublishableInterface
             || $subject instanceof User
             || $subject instanceof Setting
-            || $subject instanceof MenuItem
             || $subject instanceof Category
             || $subject instanceof Tag
             || $subject instanceof Media;

@@ -1,0 +1,9 @@
+{# Champ de texte court avec barre de mise en forme (gras, italique, retour à la ligne) : balises limitées par le filtre sanitize_html à l'affichage. #}
+<div data-controller="text-format">
+    <div class="mb-1 flex flex-wrap gap-2" role="group" aria-label="{{ 'admin.home.format.label'|trans }}">
+        <button type="button" class="btn btn-outline btn-sm" data-action="text-format#wrap" data-text-format-tag-param="strong"><strong>{{ 'admin.home.format.bold'|trans }}</strong></button>
+        <button type="button" class="btn btn-outline btn-sm" data-action="text-format#wrap" data-text-format-tag-param="em"><em>{{ 'admin.home.format.italic'|trans }}</em></button>
+        <button type="button" class="btn btn-outline btn-sm" data-action="text-format#lineBreak">{{ 'admin.home.format.line_break'|trans }}</button>
+    </div>
+    {{ form_row(field, {attr: field.vars.attr|merge({'data-text-format-target': 'field'})}) }}
+</div>

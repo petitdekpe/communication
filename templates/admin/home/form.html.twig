@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.resource.home'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-3xl">
+        <h1 class="type-h1 text-primary">{{ 'admin.resource.home'|trans }}</h1>
+        <p class="mt-2 text-small text-ink-muted">{{ 'admin.home.intro'|trans }}</p>
+        <p class="mt-2 text-small text-ink-muted">{{ 'admin.home.format_help'|trans }}</p>
+
+        <ul class="mt-4 flex flex-wrap gap-3">
+            <li><a href="{{ path('app_home') }}" class="btn btn-outline btn-sm">{{ 'admin.home.view_site'|trans }}</a></li>
+            <li><a href="{{ path('app_admin_resource_list', {resource: 'articles'}) }}" class="btn btn-outline btn-sm">{{ 'admin.home.manage_articles'|trans }}</a></li>
+            {% if can_manage_settings %}
+                <li><a href="{{ path('app_admin_settings') }}" class="btn btn-outline btn-sm">{{ 'admin.home.manage_notice'|trans }}</a></li>
+            {% endif %}
+        </ul>
+
+        {{ form_start(form, {attr: {novalidate: 'novalidate', class: 'mt-8 grid gap-6', 'data-controller': 'form-errors'}}) }}
+            {% include 'service/_form_errors.html.twig' with {form: form} only %}
+
+            <twig:Admin:FormSection :title="'admin.home.section.hero'|trans" :description="'admin.home.section.hero_help'|trans">
+                {% include 'admin/home/_field.html.twig' with {field: form.heroTitleFr} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.heroTitleEn} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.heroLeadFr} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.heroLeadEn} only %}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.home.section.newsletter'|trans" :description="'admin.home.section.newsletter_help'|trans">
+                {% include 'admin/home/_field.html.twig' with {field: form.newsletterTextFr} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.newsletterTextEn} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.newsletterConsentFr} only %}
+                {% include 'admin/home/_field.html.twig' with {field: form.newsletterConsentEn} only %}
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.home.section.blocks'|trans" :description="'admin.home.section.blocks_help'|trans">
+                <ul class="list-disc space-y-1 pl-5 text-small text-ink">
+                    <li>{{ 'admin.home.blocks.featured'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.news'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.services'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.documents'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.events'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.figures'|trans }}</li>
+                    <li>{{ 'admin.home.blocks.consultation'|trans }}</li>
+                </ul>
+            </twig:Admin:FormSection>
+
+            {{ form_rest(form) }}
+            <div><button type="submit" class="btn btn-primary btn-lg">{{ 'admin.action.save'|trans }}</button></div>
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+{% endblock %}

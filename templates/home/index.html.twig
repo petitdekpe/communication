@@ -23,10 +23,16 @@
     <section class="bg-cream/40" aria-labelledby="titre-accueil">
         <div class="container-site grid grid-cols-1 items-center gap-10 py-12 lg:py-16 {{ hero_card ? 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16' : '' }}">
         <div class="min-w-0">
-            <h1 id="titre-accueil" class="font-sans text-[2.5rem] leading-[1.1] font-extrabold tracking-tight text-primary sm:text-6xl">{{ settings.get('home.hero.title', locale) ?? ('site.name'|trans) }}</h1>
+            <h1 id="titre-accueil" class="font-sans text-[2.5rem] leading-[1.1] font-extrabold tracking-tight text-primary sm:text-6xl">{{ (settings.get('home.hero.title', locale) ?? ('site.name'|trans))|replace({"
+": "
+"})|replace({"
+": '<br>'})|sanitize_html('app.home_text') }}</h1>
             {% set hero_lead = settings.get('home.hero.lead', locale) %}
             {% if hero_lead %}
-                <p class="mt-6 max-w-prose text-body text-ink-muted lg:text-h3 lg:font-normal">{{ hero_lead }}</p>
+                <p class="mt-6 max-w-prose text-body text-ink-muted lg:text-h3 lg:font-normal">{{ hero_lead|replace({"
+": "
+"})|replace({"
+": '<br>'})|sanitize_html('app.home_text') }}</p>
             {% endif %}
 
             <p class="mt-8 flex flex-wrap gap-3">
@@ -345,7 +351,10 @@
                     {{ ux_icon('ri:mail-line', {class: 'size-8 shrink-0'}) }}
                     {{ 'home.newsletter.title'|trans }}
                 </h2>
-                <p class="mt-3 text-ink">{{ settings.get('home.newsletter.text', locale) ?? ('home.newsletter.default_text'|trans) }}</p>
+                <p class="mt-3 text-ink">{{ (settings.get('home.newsletter.text', locale) ?? ('home.newsletter.default_text'|trans))|replace({"
+": "
+"})|replace({"
+": '<br>'})|sanitize_html('app.home_text') }}</p>
             </div>
 
             {# Inscription avec double opt-in : l'adresse est confirmée par un lien envoyé par e-mail (voir NewsletterController). #}
@@ -363,7 +372,10 @@
                     <input id="lettre-website" name="newsletter[website]" type="text" tabindex="-1" autocomplete="off">
                 </div>
                 {{ form_widget(newsletterForm._token) }}
-                <p id="lettre-consentement" class="mt-3 text-small text-ink-muted">{{ settings.get('newsletter.consent', locale) ?? ('home.newsletter.default_consent'|trans) }}</p>
+                <p id="lettre-consentement" class="mt-3 text-small text-ink-muted">{{ (settings.get('newsletter.consent', locale) ?? ('home.newsletter.default_consent'|trans))|replace({"
+": "
+"})|replace({"
+": '<br>'})|sanitize_html('app.home_text') }}</p>
             </form>
         </div>
     </section>
