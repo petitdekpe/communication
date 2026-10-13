@@ -24,6 +24,12 @@
                 {{ form_row(form.linkedin) }}
             </twig:Admin:FormSection>
 
+            <twig:Admin:FormSection :title="'admin.settings.section.minister'|trans" :description="'admin.settings.section.minister_help'|trans">
+                {{ form_row(form.ministerFacebook) }}
+                {{ form_row(form.ministerX) }}
+                {{ form_row(form.ministerLinkedin) }}
+            </twig:Admin:FormSection>
+
             <twig:Admin:FormSection :title="'admin.settings.section.notice'|trans" :description="'admin.settings.section.notice_help'|trans">
                 {{ form_row(form.noticeFr) }}
                 {{ form_row(form.noticeEn) }}
@@ -32,6 +38,10 @@
                     {{ form_row(form.noticeStartsAt) }}
                     {{ form_row(form.noticeEndsAt) }}
                 </div>
+            </twig:Admin:FormSection>
+
+            <twig:Admin:FormSection :title="'admin.settings.section.features'|trans" :description="'admin.settings.section.features_help'|trans">
+                {{ form_row(form.agendaEnabled) }}
             </twig:Admin:FormSection>
 
             <twig:Admin:FormSection :title="'admin.settings.section.analytics'|trans" :description="'admin.settings.section.analytics_help'|trans">

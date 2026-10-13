@@ -10,6 +10,7 @@ use App\Home\HomeSections;
 use App\Home\HomeSettings;
 use App\Newsletter\NewsletterSubscription;
 use App\Newsletter\NewsletterSubscriptionType;
+use App\Settings\SiteSettings;
 use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,10 +24,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('', name: 'app_home', methods: ['GET'], defaults: ['_cacheable' => true])]
-    public function index(Request $request, HomeSections $content, HomeSettings $settings, ClockInterface $clock, RequestTags $tags): Response
+    public function index(Request $request, HomeSections $content, HomeSettings $settings, SiteSettings $site, ClockInterface $clock, RequestTags $tags): Response
     {
         $tags->add(CacheTag::CONTENT);
         $tags->add(CacheTag::SETTINGS);
+
+        $agendaEnabled = $site->agendaEnabled();
 
         return $this->render('home/index.html.twig', [
             'locale' => $request->getLocale(),
@@ -36,7 +39,8 @@ final class HomeController extends AbstractController
             'releases' => $content->releases(),
             'news' => $content->news(),
             'documents' => $content->documents(),
-            'events' => $content->events(),
+            'events' => $agendaEnabled ? $content->events() : [],
+            'agenda_enabled' => $agendaEnabled,
             'services' => $content->services(),
             'figures' => $content->figures(),
             'consultation' => $content->consultation(),

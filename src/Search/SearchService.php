@@ -10,13 +10,14 @@ use App\Entity\Contract\TranslationInterface;
 use App\Entity\Page;
 use App\Enum\PublicationStatus;
 use App\Page\PageTree;
+use App\Settings\SiteSettings;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Recherche globale : articles, documents, démarches, événements et pages publiés, groupés par type.
+ * Recherche globale : articles, documents, démarches, événements, pages, galeries photo et vidéos publiés, groupés par type.
  *
  * Les mots sont cherchés (LIKE, sans distinction de casse ni d'accents selon la collation utf8mb4_unicode_ci)
  * dans la langue de la page et en français : un contenu qui n'existe qu'en français reste trouvable sous /en.
@@ -34,6 +35,7 @@ final class SearchService
         private readonly EntityManagerInterface $entityManager,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly PageTree $pageTree,
+        private readonly SiteSettings $settings,
     ) {
         $this->accessor = PropertyAccess::createPropertyAccessor();
     }
@@ -58,6 +60,9 @@ final class SearchService
 
         $grouped = [];
         foreach (SearchType::cases() as $type) {
+            if (SearchType::Event === $type && !$this->settings->agendaEnabled()) {
+                continue;
+            }
             $results = $this->searchType($type, $query, $locale, $now);
             if ([] !== $results) {
                 $grouped[$type->value] = $results;
@@ -143,6 +148,9 @@ final class SearchService
             SearchType::Document => $this->urlGenerator->generate('app_document_download', ['_locale' => $locale, 'id' => $id]),
             SearchType::Service => $this->urlGenerator->generate('app_service_show', ['_locale' => $locale, 'slug' => $slug]),
             SearchType::Event => $this->urlGenerator->generate('app_event_show', ['_locale' => $locale, 'slug' => $slug]),
+            // La médiathèque n'a pas de page par élément : on mène à la galerie ou à la vidéo dans la page.
+            SearchType::Gallery => $this->urlGenerator->generate('app_media_library', ['_locale' => $locale]).'#galerie-'.$id,
+            SearchType::Video => $this->urlGenerator->generate('app_media_library', ['_locale' => $locale]).'#video-'.$id,
             SearchType::Page => $parent instanceof Page ? $this->pageTree->url($parent, $locale) : $this->urlGenerator->generate('app_home', ['_locale' => $locale]),
         };
     }

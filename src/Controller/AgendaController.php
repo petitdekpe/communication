@@ -9,6 +9,7 @@ use App\Agenda\IcalendarBuilder;
 use App\Enum\EventType;
 use App\Repository\EventRepository;
 use App\Routing\AlternateUrlResolver;
+use App\Settings\SiteSettings;
 use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
@@ -22,9 +23,14 @@ final class AgendaController extends AbstractController
 {
     private const string CALENDAR_TYPE = 'text/calendar; charset=utf-8';
 
+    public function __construct(private readonly SiteSettings $settings)
+    {
+    }
+
     #[Route(path: ['fr' => '/agenda', 'en' => '/events'], name: 'app_agenda', methods: ['GET'])]
     public function index(Request $request, AgendaService $agenda): Response
     {
+        $this->denyUnlessEnabled();
         $query = $request->query->all();
         $view = 'month' === ($query['view'] ?? null) ? 'month' : 'list';
 
@@ -44,6 +50,7 @@ final class AgendaController extends AbstractController
     #[Route(path: ['fr' => '/agenda.ics', 'en' => '/events.ics'], name: 'app_agenda_feed', methods: ['GET'])]
     public function feed(Request $request, EventRepository $events, IcalendarBuilder $builder, ClockInterface $clock, TranslatorInterface $translator): Response
     {
+        $this->denyUnlessEnabled();
         $response = new Response(
             $builder->build($events->findForFeed($clock->now()), $request->getLocale(), $translator->trans('agenda.title')),
             Response::HTTP_OK,
@@ -63,6 +70,7 @@ final class AgendaController extends AbstractController
     )]
     public function show(string $slug, Request $request, EventRepository $events, ClockInterface $clock): Response
     {
+        $this->denyUnlessEnabled();
         $locale = $request->getLocale();
         $event = $events->findPublishedBySlug($slug, $locale, $clock->now()) ?? throw $this->createNotFoundException();
 
@@ -86,6 +94,7 @@ final class AgendaController extends AbstractController
     )]
     public function ics(string $slug, Request $request, EventRepository $events, IcalendarBuilder $builder, ClockInterface $clock, TranslatorInterface $translator): Response
     {
+        $this->denyUnlessEnabled();
         $locale = $request->getLocale();
         $event = $events->findPublishedBySlug($slug, $locale, $clock->now()) ?? throw $this->createNotFoundException();
         $translation = $event->translate($locale);
@@ -100,5 +109,13 @@ final class AgendaController extends AbstractController
         $response->setMaxAge(300);
 
         return $response;
+    }
+
+    /** Agenda désactivé dans les paramètres du site : les pages n'existent pas. */
+    private function denyUnlessEnabled(): void
+    {
+        if (!$this->settings->agendaEnabled()) {
+            throw $this->createNotFoundException();
+        }
     }
 }

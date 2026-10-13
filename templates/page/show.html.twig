@@ -21,9 +21,29 @@
                 {# Portrait et mot de la Ministre : texte courant, sans carte. #}
                 <div class="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
                     <img src="{{ asset('images/ministre.jpg') }}" width="530" height="600" alt="{{ 'page.minister.photo_alt'|trans }}" class="w-full max-w-sm rounded-card object-cover shadow-card lg:sticky lg:top-8">
-                    <div class="prose-article max-w-3xl">
-                        {{ body.intro|raw }}
-                        {% for section in body.sections %}{{ section|raw }}{% endfor %}
+                    <div class="max-w-3xl">
+                        <div class="prose-article">
+                            {{ body.intro|raw }}
+                            {% for section in body.sections %}{{ section|raw }}{% endfor %}
+                        </div>
+                        {% set minister_networks = [
+                            {url: site_setting('minister.facebook'), icon: 'ri:facebook-fill', label: 'article.share.facebook'},
+                            {url: site_setting('minister.x'), icon: 'ri:twitter-x-line', label: 'article.share.x'},
+                            {url: site_setting('minister.linkedin'), icon: 'ri:linkedin-fill', label: 'article.share.linkedin'},
+                        ]|filter(network => network.url) %}
+                        {% if minister_networks is not empty %}
+                            <h2 class="mt-8 type-caption text-primary">{{ 'page.minister.social_title'|trans }}</h2>
+                            <ul class="mt-3 flex flex-wrap gap-3">
+                                {% for network in minister_networks %}
+                                    <li>
+                                        <a href="{{ network.url }}" rel="noopener" class="btn btn-icon border-primary/30 text-primary hover:bg-primary hover:text-white">
+                                            {{ ux_icon(network.icon, {class: 'size-5'}) }}
+                                            <span class="sr-only">{{ network.label|trans }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div>
                 </div>
             {% elseif is_understanding and body %}

@@ -20,7 +20,7 @@
             {% for gallery in galleries %}
                 {% set gallery_translation = gallery.translate(app.locale) %}
                 {% set gallery_id = 'galerie-' ~ gallery.id %}
-                <section class="mt-10" aria-labelledby="{{ gallery_id }}-titre"
+                <section id="{{ gallery_id }}" class="mt-10 scroll-mt-32" aria-labelledby="{{ gallery_id }}-titre"
                          data-controller="lightbox"
                          data-lightbox-counter-template-value="{{ 'media_library.viewer.counter'|trans({current: '{current}', total: '{total}'}) }}"
                          {% if gallery_translation.locale != app.locale %}lang="{{ gallery_translation.locale }}"{% endif %}>
@@ -93,7 +93,7 @@
                     {% for video in videos %}
                         {% set video_translation = video.translate(app.locale) %}
                         <li{% if video_translation.locale != app.locale %} lang="{{ video_translation.locale }}"{% endif %}>
-                            <article class="overflow-hidden rounded-card bg-white shadow-card ring-1 ring-ink-muted/15"
+                            <article id="video-{{ video.id }}" class="scroll-mt-32 overflow-hidden rounded-card bg-white shadow-card ring-1 ring-ink-muted/15"
                                      data-controller="video-embed"
                                      data-video-embed-id-value="{{ video.youtubeId }}"
                                      data-video-embed-title-value="{{ video_translation.title }}">

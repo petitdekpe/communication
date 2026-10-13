@@ -8,8 +8,10 @@ use App\Entity\Event;
 use App\Enum\EventType;
 use App\Enum\PublicationStatus;
 use App\Factory\EventFactory;
+use App\Tests\EnablesAgenda;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Zenstruck\Foundry\Test\Factories;
@@ -23,14 +25,23 @@ use Zenstruck\Foundry\Test\ResetDatabase;
  */
 final class AgendaControllerTest extends WebTestCase
 {
+    use EnablesAgenda;
     use Factories;
     use ResetDatabase;
+
+    private function agendaClient(): KernelBrowser
+    {
+        $client = static::createClient();
+        $this->enableAgenda();
+
+        return $client;
+    }
 
     // ---- Liste ---------------------------------------------------------------------
 
     public function testListShowsUpcomingEventsSoonestFirstAndHidesPastOnes(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $later = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+20 days')]);
         $sooner = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+3 days')]);
         EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-3 days')]);
@@ -46,7 +57,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testPastEventsAreListedMostRecentFirst(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $older = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-30 days')]);
         $recent = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-2 days')]);
         EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+2 days')]);
@@ -59,7 +70,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testAnEventInProgressIsStillUpcoming(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $running = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-1 day'), 'endsAt' => new \DateTimeImmutable('+1 day')]);
         $finished = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-3 days'), 'endsAt' => new \DateTimeImmutable('-2 days')]);
 
@@ -69,7 +80,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testFilterByType(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $briefing = EventFactory::createOne(['type' => EventType::PressBriefing, 'startsAt' => new \DateTimeImmutable('+2 days')]);
         EventFactory::createOne(['type' => EventType::Workshop, 'startsAt' => new \DateTimeImmutable('+3 days')]);
         EventFactory::createOne(['type' => EventType::Summit, 'startsAt' => new \DateTimeImmutable('+4 days')]);
@@ -84,7 +95,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testOnlyPublishedEventsAreVisible(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $visible = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+2 days')]);
         EventFactory::createOne(['status' => PublicationStatus::Draft, 'startsAt' => new \DateTimeImmutable('+3 days')]);
         EventFactory::createOne(['publishedAt' => new \DateTimeImmutable('+1 day'), 'startsAt' => new \DateTimeImmutable('+4 days')]);
@@ -94,7 +105,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testListIsPaginatedAndOutOfRangePageIsNotFound(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         foreach (range(1, 12) as $day) {
             EventFactory::createOne(['startsAt' => new \DateTimeImmutable(\sprintf('+%d days', $day))]);
         }
@@ -107,7 +118,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testEmptyAgendaShowsAnEmptyState(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
 
         $client->request('GET', '/fr/agenda');
 
@@ -117,7 +128,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testInvalidParametersAreIgnored(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+2 days')]);
 
         $crawler = $client->request('GET', '/fr/agenda', ['type' => 'inconnu', 'when' => 'jamais', 'view' => '<script>', 'page' => 'x']);
@@ -134,7 +145,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testDatesAndTimesAreFormattedForTheLocaleInBeninTime(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         // 09:00 UTC = 10:00 à Porto-Novo ; vendredi 10 mai 2030.
         EventFactory::createOne([
             'type' => EventType::PressBriefing,
@@ -157,7 +168,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testDayIsTheBeninDayNotTheUtcDay(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         // 23:30 UTC le 10 mai = 00:30 le 11 mai à Porto-Novo.
         EventFactory::createOne(['startsAt' => new \DateTimeImmutable('2030-05-10 23:30:00')]);
 
@@ -171,7 +182,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testMonthViewIsAWeeklyGridWithEventsOnTheirDays(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $briefing = EventFactory::createOne(['type' => EventType::PressBriefing, 'startsAt' => new \DateTimeImmutable('2030-05-10 09:00:00')]);
         $summit = EventFactory::createOne([
             'type' => EventType::Summit,
@@ -208,7 +219,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testMonthViewNavigationKeepsTheTypeFilter(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
 
         $crawler = $client->request('GET', '/fr/agenda', ['view' => 'month', 'month' => '2030-01', 'type' => 'summit']);
 
@@ -220,7 +231,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testMonthViewFiltersByTypeAndPlacesLateEveningEventsOnTheBeninDay(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $late = EventFactory::createOne(['type' => EventType::Ceremony, 'startsAt' => new \DateTimeImmutable('2030-05-31 23:30:00')]); // 1er juin à Porto-Novo
         EventFactory::createOne(['type' => EventType::Workshop, 'startsAt' => new \DateTimeImmutable('2030-05-20 09:00:00')]);
 
@@ -233,7 +244,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testMonthViewMarksToday(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
 
         $crawler = $client->request('GET', '/fr/agenda', ['view' => 'month']);
 
@@ -244,7 +255,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testEventPage(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $event = EventFactory::new()
             ->withTexts(['fr' => ['title' => 'Point de presse hebdomadaire', 'location' => 'Salle des conférences', 'description' => "Première ligne\nSeconde ligne <b>non HTML</b>"]])
             ->create(['type' => EventType::PressBriefing, 'startsAt' => new \DateTimeImmutable('2030-05-10 09:00:00'), 'endsAt' => new \DateTimeImmutable('2030-05-10 11:00:00')]);
@@ -267,7 +278,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testEnglishPageRedirectsFrenchSlugAndShowsFallbackNoticeWhenNotTranslated(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $translated = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+5 days')]);
         $frenchOnly = EventFactory::new()->frenchOnly()->create(['startsAt' => new \DateTimeImmutable('+6 days')]);
 
@@ -282,7 +293,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testUnavailableEventIsNotFound(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $draft = EventFactory::createOne(['status' => PublicationStatus::Draft]);
 
         $client->request('GET', '/fr/agenda/'.$this->slug($draft));
@@ -297,7 +308,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testSingleEventExportIsAValidICalendarFile(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $event = EventFactory::new()
             ->withTexts(['fr' => [
                 'title' => 'Point de presse, annonce; "résultats"',
@@ -332,7 +343,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testExportOmitsAnEndThatIsNotAfterTheStart(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $noEnd = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('2030-05-10 09:00:00')]);
         $inverted = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('2030-05-11 09:00:00'), 'endsAt' => new \DateTimeImmutable('2030-05-11 08:00:00')]);
 
@@ -345,7 +356,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testExportFoldsLongLinesWithoutBreakingMultibyteCharacters(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $description = str_repeat('Le ministère présente la stratégie numérique à Cotonou, après-midi ; été. ', 12);
         $event = EventFactory::new()->withTexts(['fr' => ['description' => $description]])->create(['startsAt' => new \DateTimeImmutable('+5 days')]);
 
@@ -362,7 +373,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testEnglishExportUsesEnglishTexts(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $event = EventFactory::new()
             ->withTexts(['fr' => ['title' => 'Atelier des médias'], 'en' => ['title' => 'Media workshop']])
             ->create(['type' => EventType::Workshop, 'startsAt' => new \DateTimeImmutable('+5 days')]);
@@ -380,7 +391,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testGlobalFeedContainsEveryPublishedEventAndNoOther(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
         $past = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('-40 days')]);
         $upcoming = EventFactory::createOne(['startsAt' => new \DateTimeImmutable('+10 days')]);
         EventFactory::createOne(['status' => PublicationStatus::Draft, 'startsAt' => new \DateTimeImmutable('+11 days')]);
@@ -401,7 +412,7 @@ final class AgendaControllerTest extends WebTestCase
 
     public function testEmptyFeedIsStillAValidCalendar(): void
     {
-        $client = static::createClient();
+        $client = $this->agendaClient();
 
         $client->request('GET', '/en/events.ics');
 
@@ -450,5 +461,20 @@ final class AgendaControllerTest extends WebTestCase
     private function normalize(string $text): string
     {
         return trim((string) preg_replace('/[\s\x{00A0}\x{202F}]+/u', ' ', $text));
+    }
+
+    public function testAgendaIsNotFoundWhenDisabled(): void
+    {
+        $client = static::createClient();
+        $event = EventFactory::createOne();
+
+        foreach (['/fr/agenda', '/fr/agenda.ics', '/fr/agenda/'.$this->slug($event), '/fr/agenda/'.$this->slug($event).'.ics', '/en/events'] as $url) {
+            $client->request('GET', $url);
+            self::assertResponseStatusCodeSame(404, $url);
+        }
+
+        $crawler = $client->request('GET', '/fr');
+        self::assertSelectorNotExists('a[href="/fr/agenda"]');
+        self::assertCount(0, $crawler->filter('#agenda'));
     }
 }

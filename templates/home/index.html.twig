@@ -189,7 +189,7 @@
 
     {# 6. Documents officiels + agenda, côte à côte (depuis la base) ------------------- #}
     <section class="bg-mist py-16 lg:py-20">
-        <div class="container-site grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="container-site grid gap-12 {{ agenda_enabled ? 'lg:grid-cols-2 lg:gap-16' : '' }}">
             <div role="region" aria-labelledby="documents-officiels">
                 <twig:SectionHeading id="documents-officiels"
                     :title="'home.documents.title'|trans"
@@ -216,6 +216,7 @@
                 {% endif %}
             </div>
 
+            {% if agenda_enabled %}
             <div role="region" aria-labelledby="agenda">
                 <twig:SectionHeading id="agenda"
                     :title="'home.agenda.title'|trans"
@@ -239,6 +240,7 @@
                     </ul>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
     </section>
     {# 7. Chiffres clés ----------------------------------------------------------- #}

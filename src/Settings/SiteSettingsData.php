@@ -37,6 +37,15 @@ final class SiteSettingsData
     #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
     public ?string $linkedin = null;
 
+    #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
+    public ?string $ministerFacebook = null;
+
+    #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
+    public ?string $ministerX = null;
+
+    #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
+    public ?string $ministerLinkedin = null;
+
     #[Assert\Length(max: 400)]
     public ?string $noticeFr = null;
 
@@ -54,6 +63,8 @@ final class SiteSettingsData
 
     #[Assert\Length(max: 5000)]
     public ?string $analyticsCode = null;
+
+    public bool $agendaEnabled = false;
 
     #[Assert\Range(min: 1, max: 240)]
     public ?int $retentionRequests = null;

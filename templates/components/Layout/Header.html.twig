@@ -4,8 +4,26 @@
         <twig:Layout:Identity />
 
         <div class="flex shrink-0 items-center gap-2">
-            {# Sous 640 px, la recherche est proposée dans le menu mobile (place insuffisante). #}
-            <div class="hidden sm:block">
+            {# Dès 768 px : barre de recherche classique, toujours visible. #}
+            <form action="{{ path('app_search') }}" method="get" role="search" class="hidden w-56 md:block lg:w-72 xl:w-96">
+                <label for="entete-recherche-q" class="sr-only">{{ 'search.label'|trans }}</label>
+                <div class="relative">
+                    <input id="entete-recherche-q"
+                           name="q"
+                           type="search"
+                           maxlength="100"
+                           autocomplete="off"
+                           placeholder="{{ 'search.placeholder'|trans }}"
+                           class="w-full rounded-pill border border-ink-muted bg-white py-2 pr-12 pl-5 text-small text-ink">
+                    <button type="submit" class="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-pill text-primary hover:bg-mist">
+                        {{ ux_icon('ri:search-line', {class: 'size-5'}) }}
+                        <span class="sr-only">{{ 'search.submit'|trans }}</span>
+                    </button>
+                </div>
+            </form>
+
+            {# De 640 à 768 px : bouton qui ouvre la modale. Sous 640 px, la recherche est proposée dans le menu mobile. #}
+            <div class="hidden sm:block md:hidden">
                 <button type="button"
                         class="btn btn-outline btn-icon lg:px-4"
                         aria-haspopup="dialog"
