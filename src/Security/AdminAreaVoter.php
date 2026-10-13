@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * Droits hors contenus : comptes et paramètres (super administrateur), journal d'audit et menus (administrateur),
+ * Droits hors contenus : comptes et paramètres (super administrateur), journal d'audit et page d'accueil (administrateur),
  * traductions (traducteur),
  * demandes des usagers (rôle presse, et administrateur par héritage).
  *
@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 final class AdminAreaVoter extends Voter
 {
     private const array ATTRIBUTES = [
-        Permission::USER_MANAGE, Permission::SETTINGS_MANAGE, Permission::AUDIT_VIEW, Permission::MENU_MANAGE, Permission::TRANSLATION_MANAGE,
+        Permission::USER_MANAGE, Permission::SETTINGS_MANAGE, Permission::AUDIT_VIEW, Permission::HOME_MANAGE, Permission::TRANSLATION_MANAGE,
         Permission::REQUEST_VIEW, Permission::REQUEST_PROCESS,
     ];
 
@@ -44,7 +44,7 @@ final class AdminAreaVoter extends Voter
     {
         return match ($attribute) {
             Permission::USER_MANAGE, Permission::SETTINGS_MANAGE => $this->security->isGranted('ROLE_SUPER_ADMIN'),
-            Permission::AUDIT_VIEW, Permission::MENU_MANAGE => $this->security->isGranted('ROLE_ADMIN'),
+            Permission::AUDIT_VIEW, Permission::HOME_MANAGE => $this->security->isGranted('ROLE_ADMIN'),
             Permission::TRANSLATION_MANAGE => $this->security->isGranted('ROLE_TRANSLATOR'),
             Permission::REQUEST_VIEW, Permission::REQUEST_PROCESS => $this->security->isGranted('ROLE_PRESS'),
             default => false,

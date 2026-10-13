@@ -8,8 +8,6 @@ use App\Entity\AuditLog;
 use App\Entity\ConsultationContribution;
 use App\Entity\ContentVersion;
 use App\Entity\EditLock;
-use App\Entity\MenuItem;
-use App\Entity\MenuItemTranslation;
 use App\Entity\NewsletterSubscriber;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
@@ -101,7 +99,6 @@ final class PageCacheInvalidator
             // Le titre, le chemin et la description d'une page alimentent le fil d'Ariane, les sous-pages et le plan du site.
             $entity instanceof PageTranslation => [CacheTag::PAGES_TREE, ...($entity->getTranslatable()->getId() ? [CacheTag::page($entity->getTranslatable()->getId())] : [])],
             $entity instanceof Setting, $entity instanceof SettingTranslation => [CacheTag::SETTINGS],
-            $entity instanceof MenuItem, $entity instanceof MenuItemTranslation => [CacheTag::MENU],
             default => [CacheTag::CONTENT],
         };
 

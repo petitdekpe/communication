@@ -706,9 +706,9 @@ admin:
         contact_messages: 'Messages de contact'
         subscribers: "Abonnés à la lettre d'information"
         pages: 'Pages'
-        menus: 'Menus'
         categories: 'Rubriques'
         settings: 'Paramètres du site'
+        home: "Page d'accueil"
         users: 'Utilisateurs'
         audit: "Journal d'audit"
         translations: 'Traductions'
@@ -769,7 +769,6 @@ admin:
         email: 'Courriel'
         language: 'Langue'
         subscribed: 'Inscrit le'
-        menu: 'Menu'
         position: 'Ordre'
         roles: 'Rôles'
         active: 'Actif'
@@ -1021,6 +1020,41 @@ admin:
         to: 'Au'
         submit: "Exporter la période"
         help: "Laissez une date vide pour ne pas borner la période. Les dates sont celles de réception, bornes comprises. Le fichier contient des données personnelles : conservez-le avec les précautions d'usage."
+    home:
+        intro: "Textes de l'ouverture et de la lettre d'information. Un champ laissé vide revient au texte par défaut du site ; une version anglaise vide s'affiche en français."
+        view_site: "Voir l'accueil"
+        format_help: "Mise en forme : utilisez les boutons Gras, Italique et Retour à la ligne (balises <strong>, <em>, <br>). Un saut de ligne saisi dans un champ est aussi respecté. Les autres balises sont retirées à l'affichage."
+        format:
+            label: 'Mise en forme'
+            bold: 'Gras'
+            italic: 'Italique'
+            line_break: 'Retour à la ligne'
+        manage_articles: "Choisir l'article à la une"
+        manage_notice: "Modifier l'avis officiel"
+        hero_title_fr: 'Titre (français)'
+        hero_title_en: 'Titre (anglais)'
+        hero_title_help: "Grand titre de la page. Vide : nom du site."
+        hero_lead_fr: 'Chapô (français)'
+        hero_lead_en: 'Chapô (anglais)'
+        newsletter_text_fr: "Texte d'invitation (français)"
+        newsletter_text_en: "Texte d'invitation (anglais)"
+        newsletter_consent_fr: 'Mention de consentement (français)'
+        newsletter_consent_en: 'Mention de consentement (anglais)'
+        section:
+            hero: "Ouverture"
+            hero_help: "Titre et chapô affichés en haut de la page d'accueil. Le chapô vide n'est pas affiché."
+            newsletter: "Lettre d'information"
+            newsletter_help: "Texte et mention affichés autour du formulaire d'inscription. [À VALIDER] pour la mention légale."
+            blocks: 'Autres blocs'
+            blocks_help: "Ces blocs se remplissent automatiquement à partir des contenus publiés ; un bloc sans contenu n'est pas affiché."
+        blocks:
+            featured: "À la une : article marqué « à la une » dans Contenus > Articles."
+            news: "Actualités et communiqués : derniers articles publiés."
+            services: "Démarches : démarches publiées, dans l'ordre de leur position."
+            documents: "Documents officiels : derniers documents publiés."
+            events: "Agenda : prochains événements publiés."
+            figures: "Chiffres clés : chiffres publiés, dans l'ordre de leur position."
+            consultation: "Consultation : consultation ouverte, sinon la plus récente."
     settings:
         intro: "Coordonnées, réseaux sociaux, avis officiel, suivi d'audience et durées de conservation. Une valeur vide n'est pas affichée sur le site (les coordonnées s'affichent comme [À VALIDER])."
         section:
@@ -1056,65 +1090,6 @@ admin:
         retention_help: "Les demandes reçues ou en cours d'examen ne sont jamais purgées. Les mois comptent depuis la dernière modification."
         retention_contributions: 'Contributions aux consultations (mois)'
         retention_subscribers: "Inscrits à la lettre : désinscrits ou jamais confirmés (mois)"
-    menus:
-        intro: "Le menu enregistré ici remplace aussitôt le menu du site, sans déploiement. Tant qu'un menu est vide, le site affiche son menu par défaut."
-        nav: 'Menus du site'
-        name:
-            main: "En-tête (menu principal)"
-            utility: 'Accès directs (barre supérieure)'
-            footer: 'Pied de page (colonnes)'
-        type:
-            page: 'Page'
-            article: 'Actualité ou communiqué'
-            service: 'Démarche'
-        add: 'Ajouter une entrée'
-        new: 'Nouvelle entrée de menu'
-        edit: "Modifier l'entrée de menu"
-        group: 'Groupe sans lien'
-        empty: 'Ce menu est vide'
-        empty_hint: "Le site affiche le menu par défaut. Ajoutez une entrée, ou partez des entrées par défaut pour les modifier."
-        import: 'Reprendre les entrées par défaut'
-        keyboard_hint: "Glissez-déposez les entrées par la poignée, ou utilisez les boutons Monter, Descendre, Indenter et Désindenter. Chaque changement est enregistré aussitôt."
-        up: 'Monter : {label}'
-        down: 'Descendre : {label}'
-        indent: 'Placer dans le groupe précédent : {label}'
-        outdent: 'Sortir du groupe : {label}'
-        saved: 'Ordre du menu enregistré.'
-        save_error: "L'ordre du menu n'a pas pu être enregistré. Rechargez la page et réessayez."
-        confirm_delete: "Supprimer l'entrée « {label} » ?"
-        confirm_delete_children: "Supprimer l'entrée « {label} » et toutes les entrées de son groupe ?"
-        target_missing: 'Contenu supprimé'
-        label_fr: 'Libellé (français)'
-        label_en: 'Libellé (anglais)'
-        label_en_help: "Facultatif : sans libellé anglais, le libellé français s'affiche."
-        link_type: 'Destination'
-        link:
-            none: 'Aucun lien (groupe de liens)'
-            content: 'Un contenu du site'
-            url: 'Une adresse externe'
-            path: 'Un chemin du site, par langue'
-        url: 'Adresse externe'
-        path_fr: 'Chemin en français'
-        path_en: 'Chemin en anglais'
-        path_help: 'Chemin commençant par une barre oblique, par exemple /fr/contact.'
-        parent: 'Groupe'
-        no_parent: 'Aucun (premier niveau)'
-        section:
-            labels: 'Libellés'
-            link: 'Destination'
-            link_help: "Choisissez un seul type de destination. Un contenu non publié disparaît du menu jusqu'à sa publication."
-        search_label: 'Rechercher une page, une actualité ou une démarche'
-        search_count: '{count} résultat(s)'
-        search_empty: 'Aucun résultat'
-        selected: 'Contenu choisi :'
-        flash:
-            created: 'Entrée de menu créée.'
-            deleted: 'Entrée de menu supprimée.'
-            imported: 'Entrées par défaut reprises.'
-        error:
-            target_required: 'Recherchez et choisissez un contenu.'
-            url_invalid: "Saisissez une adresse complète commençant par https:// ou http://."
-            path_invalid: 'Saisissez un chemin commençant par une seule barre oblique, sans espace.'
     translations:
         intro: "Contenus publiés sans version anglaise. Exportez-les en XLIFF pour un traducteur ou un outil de gestion de traduction, puis importez le fichier traduit : les modifications s'affichent pour validation avant d'être enregistrées."
         export_title: 'Export XLIFF'

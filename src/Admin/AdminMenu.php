@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class AdminMenu
 {
     /** Ressources dont l'entrée du menu ouvre un écran dédié plutôt que la liste générique. */
-    private const array EDITORS = ['menus' => 'app_admin_menus', 'settings' => 'app_admin_settings'];
+    private const array EDITORS = ['settings' => 'app_admin_settings'];
 
     public function __construct(
         private readonly AdminResources $resources,
@@ -41,11 +41,16 @@ final class AdminMenu
             if (!$this->security->isGranted(Permission::RESOURCE_VIEW, $resource)) {
                 continue;
             }
-            // Menus et paramètres ont leur propre écran d'édition (arbre réordonnable, formulaire) à la place de la liste.
+            // Les paramètres ont leur propre écran d'édition (formulaire) à la place de la liste.
             $url = isset(self::EDITORS[$resource->id])
                 ? $this->urlGenerator->generate(self::EDITORS[$resource->id])
                 : $this->urlGenerator->generate('app_admin_resource_list', ['resource' => $resource->id]);
             $byGroup[$resource->group][] = ['label' => $resource->label, 'url' => $url, 'icon' => $resource->icon, 'active' => str_starts_with($path, $url)];
+        }
+
+        if ($this->security->isGranted(Permission::HOME_MANAGE)) {
+            $url = $this->urlGenerator->generate('app_admin_home');
+            $byGroup['structure'][] = ['label' => 'admin.resource.home', 'url' => $url, 'icon' => 'ri:home-4-line', 'active' => str_starts_with($path, $url)];
         }
 
         if ($this->security->isGranted(Permission::TRANSLATION_MANAGE)) {

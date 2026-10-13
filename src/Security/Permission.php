@@ -28,8 +28,9 @@ final class Permission
     // Administration générale (sans sujet).
     public const string USER_MANAGE = 'ADMIN_USER_MANAGE';
     public const string SETTINGS_MANAGE = 'ADMIN_SETTINGS_MANAGE';
+    /** Textes de la page d'accueil. */
+    public const string HOME_MANAGE = 'ADMIN_HOME_MANAGE';
     public const string AUDIT_VIEW = 'ADMIN_AUDIT_VIEW';
-    public const string MENU_MANAGE = 'ADMIN_MENU_MANAGE';
     /** Tableau de bord des traductions, export et import XLIFF. */
     public const string TRANSLATION_MANAGE = 'ADMIN_TRANSLATION_MANAGE';
 

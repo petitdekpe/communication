@@ -12,7 +12,6 @@ use App\Entity\ContactMessage;
 use App\Entity\Event;
 use App\Entity\KeyFigure;
 use App\Entity\MediaGallery;
-use App\Entity\MenuItem;
 use App\Entity\NewsletterSubscriber;
 use App\Entity\OfficialDocument;
 use App\Entity\Page;
@@ -152,11 +151,6 @@ final class AdminResources
                 $status,
                 $updated,
             ], translationSearchFields: ['title', 'body'], defaultSort: 'e.updatedAt', workflow: true, newRoute: 'app_admin_page_new', editRoute: 'app_admin_page_edit', translatable: true),
-            new AdminResource('menus', 'structure', 'admin.resource.menus', 'ri:menu-line', MenuItem::class, 'ROLE_ADMIN', [
-                $title('label'),
-                ['key' => 'menu', 'label' => 'admin.column.menu', 'path' => 'menu', 'type' => 'text', 'sort' => 'e.menu'],
-                ['key' => 'position', 'label' => 'admin.column.position', 'path' => 'position', 'type' => 'text', 'sort' => 'e.position'],
-            ], searchFields: ['menu'], translationSearchFields: ['label'], defaultSort: 'e.position', translatable: true),
             new AdminResource('categories', 'structure', 'admin.resource.categories', 'ri:price-tag-3-line', Category::class, 'ROLE_ADMIN', [
                 $title('name'),
                 ['key' => 'position', 'label' => 'admin.column.position', 'path' => 'position', 'type' => 'text', 'sort' => 'e.position'],

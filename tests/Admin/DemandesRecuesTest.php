@@ -6,13 +6,11 @@ namespace App\Tests\Admin;
 
 use App\Entity\ArticleTranslation;
 use App\Entity\ConsultationContribution;
-use App\Entity\MenuItem;
 use App\Entity\ServiceRequest;
 use App\Enum\AdminRole;
 use App\Enum\RequestStatus;
 use App\Factory\ArticleFactory;
 use App\Factory\ConsultationFactory;
-use App\Factory\MenuItemFactory;
 use App\Factory\ServiceFactory;
 use App\Factory\SettingFactory;
 use App\Retention\PersonalDataPurger;
@@ -25,7 +23,7 @@ use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
 /**
- * Le strict minimum des parcours de l'administration « demandes reçues », menus, conservation et traductions :
+ * Le strict minimum des parcours de l'administration « demandes reçues », conservation et traductions :
  * un test par critère de fin de lot.
  */
 final class DemandesRecuesTest extends WebTestCase
@@ -64,44 +62,6 @@ final class DemandesRecuesTest extends WebTestCase
         // Même statut : le commentaire est enregistré, aucun nouvel e-mail.
         $client->request('POST', $path, ['status' => 'approved', 'note' => 'Retirée.', '_token' => $token], [], $this->origin());
         self::assertQueuedEmailCount(0);
-    }
-
-    public function testAMenuEditedInTheAdminAppearsOnTheSiteWithoutDeploying(): void
-    {
-        $client = $this->client();
-        $client->request('GET', '/fr'); // met le menu par défaut en cache
-        $this->loginAs($client, AdminRole::Admin);
-
-        $crawler = $client->request('GET', '/admin/menus/main/entrees/nouvelle');
-        $form = $crawler->filter('form[name="menu_item"]')->form([
-            'menu_item[labelFr]' => 'Rubrique ajoutée',
-            'menu_item[labelEn]' => 'Added section',
-            'menu_item[linkType]' => 'url',
-            'menu_item[url]' => 'https://example.org/page',
-        ]);
-        $client->submit($form, [], $this->origin());
-        self::assertResponseRedirects('/admin/menus/main');
-
-        $client->request('GET', '/fr');
-        self::assertAnySelectorTextContains('a[href="https://example.org/page"]', 'Rubrique ajoutée');
-        $client->request('GET', '/en');
-        self::assertAnySelectorTextContains('a[href="https://example.org/page"]', 'Added section');
-
-        // Réordonnancement (glisser-déposer) : un arbre complet et valide est appliqué, un arbre incohérent est refusé.
-        $manager = static::getContainer()->get('doctrine')->getManager();
-        $created = $manager->getRepository(MenuItem::class)->findOneBy(['menu' => 'main']);
-        $other = MenuItemFactory::createOne(['menu' => 'main', 'position' => 5]);
-        $page = $client->request('GET', '/admin/menus/main');
-        $token = (string) $page->filter('[data-controller="menu-tree"]')->attr('data-menu-tree-token-value');
-        $headers = ['CONTENT_TYPE' => 'application/json', 'HTTP_X_CSRF_TOKEN' => $token] + $this->origin();
-
-        $client->request('POST', '/admin/menus/main/ordre', [], [], $headers, json_encode(['tree' => [['id' => $other->getId(), 'children' => [['id' => $created?->getId(), 'children' => []]]]]], \JSON_THROW_ON_ERROR));
-        self::assertResponseStatusCodeSame(204);
-        $manager->clear();
-        self::assertSame($other->getId(), $manager->find(MenuItem::class, $created?->getId())?->getParent()?->getId());
-
-        $client->request('POST', '/admin/menus/main/ordre', [], [], $headers, json_encode(['tree' => [['id' => 999999, 'children' => []]]], \JSON_THROW_ON_ERROR));
-        self::assertResponseStatusCodeSame(422);
     }
 
     public function testPurgeRemovesExpiredPersonalDataAndKeepsWhatIsStillBeingProcessed(): void

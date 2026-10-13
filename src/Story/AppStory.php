@@ -16,7 +16,6 @@ use App\Factory\EventFactory;
 use App\Factory\KeyFigureFactory;
 use App\Factory\MediaFactory;
 use App\Factory\MediaGalleryFactory;
-use App\Factory\MenuItemFactory;
 use App\Factory\OfficialDocumentFactory;
 use App\Factory\PageFactory;
 use App\Factory\ServiceFactory;
@@ -116,10 +115,6 @@ final class AppStory extends Story
 
         $parent = PageFactory::createOne();
         PageFactory::createMany(2, ['parent' => $parent]);
-
-        foreach (['main' => 7, 'utility' => 3, 'legal' => 3] as $menu => $count) {
-            MenuItemFactory::createMany($count, static fn (int $i): array => ['menu' => $menu, 'position' => $i]);
-        }
 
         foreach (['contact.address', 'contact.phone', 'contact.email', 'helpline.phone', HomeSettings::NEWSLETTER_CONSENT, HomeSettings::NOTICE_MESSAGE, HomeSettings::HERO_TITLE, HomeSettings::HERO_LEAD, HomeSettings::HERO_IMAGE_ALT, HomeSettings::NEWSLETTER_TEXT] as $name) {
             SettingFactory::createOne(['name' => $name]);

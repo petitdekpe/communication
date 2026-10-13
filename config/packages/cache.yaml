@@ -16,7 +16,7 @@ framework:
 
         # Namespaced pools use the above "app" backend by default
         pools:
-            # Menus du site résolus par App\Menu\MenuProvider (vidé à chaque enregistrement de l'éditeur de menus).
+            # Vidé avec les pages et les paramètres du site (voir App\Cache\ContentCache).
             cache.menu: ~
             # HTML complet des pages publiées (visiteurs sans session), invalidé par étiquettes à chaque publication.
             cache.page_html:
