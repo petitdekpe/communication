@@ -8,12 +8,16 @@ use App\Entity\Article;
 use App\Entity\ArticleTranslation;
 use App\Entity\Event;
 use App\Entity\EventTranslation;
+use App\Entity\MediaGallery;
+use App\Entity\MediaGalleryTranslation;
 use App\Entity\OfficialDocument;
 use App\Entity\OfficialDocumentTranslation;
 use App\Entity\Page;
 use App\Entity\PageTranslation;
 use App\Entity\Service;
 use App\Entity\ServiceTranslation;
+use App\Entity\Video;
+use App\Entity\VideoTranslation;
 
 /**
  * Types de contenu interrogés par la recherche globale, dans l'ordre d'affichage des groupes.
@@ -25,6 +29,8 @@ enum SearchType: string
     case Service = 'service';
     case Event = 'event';
     case Page = 'page';
+    case Gallery = 'gallery';
+    case Video = 'video';
 
     public function labelKey(): string
     {
@@ -42,6 +48,8 @@ enum SearchType: string
             self::Service => Service::class,
             self::Event => Event::class,
             self::Page => Page::class,
+            self::Gallery => MediaGallery::class,
+            self::Video => Video::class,
         };
     }
 
@@ -56,6 +64,8 @@ enum SearchType: string
             self::Service => ServiceTranslation::class,
             self::Event => EventTranslation::class,
             self::Page => PageTranslation::class,
+            self::Gallery => MediaGalleryTranslation::class,
+            self::Video => VideoTranslation::class,
         };
     }
 
@@ -72,6 +82,7 @@ enum SearchType: string
             self::Service => ['title', 'summary', 'body'],
             self::Event => ['title', 'description', 'location'],
             self::Page => ['title', 'body'],
+            self::Gallery, self::Video => ['title', 'description'],
         };
     }
 
@@ -81,7 +92,7 @@ enum SearchType: string
         return match ($this) {
             self::Article => 'excerpt',
             self::Document, self::Service => 'summary',
-            self::Event => 'description',
+            self::Event, self::Gallery, self::Video => 'description',
             self::Page => 'metaDescription',
         };
     }

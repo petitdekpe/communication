@@ -7,6 +7,7 @@ namespace App\Admin\Form;
 use App\Settings\SiteSettingsData;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -45,11 +46,15 @@ final class SiteSettingsType extends AbstractType
             ->add('x', UrlType::class, $url('admin.settings.x'))
             ->add('youtube', UrlType::class, $url('admin.settings.youtube'))
             ->add('linkedin', UrlType::class, $url('admin.settings.linkedin'))
+            ->add('ministerFacebook', UrlType::class, $url('admin.settings.facebook'))
+            ->add('ministerX', UrlType::class, $url('admin.settings.x'))
+            ->add('ministerLinkedin', UrlType::class, $url('admin.settings.linkedin'))
             ->add('noticeFr', TextareaType::class, ['required' => false, 'label' => 'admin.settings.notice_fr', 'help' => 'admin.settings.notice_help', 'attr' => ['rows' => 3, 'maxlength' => 400, 'lang' => 'fr']])
             ->add('noticeEn', TextareaType::class, ['required' => false, 'label' => 'admin.settings.notice_en', 'attr' => ['rows' => 3, 'maxlength' => 400, 'lang' => 'en']])
             ->add('noticeLink', TextType::class, $text('admin.settings.notice_link', 'admin.settings.notice_link_help'))
             ->add('noticeStartsAt', DateTimeType::class, $date('admin.settings.notice_starts'))
             ->add('noticeEndsAt', DateTimeType::class, $date('admin.settings.notice_ends'))
+            ->add('agendaEnabled', CheckboxType::class, ['required' => false, 'label' => 'admin.settings.agenda', 'help' => 'admin.settings.agenda_help'])
             ->add('analyticsCode', TextareaType::class, ['required' => false, 'label' => 'admin.settings.analytics', 'help' => 'admin.settings.analytics_help', 'attr' => ['rows' => 6, 'maxlength' => 5000, 'spellcheck' => 'false', 'class' => 'font-mono']])
             ->add('retentionRequests', IntegerType::class, ['required' => false, 'label' => 'admin.settings.retention_requests', 'help' => 'admin.settings.retention_help', 'attr' => ['min' => 1, 'max' => 240]])
             ->add('retentionContributions', IntegerType::class, ['required' => false, 'label' => 'admin.settings.retention_contributions', 'attr' => ['min' => 1, 'max' => 240]])

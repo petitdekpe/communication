@@ -24,10 +24,11 @@ use Symfony\Component\Routing\RouterInterface;
  *  - lien interne : ['label' => clé de traduction, 'path' => ['fr' => slug, 'en' => slug], 'children' => [...]]
  *    (le slug est relatif au préfixe de langue : 'le-ministere' => /fr/le-ministere) ;
  *  - lien externe : ['label' => clé de traduction, 'url' => 'https://…', 'icon' => nom ux-icon] ;
- *  - groupe sans lien : ['label' => clé de traduction, 'children' => [...]].
+ *  - groupe sans lien : ['label' => clé de traduction, 'children' => [...]] ;
+ *  - 'feature' => 'agenda' : l'entrée n'apparaît que si l'agenda est activé dans les paramètres du site.
  *
- * @phpstan-type LinkDefinition array{label: string, path?: array{fr: string, en: string}, url?: string, icon?: string}
- * @phpstan-type MenuDefinition array{label: string, path?: array{fr: string, en: string}, url?: string, icon?: string, children?: list<LinkDefinition>}
+ * @phpstan-type LinkDefinition array{label: string, path?: array{fr: string, en: string}, url?: string, icon?: string, feature?: string}
+ * @phpstan-type MenuDefinition array{label: string, path?: array{fr: string, en: string}, url?: string, icon?: string, feature?: string, children?: list<LinkDefinition>}
  */
 final class MenuProvider
 {
@@ -61,7 +62,7 @@ final class MenuProvider
             'children' => [
                 ['label' => 'menu.news.all', 'path' => ['fr' => 'actualites', 'en' => 'news']],
                 ['label' => 'menu.news.press_releases', 'path' => ['fr' => 'communiques', 'en' => 'press-releases']],
-                ['label' => 'menu.news.agenda', 'path' => ['fr' => 'agenda', 'en' => 'events']],
+                ['label' => 'menu.news.agenda', 'path' => ['fr' => 'agenda', 'en' => 'events'], 'feature' => 'agenda'],
                 ['label' => 'menu.news.consultations', 'path' => ['fr' => 'consultations', 'en' => 'consultations']],
             ],
         ],
@@ -91,7 +92,7 @@ final class MenuProvider
     private const array UTILITY = [
         ['label' => 'menu.utility.press', 'path' => ['fr' => 'espace-medias', 'en' => 'media-room']],
         ['label' => 'menu.utility.open_data', 'path' => ['fr' => 'donnees/donnees-ouvertes', 'en' => 'data/open-data']],
-        ['label' => 'menu.utility.agenda', 'path' => ['fr' => 'agenda', 'en' => 'events']],
+        ['label' => 'menu.utility.agenda', 'path' => ['fr' => 'agenda', 'en' => 'events'], 'feature' => 'agenda'],
     ];
 
     private const array FOOTER_COLUMNS = [
@@ -232,6 +233,10 @@ final class MenuProvider
      */
     private function buildItem(array $definition, string $locale): ?MenuItem
     {
+        if ('agenda' === ($definition['feature'] ?? null) && !$this->settings->agendaEnabled()) {
+            return null;
+        }
+
         $href = null;
         $external = false;
         $children = $this->build($definition['children'] ?? [], $locale);

@@ -8,9 +8,12 @@ use App\Entity\ArticleTranslation;
 use App\Enum\PublicationStatus;
 use App\Factory\ArticleFactory;
 use App\Factory\EventFactory;
+use App\Factory\MediaGalleryFactory;
 use App\Factory\OfficialDocumentFactory;
 use App\Factory\PageFactory;
 use App\Factory\ServiceFactory;
+use App\Factory\VideoFactory;
+use App\Tests\EnablesAgenda;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
@@ -21,6 +24,7 @@ use Zenstruck\Foundry\Test\ResetDatabase;
  */
 final class SearchControllerTest extends WebTestCase
 {
+    use EnablesAgenda;
     use Factories;
     use ResetDatabase;
 
@@ -37,6 +41,7 @@ final class SearchControllerTest extends WebTestCase
     public function testResultsAreGroupedByType(string $locale, string $path): void
     {
         $client = static::createClient();
+        $this->enableAgenda();
         $article = ArticleFactory::createOne();
         $this->retitle($article->translate('fr'), 'Zorglub article');
         $this->retitle($article->translate('en'), 'Zorglub article');
@@ -45,6 +50,8 @@ final class SearchControllerTest extends WebTestCase
             ServiceFactory::createOne(),
             EventFactory::createOne(),
             PageFactory::createOne(),
+            MediaGalleryFactory::createOne(),
+            VideoFactory::createOne(),
         ] as $content) {
             foreach (['fr', 'en'] as $l) {
                 $content->translate($l)->setTitle('Zorglub '.$content::class);
@@ -56,30 +63,43 @@ final class SearchControllerTest extends WebTestCase
         $crawler = $client->request('GET', \sprintf('/%s/%s?q=zorglub', $locale, $path));
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorCount(5, 'section[data-search-group]');
+        self::assertSelectorCount(7, 'section[data-search-group]');
         $order = $crawler->filter('section[data-search-group]')->each(static fn ($s): string => (string) $s->attr('data-search-group'));
-        self::assertSame(['article', 'document', 'service', 'event', 'page'], $order, 'Groupes dans l\'ordre des types');
+        self::assertSame(['article', 'document', 'service', 'event', 'page', 'gallery', 'video'], $order, 'Groupes dans l\'ordre des types');
         self::assertSelectorCount(1, 'section[data-search-group="article"] li');
         self::assertSelectorExists(\sprintf('section[data-search-group="service"] a[href^="/%s/"]', $locale));
         self::assertSelectorExists('nav[aria-label] a[href="#resultats-page"]');
     }
 
+    public function testHeaderSearchBarSubmitsToTheSearchPage(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/fr');
+
+        self::assertSelectorExists('header form[role="search"][action="/fr/recherche"] input[type="search"][name="q"]');
+        self::assertSelectorExists('header form[role="search"] label[for="entete-recherche-q"]');
+    }
+
     public function testEveryResultLinkOpens(): void
     {
         $client = static::createClient();
+        $this->enableAgenda();
         $article = ArticleFactory::createOne();
         $document = OfficialDocumentFactory::createOne();
         $service = ServiceFactory::createOne();
         $event = EventFactory::createOne();
         $page = PageFactory::createOne();
-        foreach ([$article, $document, $service, $event, $page] as $content) {
+        $gallery = MediaGalleryFactory::createOne();
+        $video = VideoFactory::createOne();
+        foreach ([$article, $document, $service, $event, $page, $gallery, $video] as $content) {
             $content->translate('fr')->setTitle('Zorglub '.$content::class);
         }
         self::getContainer()->get('doctrine')->getManager()->flush();
 
         $crawler = $client->request('GET', '/fr/recherche?q=zorglub');
         $links = $crawler->filter('section[data-search-group] a[href]')->each(static fn ($a): string => (string) $a->attr('href'));
-        self::assertCount(5, $links);
+        self::assertCount(7, $links);
 
         foreach ($links as $link) {
             $client->request('GET', $link);

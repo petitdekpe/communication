@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Page;
 
+use App\Settings\SiteSettings;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -31,6 +32,7 @@ final class SitemapBuilder
     public function __construct(
         private readonly PageTree $tree,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly SiteSettings $settings,
         #[Autowire('%kernel.enabled_locales%')]
         private readonly array $locales,
         #[Autowire('%kernel.default_locale%')]
@@ -47,6 +49,9 @@ final class SitemapBuilder
     {
         $sections = [];
         foreach (self::SECTIONS as $key => $route) {
+            if ('agenda' === $key && !$this->settings->agendaEnabled()) {
+                continue;
+            }
             $sections[] = ['key' => $key, 'url' => $this->urlGenerator->generate($route, ['_locale' => $locale])];
         }
 

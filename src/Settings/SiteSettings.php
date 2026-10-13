@@ -29,7 +29,12 @@ final class SiteSettings
     public const string SOCIAL_X = 'social.x';
     public const string SOCIAL_YOUTUBE = 'social.youtube';
     public const string SOCIAL_LINKEDIN = 'social.linkedin';
+    public const string MINISTER_FACEBOOK = 'minister.facebook';
+    public const string MINISTER_X = 'minister.x';
+    public const string MINISTER_LINKEDIN = 'minister.linkedin';
     public const string ANALYTICS = 'analytics.code';
+    /** Agenda public (pages, menus, accueil, recherche, plan du site) : désactivé tant que la valeur n'est pas « 1 ». */
+    public const string FEATURE_AGENDA = 'feature.agenda';
     public const string RETENTION_REQUESTS = 'retention.requests_months';
     public const string RETENTION_CONTRIBUTIONS = 'retention.contributions_months';
     public const string RETENTION_SUBSCRIBERS = 'retention.subscribers_months';
@@ -37,8 +42,9 @@ final class SiteSettings
     private const array NAMES = [
         self::CONTACT_ADDRESS, self::CONTACT_PHONE, self::CONTACT_EMAIL, self::SUPPORT_PHONE,
         self::SOCIAL_FACEBOOK, self::SOCIAL_X, self::SOCIAL_YOUTUBE, self::SOCIAL_LINKEDIN,
+        self::MINISTER_FACEBOOK, self::MINISTER_X, self::MINISTER_LINKEDIN,
         HomeSettings::NOTICE_MESSAGE, HomeSettings::NOTICE_LINK, HomeSettings::NOTICE_STARTS, HomeSettings::NOTICE_ENDS,
-        self::ANALYTICS, self::RETENTION_REQUESTS, self::RETENTION_CONTRIBUTIONS, self::RETENTION_SUBSCRIBERS,
+        self::ANALYTICS, self::FEATURE_AGENDA, self::RETENTION_REQUESTS, self::RETENTION_CONTRIBUTIONS, self::RETENTION_SUBSCRIBERS,
     ];
 
     /** @var array<string, Setting>|null */
@@ -58,6 +64,12 @@ final class SiteSettings
         $value = $translation instanceof SettingTranslation ? trim((string) $translation->getValue()) : '';
 
         return '' === $value ? null : $value;
+    }
+
+    /** Agenda activé dans l'administration (désactivé par défaut). */
+    public function agendaEnabled(): bool
+    {
+        return '1' === $this->get(self::FEATURE_AGENDA);
     }
 
     /** Valeur à afficher : la valeur saisie, ou le marqueur [À VALIDER] tant qu'elle n'est pas renseignée. */
@@ -85,12 +97,16 @@ final class SiteSettings
         $data->x = $this->get(self::SOCIAL_X);
         $data->youtube = $this->get(self::SOCIAL_YOUTUBE);
         $data->linkedin = $this->get(self::SOCIAL_LINKEDIN);
+        $data->ministerFacebook = $this->get(self::MINISTER_FACEBOOK);
+        $data->ministerX = $this->get(self::MINISTER_X);
+        $data->ministerLinkedin = $this->get(self::MINISTER_LINKEDIN);
         $data->noticeFr = $this->own(HomeSettings::NOTICE_MESSAGE, 'fr');
         $data->noticeEn = $this->own(HomeSettings::NOTICE_MESSAGE, 'en');
         $data->noticeLink = $this->get(HomeSettings::NOTICE_LINK);
         $data->noticeStartsAt = $this->date(HomeSettings::NOTICE_STARTS);
         $data->noticeEndsAt = $this->date(HomeSettings::NOTICE_ENDS);
         $data->analyticsCode = $this->get(self::ANALYTICS);
+        $data->agendaEnabled = $this->agendaEnabled();
         $data->retentionRequests = $this->getPositiveInt(self::RETENTION_REQUESTS);
         $data->retentionContributions = $this->getPositiveInt(self::RETENTION_CONTRIBUTIONS);
         $data->retentionSubscribers = $this->getPositiveInt(self::RETENTION_SUBSCRIBERS);
@@ -110,11 +126,15 @@ final class SiteSettings
             self::SOCIAL_X => ['fr' => $data->x],
             self::SOCIAL_YOUTUBE => ['fr' => $data->youtube],
             self::SOCIAL_LINKEDIN => ['fr' => $data->linkedin],
+            self::MINISTER_FACEBOOK => ['fr' => $data->ministerFacebook],
+            self::MINISTER_X => ['fr' => $data->ministerX],
+            self::MINISTER_LINKEDIN => ['fr' => $data->ministerLinkedin],
             HomeSettings::NOTICE_MESSAGE => ['fr' => $data->noticeFr, 'en' => $data->noticeEn],
             HomeSettings::NOTICE_LINK => ['fr' => $data->noticeLink],
             HomeSettings::NOTICE_STARTS => ['fr' => $data->noticeStartsAt?->setTimezone($utc)->format(\DATE_ATOM)],
             HomeSettings::NOTICE_ENDS => ['fr' => $data->noticeEndsAt?->setTimezone($utc)->format(\DATE_ATOM)],
             self::ANALYTICS => ['fr' => $data->analyticsCode],
+            self::FEATURE_AGENDA => ['fr' => $data->agendaEnabled ? '1' : null],
             self::RETENTION_REQUESTS => ['fr' => null === $data->retentionRequests ? null : (string) $data->retentionRequests],
             self::RETENTION_CONTRIBUTIONS => ['fr' => null === $data->retentionContributions ? null : (string) $data->retentionContributions],
             self::RETENTION_SUBSCRIBERS => ['fr' => null === $data->retentionSubscribers ? null : (string) $data->retentionSubscribers],
