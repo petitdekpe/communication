@@ -14,6 +14,7 @@ use App\Factory\OfficialDocumentFactory;
 use App\Factory\ServiceFactory;
 use App\Factory\SettingFactory;
 use App\Home\HomeSettings;
+use App\Tests\EnablesAgenda;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
@@ -25,6 +26,7 @@ use Zenstruck\Foundry\Test\ResetDatabase;
  */
 final class HomeDatabaseTest extends WebTestCase
 {
+    use EnablesAgenda;
     use Factories;
     use ResetDatabase;
 
@@ -62,6 +64,7 @@ final class HomeDatabaseTest extends WebTestCase
         $featured = ArticleFactory::createOne(['featured' => true]);
         ArticleFactory::createOne();
         $document = OfficialDocumentFactory::createOne();
+        $this->enableAgenda();
         $event = EventFactory::createOne();
         $service = ServiceFactory::new()->featured()->create();
         $figure = KeyFigureFactory::createOne(['value' => '7.0000']);

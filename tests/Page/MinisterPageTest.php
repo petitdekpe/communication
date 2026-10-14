@@ -24,12 +24,14 @@ final class MinisterPageTest extends WebTestCase
         $client = static::createClient();
         $this->minister();
         SettingFactory::createOne(['name' => SiteSettings::MINISTER_X, 'values' => ['fr' => 'https://x.com/ministre']]);
+        SettingFactory::createOne(['name' => SiteSettings::MINISTER_INSTAGRAM, 'values' => ['fr' => 'https://www.instagram.com/ministre']]);
 
         $crawler = $client->request('GET', '/fr/la-ministre');
 
         self::assertResponseIsSuccessful();
-        self::assertSame('https://x.com/ministre', $crawler->filter('.prose-article ~ ul a')->attr('href'));
-        self::assertCount(1, $crawler->filter('.prose-article ~ ul a'));
+        self::assertSame('https://x.com/ministre', $crawler->filter('.prose-article ~ ul a')->eq(0)->attr('href'));
+        self::assertSame('https://www.instagram.com/ministre', $crawler->filter('.prose-article ~ ul a')->eq(1)->attr('href'));
+        self::assertCount(2, $crawler->filter('.prose-article ~ ul a'));
         self::assertSelectorTextContains('.prose-article ~ h2', 'Suivre la Ministre');
     }
 

@@ -29,6 +29,7 @@
                         {% set minister_networks = [
                             {url: site_setting('minister.facebook'), icon: 'ri:facebook-fill', label: 'article.share.facebook'},
                             {url: site_setting('minister.x'), icon: 'ri:twitter-x-line', label: 'article.share.x'},
+                            {url: site_setting('minister.instagram'), icon: 'ri:instagram-line', label: 'page.minister.instagram'},
                             {url: site_setting('minister.linkedin'), icon: 'ri:linkedin-fill', label: 'article.share.linkedin'},
                         ]|filter(network => network.url) %}
                         {% if minister_networks is not empty %}

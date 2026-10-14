@@ -138,6 +138,7 @@ page:
     consult: 'Consulter'
     minister:
         social_title: 'Suivre la Ministre'
+        instagram: 'Instagram'
         photo_alt: 'Portrait de Madame Aurélie Adam Soulé Zoumarou, Ministre de la Communication, en charge des Médias'
 
 home:
@@ -1084,6 +1085,7 @@ admin:
         facebook: 'Facebook'
         x: 'X'
         youtube: 'YouTube'
+        instagram: 'Instagram'
         linkedin: 'LinkedIn'
         notice_fr: "Texte de l'avis (français)"
         notice_en: "Texte de l'avis (anglais)"

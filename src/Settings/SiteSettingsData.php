@@ -44,6 +44,9 @@ final class SiteSettingsData
     public ?string $ministerX = null;
 
     #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
+    public ?string $ministerInstagram = null;
+
+    #[Assert\Url(message: 'admin.error.https_url', protocols: ['https'])]
     public ?string $ministerLinkedin = null;
 
     #[Assert\Length(max: 400)]
