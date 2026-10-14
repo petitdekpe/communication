@@ -31,6 +31,7 @@ final class SiteSettings
     public const string SOCIAL_LINKEDIN = 'social.linkedin';
     public const string MINISTER_FACEBOOK = 'minister.facebook';
     public const string MINISTER_X = 'minister.x';
+    public const string MINISTER_INSTAGRAM = 'minister.instagram';
     public const string MINISTER_LINKEDIN = 'minister.linkedin';
     public const string ANALYTICS = 'analytics.code';
     /** Agenda public (pages, menus, accueil, recherche, plan du site) : désactivé tant que la valeur n'est pas « 1 ». */
@@ -42,7 +43,7 @@ final class SiteSettings
     private const array NAMES = [
         self::CONTACT_ADDRESS, self::CONTACT_PHONE, self::CONTACT_EMAIL, self::SUPPORT_PHONE,
         self::SOCIAL_FACEBOOK, self::SOCIAL_X, self::SOCIAL_YOUTUBE, self::SOCIAL_LINKEDIN,
-        self::MINISTER_FACEBOOK, self::MINISTER_X, self::MINISTER_LINKEDIN,
+        self::MINISTER_FACEBOOK, self::MINISTER_X, self::MINISTER_INSTAGRAM, self::MINISTER_LINKEDIN,
         HomeSettings::NOTICE_MESSAGE, HomeSettings::NOTICE_LINK, HomeSettings::NOTICE_STARTS, HomeSettings::NOTICE_ENDS,
         self::ANALYTICS, self::FEATURE_AGENDA, self::RETENTION_REQUESTS, self::RETENTION_CONTRIBUTIONS, self::RETENTION_SUBSCRIBERS,
     ];
@@ -99,6 +100,7 @@ final class SiteSettings
         $data->linkedin = $this->get(self::SOCIAL_LINKEDIN);
         $data->ministerFacebook = $this->get(self::MINISTER_FACEBOOK);
         $data->ministerX = $this->get(self::MINISTER_X);
+        $data->ministerInstagram = $this->get(self::MINISTER_INSTAGRAM);
         $data->ministerLinkedin = $this->get(self::MINISTER_LINKEDIN);
         $data->noticeFr = $this->own(HomeSettings::NOTICE_MESSAGE, 'fr');
         $data->noticeEn = $this->own(HomeSettings::NOTICE_MESSAGE, 'en');
@@ -128,6 +130,7 @@ final class SiteSettings
             self::SOCIAL_LINKEDIN => ['fr' => $data->linkedin],
             self::MINISTER_FACEBOOK => ['fr' => $data->ministerFacebook],
             self::MINISTER_X => ['fr' => $data->ministerX],
+            self::MINISTER_INSTAGRAM => ['fr' => $data->ministerInstagram],
             self::MINISTER_LINKEDIN => ['fr' => $data->ministerLinkedin],
             HomeSettings::NOTICE_MESSAGE => ['fr' => $data->noticeFr, 'en' => $data->noticeEn],
             HomeSettings::NOTICE_LINK => ['fr' => $data->noticeLink],

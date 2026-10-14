@@ -48,6 +48,7 @@ final class SiteSettingsType extends AbstractType
             ->add('linkedin', UrlType::class, $url('admin.settings.linkedin'))
             ->add('ministerFacebook', UrlType::class, $url('admin.settings.facebook'))
             ->add('ministerX', UrlType::class, $url('admin.settings.x'))
+            ->add('ministerInstagram', UrlType::class, $url('admin.settings.instagram'))
             ->add('ministerLinkedin', UrlType::class, $url('admin.settings.linkedin'))
             ->add('noticeFr', TextareaType::class, ['required' => false, 'label' => 'admin.settings.notice_fr', 'help' => 'admin.settings.notice_help', 'attr' => ['rows' => 3, 'maxlength' => 400, 'lang' => 'fr']])
             ->add('noticeEn', TextareaType::class, ['required' => false, 'label' => 'admin.settings.notice_en', 'attr' => ['rows' => 3, 'maxlength' => 400, 'lang' => 'en']])
