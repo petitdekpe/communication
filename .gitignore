@@ -31,3 +31,7 @@
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###> local ###
+/muse.md
+###< local ###
